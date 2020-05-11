@@ -1,13 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
-html{
+html {
   font-size: min(max(12px, 3vw), 16px);
 }
+
+html, body {
+  min-height: 100%;
+}
+
 body {
   align-items: center;
   display: flex;
   flex-direction: column;
   font-family: "Indie Flower", cursive;
   justify-content: center;
+  margin: 0;
 }
 
 h1 {
@@ -16,9 +22,9 @@ h1 {
 }
 
 ul {
-  padding-left: 1rem;
   font-size: 3rem;
   list-style-type: none;
+  padding-left: 1rem;
 }
 
 .item {
