@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/Shuunen/goals.svg?branch=master)](https://travis-ci.org/Shuunen/goals)
 [![David](https://img.shields.io/david/shuunen/goals.svg)](https://david-dm.org/shuunen/goals)
+[![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/Shuunen/goals.svg)](https://lgtm.com/projects/g/Shuunen/goals)
 
 > Visualize & reach
 
