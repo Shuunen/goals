@@ -1,0 +1,40 @@
+{
+  "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
+  "bugs": "https://github.com/Shuunen/goals/issues",
+  "dependencies": {},
+  "description": "web app to visualize & reach goals",
+  "devDependencies": {
+    "npm-run-all": "4.1.5",
+    "repo-check": "1.10.0"
+  },
+  "files": [
+    "src"
+  ],
+  "homepage": "https://github.com/Shuunen/goals",
+  "keywords": [
+    "goals",
+    "list"
+  ],
+  "license": "GPL-3.0",
+  "name": "@shuunen/goals",
+  "main": "public/main.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shuunen/goals.git"
+  },
+  "scripts": {
+    "build": "echo no build yet",
+    "check": "repo-check",
+    "ci": "run-s lint build test check",
+    "dev": "npm run start",
+    "lint": "npx standard --fix",
+    "postversion": "git push && git push --tags",
+    "preversion": "npm run ci",
+    "serve": "servor public --reload --browse",
+    "start": "npm run serve",
+    "test": "echo no tests yet",
+    "update": "npx npm-check-updates -u"
+  },
+  "version": "0.0.1"
+}
