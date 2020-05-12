@@ -21,8 +21,9 @@
 
 ## Thanks
 
-- [Shields.io](https://shields.io) : nice looking badges to be proud of
 - [Ava](https://github.com/avajs/ava) : great test runner easy to setup & use
-- [Nyc](https://github.com/istanbuljs/nyc) : [Istanbul](https://istanbul.js.org/) cli also easy to setup & use with ava
+- [Favicon.io](https://favicon.io/favicon-generator/?t=G&ff=Linden+Hill&fs=120&fc=%23FFFFFF&b=rounded&bc=%230A5) : handy favicon generator
 - [Npm-run-all](https://github.com/mysticatea/npm-run-all) : to keep my npm scripts clean & readable
+- [Nyc](https://github.com/istanbuljs/nyc) : [Istanbul](https://istanbul.js.org/) cli also easy to setup & use with ava
+- [Shields.io](https://shields.io) : nice looking badges to be proud of
 - [Travis-ci.org](https://travis-ci.org) : for providing free continuous deployments
