@@ -1,0 +1,64 @@
+.sheet {
+  background-color: var(--color-white);
+  box-shadow: 0 0 2rem -1rem var(--color-black);
+  padding: 2.4rem 1.8rem;
+}
+
+ul {
+  font-size: 3rem;
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem;
+}
+
+.item {
+  cursor: pointer;
+  display: flex;
+  padding-left: 2.4rem;
+  position: relative;
+  transition: opacity .3s;
+}
+
+.item:hover {
+  text-decoration: line-through;
+}
+
+.item.done {
+  color: var(--color-primary);
+  opacity: .8;
+  text-decoration: line-through;
+}
+
+.item.done:hover {
+  color: var(--color-black);
+  opacity: 1;
+  text-decoration: inherit;
+}
+
+.item .title {
+  display: inline-block;
+}
+
+.item.done .title {
+  transform: skewX(-20deg);
+}
+
+.item input {
+  height: 0;
+  margin: 0;
+  width: 0;
+}
+
+.item input::before {
+  content: "☐";
+  cursor: pointer;
+  font-size: 2rem;
+  left: 0;
+  position: absolute;
+  top: .7rem;
+}
+
+.item input:checked::before {
+  color: var(--color-primary);
+  content: "🗹";
+}
