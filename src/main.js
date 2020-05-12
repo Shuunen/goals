@@ -16,12 +16,15 @@ class App {
   setupElements () {
     this.els = {
       title: document.querySelector('h1'),
-      list: document.querySelector('ul')
+      list: document.querySelector('ul'),
+      editBtn: document.querySelector('button.edit')
     }
   }
 
   setupListeners () {
-    this.els.list.onclick = this.onListClick.bind(this)
+    this.els.list.addEventListener('click', this.onListClick.bind(this))
+    this.els.editBtn.addEventListener('click', this.toggleEdit.bind(this))
+    document.addEventListener('keydown', this.onKeyDown.bind(this))
   }
 
   checkDataSources () {
@@ -55,6 +58,16 @@ class App {
     this.items[index].done = done
     this.render()
     this.updateUrl()
+  }
+
+  onKeyDown(event) {
+    if(!event.ctrlKey || event.key !== 'e') return
+    event.preventDefault()
+    this.toggleEdit()
+  }
+
+  toggleEdit(){
+    this.els.editBtn.classList.toggle('active')
   }
 
   updateUrl () {
