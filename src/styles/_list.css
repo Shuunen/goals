@@ -1,7 +1,14 @@
 .sheet {
   background-color: var(--color-white);
   box-shadow: 0 0 2rem -1rem var(--color-black);
+  cursor: default;
   padding: 2.4rem 1.8rem;
+}
+
+.sheet.editing {
+  box-shadow: 0 0 2rem -1rem var(--color-secondary);
+  color: var(--color-secondary);
+  cursor: text;
 }
 
 ul {
@@ -61,4 +68,9 @@ ul {
 .item input:checked::before {
   color: var(--color-primary);
   content: "🗹";
+}
+
+.editing .item:hover {
+  cursor: text;
+  text-decoration: none;
 }
