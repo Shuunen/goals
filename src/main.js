@@ -6,7 +6,7 @@ export const DEFAULT_TITLE = 'Goals'
 export const DEFAULT_ITEMS = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item({ title, done: (index === 1) }))
 
 class App {
-  get editActive(){
+  get editActive () {
     return this.els.editBtn.classList.contains('active')
   }
 
@@ -56,7 +56,7 @@ class App {
   }
 
   onListClick (event) {
-    if(this.editActive) return event.preventDefault()
+    if (this.editActive) return event.preventDefault()
     const el = event.target
     if (el.tagName !== 'INPUT') return
     const done = el.checked
@@ -66,13 +66,13 @@ class App {
     this.updateUrl()
   }
 
-  onKeyDown(event) {
-    if(!event.ctrlKey || event.key !== 'e') return
+  onKeyDown (event) {
+    if (!event.ctrlKey || event.key !== 'e') return
     event.preventDefault()
     this.toggleEdit()
   }
 
-  toggleEdit(){
+  toggleEdit () {
     this.els.editBtn.classList.toggle('active')
     this.els.sheet.classList.toggle('editing', this.editActive)
     this.els.sheet.contentEditable = this.editActive
