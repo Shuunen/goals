@@ -4,14 +4,14 @@
   "dependencies": {},
   "description": "web app to visualize & reach goals",
   "devDependencies": {
-    "ava": "3.11.0",
+    "ava": "3.13.0",
     "esm": "3.2.25",
     "npm-run-all": "4.1.5",
-    "nyc": "15.0.1",
+    "nyc": "15.1.0",
     "parcel-bundler": "1.12.4",
     "parcel-plugin-nuke-dist": "1.0.1",
-    "parcel-plugin-static-files-copy": "2.4.3",
-    "repo-check": "1.10.0",
+    "parcel-plugin-static-files-copy": "2.5.0",
+    "repo-check": "1.14.2",
     "serve": "11.3.2"
   },
   "files": [
