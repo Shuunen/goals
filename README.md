@@ -32,6 +32,7 @@
 - [Npm-run-all](https://github.com/mysticatea/npm-run-all) : to keep my npm scripts clean & readable
 - [Nyc](https://github.com/istanbuljs/nyc) : [Istanbul](https://istanbul.js.org/) cli also easy to setup & use with ava
 - [Parcel Js](https://parceljs.org) : fast & easy to use bundler
+- [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
 - [RIOT Optimizer](https://riot-optimizer.com) : Radical Image Optimization Tool, the best software I found to compress images
 - [Shields.io](https://shields.io) : nice looking badges to be proud of
 - [Travis-ci.org](https://travis-ci.org) : for providing free continuous deployments
