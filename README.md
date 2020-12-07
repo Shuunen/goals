@@ -12,6 +12,8 @@
 
 > Visualize & reach
 
+![demo](docs/demo.jpg)
+
 ## Features
 
 - [x] dead simple todo list
