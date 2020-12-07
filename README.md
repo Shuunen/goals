@@ -25,6 +25,7 @@
 - [ ] WYSIWYG edit
 - [ ] display themes
 - [ ] styled print
+- [ ] add settings modal with theme, link to repository, app version etc..
 
 ## Thanks
 
