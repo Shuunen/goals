@@ -12,12 +12,13 @@
 
 > Visualize & reach
 
-![demo](docs/demo.jpg)
+[![demo](docs/demo.jpg)](https://shuunen-goals.netlify.app#My%20goals=become%20a%20ninja,buy%20milk,!eat%20lots%20of%20pastas,find%20goals%20ideas,number%20five&something_else=12)
 
 ## Features
 
 - [x] dead simple todo list
-- [x] shareable : load & save state in url [like this](https://shuunen-goals.netlify.app#My%20goals=become%20a%20ninja,buy%20milk,!eat%20lots%20of%20pastas,find%20goals%20ideas,number%20five&something_else=12) where pasta goal is done
+- [x] 100% privacy safe, no analytics, no cookie, no database, list is stored the url of your tab
+- [x] shareable : give the link to someone [like this one](https://shuunen-goals.netlify.app#My%20goals=become%20a%20ninja,buy%20milk,!eat%20lots%20of%20pastas,find%20goals%20ideas,number%20five&something_else=12)
 
 ## Todo
 
