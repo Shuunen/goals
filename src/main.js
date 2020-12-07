@@ -1,6 +1,6 @@
 
 import { Item } from './models.js'
-import { dataFromHash } from './utils.js'
+import { dataToHash, hashToData } from './utils.js'
 
 export const DEFAULT_TITLE = 'Goals'
 export const DEFAULT_ITEMS = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item({ title, done: (index === 1) }))
@@ -25,21 +25,16 @@ class App {
   }
 
   checkDataSources () {
-    const { title, items } = dataFromHash(document.location.hash)
+    const { title, items } = hashToData(document.location.hash)
     this.title = title.length ? title : DEFAULT_TITLE
     this.items = items.length ? items : DEFAULT_ITEMS
     console.log('detected', this.items.length, 'items :', this.items)
     if (this.items.length) this.render()
   }
 
-  byDone (a) {
-    return a.done ? 1 : -1
-  }
-
   render () {
     this.els.title.textContent = this.title
-    this.els.list.innerHTML = this.items.sort(this.byDone).map((item, index) => `
-    <li>
+    this.els.list.innerHTML = this.items.map((item, index) => `<li>
       <label class="item ${item.done ? 'done' : ''}">
         <input type=checkbox ${item.done ? 'checked' : ''} value=${index}>
         <span class=title>${item.title}</span>
@@ -58,7 +53,7 @@ class App {
   }
 
   updateUrl () {
-    document.location.hash = `${this.title}=${this.items.map(i => `${i.done ? '!' : ''}${i.title}`).join(',')}`
+    document.location.hash = dataToHash(this.title, this.items)
   }
 }
 
