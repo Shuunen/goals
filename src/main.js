@@ -16,20 +16,20 @@ class App {
   setupElements () {
     this.els = {
       title: document.querySelector('h1'),
-      list: document.querySelector('ul')
+      list: document.querySelector('ul'),
     }
   }
 
   setupListeners () {
-    this.els.list.onclick = this.onListClick.bind(this)
+    this.els.list.addEventListener('click', this.onListClick.bind(this))
   }
 
   checkDataSources () {
     const { title, items } = hashToData(document.location.hash)
-    this.title = title.length ? title : DEFAULT_TITLE
-    this.items = items.length ? items : DEFAULT_ITEMS
+    this.title = title.length > 0 ? title : DEFAULT_TITLE
+    this.items = items.length > 0 ? items : DEFAULT_ITEMS
     console.log('detected', this.items.length, 'items :', this.items)
-    if (this.items.length) this.render()
+    if (this.items.length > 0) this.render()
   }
 
   render () {
@@ -43,10 +43,10 @@ class App {
   }
 
   onListClick (event) {
-    const el = event.target
-    if (el.tagName !== 'INPUT') return
-    const done = el.checked
-    const index = el.value
+    const element = event.target
+    if (element.tagName !== 'INPUT') return
+    const done = element.checked
+    const index = element.value
     this.items[index].done = done
     this.render()
     this.updateUrl()

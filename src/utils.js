@@ -6,8 +6,9 @@ const separator = ','
 export const hashToData = hash => {
   let title = ''
   let items = []
-  const matches = decodeURI(hash).match(/([\w\s]+=)?([\w\s!,]+)+/) || []
-  if (!matches.length) return { title, items }
+  // eslint-disable-next-line unicorn/no-unsafe-regex
+  const matches = decodeURI(hash).match(/([\s\w]+=)?([\s\w!,]+)+/) || []
+  if (matches.length === 0) return { title, items }
   title = matches[1] ? matches[1].split('=')[0] : title
   items = matches[2].split(separator).map(item => {
     // item could be "become a ninja" or "!become a ninja" if it's done
@@ -20,5 +21,5 @@ export const hashToData = hash => {
 }
 
 export const dataToHash = (title, items) => {
-  return encodeURI(`#${title}=${items.map(i => `${i.done ? doneMarker : ''}${i.title}`).join(separator)}`)
+  return encodeURI(`#${title}=${items.map(item => `${item.done ? doneMarker : ''}${item.title}`).join(separator)}`)
 }
