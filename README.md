@@ -30,7 +30,7 @@
 ## Thanks
 
 - [Ava](https://github.com/avajs/ava) : great test runner easy to setup & use
-- [c8](https://github.com/bcoe/c8) : [Istanbul](https://istanbul.js.org/) reporter for code coverage
+- [C8](https://github.com/bcoe/c8) : [Istanbul](https://istanbul.js.org/) reporter for code coverage
 - [Eslint](https://eslint.org) : super tool to find & fix problems
 - [Favicon.io](https://favicon.io/favicon-generator/?t=G&ff=Linden+Hill&fs=120&fc=%23FFFFFF&b=rounded&bc=%230A5) : handy favicon generator
 - [Github](https://github.com) : this great, free and evolving platform
