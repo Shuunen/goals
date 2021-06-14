@@ -11,7 +11,7 @@
   "description": "web app to visualize & reach goals",
   "devDependencies": {
     "ava": "3.15.0",
-    "c8": "7.7.2",
+    "c8": "7.7.3",
     "eslint": "7.26.0",
     "eslint-config-standard": "16.0.2",
     "eslint-plugin-html": "6.1.2",
