@@ -2,7 +2,6 @@
 
 [![GitHub license](https://img.shields.io/github/license/shuunen/goals.svg?color=informational)](https://github.com/Shuunen/goals/blob/master/LICENSE)
 
-[![Build Status](https://travis-ci.com/Shuunen/goals.svg?branch=master)](https://travis-ci.com/Shuunen/goals)
 [![David](https://img.shields.io/david/shuunen/goals.svg)](https://david-dm.org/shuunen/goals)
 [![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/shuunen-goals.netlify.app.svg?publish)](https://observatory.mozilla.org/analyze/shuunen-goals.netlify.app)
 [![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/Shuunen/goals.svg)](https://lgtm.com/projects/g/Shuunen/goals)
