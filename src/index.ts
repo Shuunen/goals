@@ -1,13 +1,16 @@
 
-import { Item } from './models.js'
-import { dataToHash, hashToData } from './utils.js'
+import { Item } from './models'
+import { dataToHash, hashToData } from './utils'
 
 export const DEFAULT_TITLE = 'Goals'
-export const DEFAULT_ITEMS = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item({ title, done: (index === 1) }))
+export const DEFAULT_ITEMS = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item(title, (index === 1)))
 
 class App {
+  els: Record<string, HTMLElement> = {}
+  items: Item[] = []
+  title = ''
+
   constructor () {
-    this.items = []
     this.setupElements()
     this.setupListeners()
     this.checkDataSources()
@@ -21,7 +24,7 @@ class App {
   }
 
   setupListeners () {
-    this.els.list.addEventListener('click', this.onListClick.bind(this))
+    this.els.list.addEventListener('click', event => this.onListClick(event.target))
   }
 
   checkDataSources () {
@@ -42,8 +45,7 @@ class App {
     </li>`).join('\n')
   }
 
-  onListClick (event) {
-    const element = event.target
+  onListClick (element) {
     if (element.tagName !== 'INPUT') return
     const done = element.checked
     const index = element.value
@@ -57,4 +59,4 @@ class App {
   }
 }
 
-window.app = new App()
+new App()

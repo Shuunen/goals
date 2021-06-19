@@ -1,11 +1,10 @@
 .cache
-.DS_Store
 .env
 *.log
-*.mp4
 *.tgz
-/cypress/screenshots
+coverage
 dist
 node_modules
+public/*.js
+public/*.map
 sample.*
-coverage
