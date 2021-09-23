@@ -4,7 +4,7 @@
   "description": "web app to visualize & reach goals",
   "devDependencies": {
     "@types/mocha": "*",
-    "shuunen-stack": "0.11.1",
+    "shuunen-stack": "0.12.1",
     "npm-run-all": "*"
   },
   "files": [
