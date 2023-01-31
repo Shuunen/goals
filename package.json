@@ -48,6 +48,7 @@
     "ci": "npm run build && npm run lint && npm run check && npm run test && echo ci success",
     "dev": "parallel serve build:watch",
     "lint": "tsc --noEmit && eslint --cache --fix --ignore-path .gitignore --ext .js,.ts . && depcruise src --config && echo lint success",
+    "mark": "unique-mark public/index.html",
     "postversion": "git push && git push --tags",
     "preversion": "npm run ci",
     "serve": "servor public --reload",
