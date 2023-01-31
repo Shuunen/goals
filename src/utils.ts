@@ -1,24 +1,31 @@
+import { Nb } from 'shuutils'
 import { Item } from './models'
 
 const doneMarker = '!'
 const separator = ','
 
-export const hashToData = (hash: string): { title: string, items: Item[] } => {
+function itemDataToHash (item: Item): string {
+  return `${item.isDone ? doneMarker : ''}${item.title}`
+}
+
+export function hashToData (hash: string): { title: string; items: Item[] } {
   let title = ''
-  let items = []
-  const matches = decodeURI(hash).match(/([\s\w]+=)?([\s\w!,]+)+/) || []
-  if (matches.length === 0) return { title, items }
-  title = matches[1] ? matches[1].split('=')[0] : title
-  items = matches[2].split(separator).map(item => {
+  let items: Item[] = []
+  // eslint-disable-next-line security/detect-unsafe-regex, unicorn/no-unsafe-regex, regexp/no-super-linear-move
+  const matches = (/(?<title>[\s\w]+=)?(?<items>[\s\w!,]+)+/u.exec(decodeURI(hash)))
+  if (matches === null) return { title, items }
+  title = matches.groups?.title?.split('=')[0] ?? ''
+  items = matches.groups?.items?.split(separator).map(item => {
     // item could be "become a ninja" or "!become a ninja" if it's done
     const data = item.split(doneMarker)
-    const title = data[1] || item
-    const done = data.length === 2
-    return new Item(title, done)
-  })
+    const itemTitle = data[1] ?? item
+    const isDone = data.length === Nb.Two
+    return new Item(itemTitle, isDone)
+    /* c8 ignore next */
+  }) ?? []
   return { title, items }
 }
 
-export const dataToHash = (title: string, items: Item[]): string => {
-  return encodeURI(`#${title}=${items.map(item => `${item.done ? doneMarker : ''}${item.title}`).join(separator)}`)
+export function dataToHash (title: string, items: Item[]): string {
+  return encodeURI(`#${title}=${items.map(item => itemDataToHash(item)).join(separator)}`)
 }

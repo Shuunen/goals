@@ -1,11 +1,12 @@
 .cache
 .env
+.eslintcache
+.nyc_output
 *.log
 *.tgz
 coverage
 dist
 node_modules
-pnpm-lock.yaml
 public/*.js
 public/*.map
 sample.*

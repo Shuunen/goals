@@ -1,62 +1,75 @@
 
+import { h1, ul } from 'shuutils'
+import { logger } from './logger'
 import { Item } from './models'
 import { dataToHash, hashToData } from './utils'
 
-export const DEFAULT_TITLE = 'Goals'
-export const DEFAULT_ITEMS = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item(title, (index === 1)))
+const defaultTitle = 'Goals'
+const defaultItems = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => new Item(title, (index === 1)))
 
 class App {
-  els: Record<string, HTMLElement> = {}
-  items: Item[] = []
-  title = ''
 
-  constructor () {
+  private items: Item[] = []
+
+  private readonly itemsElement = ul('list')
+
+  private title = ''
+
+  private readonly titleElement = h1('title')
+
+  public constructor () {
     this.setupElements()
     this.setupListeners()
     this.checkDataSources()
   }
 
-  setupElements () {
-    this.els = {
-      title: document.querySelector('h1'),
-      list: document.querySelector('ul'),
-    }
+  private setupElements (): void {
+    const main = document.querySelector('main')
+    if (!main) throw new Error('No main element found')
+    main.append(this.titleElement)
+    main.append(this.itemsElement)
   }
 
-  setupListeners () {
-    this.els.list.addEventListener('click', event => this.onListClick(event.target))
+  private setupListeners (): void {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    this.itemsElement.addEventListener('click', event => { this.onListClick(event.target as unknown as HTMLInputElement) })
   }
 
-  checkDataSources () {
+  private checkDataSources (): void {
     const { title, items } = hashToData(document.location.hash)
-    this.title = title.length > 0 ? title : DEFAULT_TITLE
-    this.items = items.length > 0 ? items : DEFAULT_ITEMS
-    console.log('detected', this.items.length, 'items :', this.items)
+    this.title = title.length > 0 ? title : defaultTitle
+    this.items = items.length > 0 ? items : defaultItems
+    logger.info('detected', this.items.length, 'items :', this.items)
     if (this.items.length > 0) this.render()
   }
 
-  render () {
-    this.els.title.textContent = this.title
-    this.els.list.innerHTML = this.items.map((item, index) => `<li>
-      <label class="item ${item.done ? 'done' : ''}">
-        <input type=checkbox ${item.done ? 'checked' : ''} value=${index}>
+  private render (): void {
+    this.titleElement.textContent = this.title
+    this.itemsElement.innerHTML = this.items.map((item, index) => `<li>
+      <label class="item ${item.isDone ? 'done' : ''}">
+        <input type=checkbox ${item.isDone ? 'checked' : ''} value=${index}>
         <span class=title>${item.title}</span>
       </label>
     </li>`).join('\n')
   }
 
-  onListClick (element) {
+  private onListClick (element: HTMLInputElement): void {
     if (element.tagName !== 'INPUT') return
-    const done = element.checked
-    const index = element.value
-    this.items[index].done = done
+    const isDone = element.checked
+    const index = Number.parseInt(element.value, 10)
+    const item = this.items[index]
+    logger.info('item at position', index, 'is now', isDone ? 'done' : 'undone')
+    if (item !== undefined) item.isDone = isDone
     this.render()
     this.updateUrl()
   }
 
-  updateUrl () {
+  private updateUrl (): void {
     document.location.hash = dataToHash(this.title, this.items)
   }
 }
 
+// eslint-disable-next-line no-new
 new App()
+
+export { defaultItems, defaultTitle }

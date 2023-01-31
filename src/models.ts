@@ -1,3 +1,11 @@
 export class Item {
-  constructor (public title = '', public done = false) {}
+
+  public title = ''
+
+  public isDone = false
+
+  public constructor (title = '', isDone = false) {
+    this.title = title
+    this.isDone = isDone
+  }
 }

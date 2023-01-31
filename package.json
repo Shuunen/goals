@@ -1,11 +1,28 @@
 {
+  "$schema": "https://json.schemastore.org/package",
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/goals/issues",
+  "dependencies": {
+    "shuutils": "7.1"
+  },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
-    "@types/mocha": "*",
-    "shuunen-stack": "0.14.0",
-    "npm-run-all": "*"
+    "@types/mocha": "10",
+    "@types/node": "18",
+    "c8": "7",
+    "dependency-cruiser": "latest",
+    "esbuild": "0.17",
+    "eslint": "8.33",
+    "eslint-config-hardcore": "26",
+    "eslint-plugin-unicorn": "45",
+    "npm-parallel": "2",
+    "repo-check": "1.30",
+    "servor": "4",
+    "tsm": "2.3",
+    "typescript": "4.9",
+    "typescript-run": "0",
+    "uvu": "0.5",
+    "watchlist": "0.3"
   },
   "files": [
     "src",
@@ -25,16 +42,17 @@
     "url": "https://github.com/Shuunen/goals.git"
   },
   "scripts": {
-    "build": "npm run build:js -- --production --minify",
-    "build:js": "stack build src/index.ts --out-dir public --format iife",
-    "ci": "run-s build lint test",
-    "dev": "npm run build:js -- --dev",
-    "lint": "stack lint",
+    "build": "esbuild src/index.ts --bundle --outdir=public --format=iife && echo build success",
+    "build:watch": "watchlist src -eager -- npm run build",
+    "check": "repo-check",
+    "ci": "npm run build && npm run lint && npm run check && npm run test && echo ci success",
+    "dev": "parallel serve build:watch",
+    "lint": "tsc --noEmit && eslint --cache --fix --ignore-path .gitignore --ext .js,.ts . && depcruise src --config && echo lint success",
     "postversion": "git push && git push --tags",
     "preversion": "npm run ci",
-    "test": "stack test",
-    "test:watch": "stack test --watch",
-    "update": "stack update"
+    "serve": "servor public --reload",
+    "test": "c8 uvu -r tsm tests && echo test success",
+    "test:watch": "watchlist src tests -eager -- npm test"
   },
   "version": "0.1.0"
 }

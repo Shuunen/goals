@@ -1,6 +1,41 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "ES6"
+    "allowJs": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "jsx": "preserve",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "preserveValueImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ESNext",
+    "useDefineForClassFields": true
   },
+  "include": [
+    "src",
+    "tests"
+  ]
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/nycrc",
+  "branches": 90,
+  "check-coverage": true,
+  "functions": 90,
+  "include": [
+    "src/**/*.ts"
+  ],
+  "lines": 90,
+  "reporter": [
+    "text",
+    "lcovonly"
+  ],
+  "statements": 90
+}
