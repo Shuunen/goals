@@ -12,7 +12,7 @@
     "c8": "7",
     "dependency-cruiser": "latest",
     "esbuild": "0.17",
-    "eslint": "8.33",
+    "eslint": "8.34",
     "eslint-config-hardcore": "26",
     "eslint-plugin-unicorn": "45",
     "npm-parallel": "2",
