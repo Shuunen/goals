@@ -13,7 +13,7 @@
     "dependency-cruiser": "latest",
     "esbuild": "0.17",
     "eslint": "8.35",
-    "eslint-config-hardcore": "26",
+    "eslint-config-hardcore": "32",
     "eslint-plugin-unicorn": "45",
     "npm-parallel": "2",
     "repo-check": "1.30",
