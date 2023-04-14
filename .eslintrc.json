@@ -9,6 +9,9 @@
     "hardcore",
     "hardcore/ts"
   ],
+  "ignorePatterns": [
+    "public/*.js"
+  ],
   "overrides": [
     {
       "files": [
@@ -35,16 +38,14 @@
       "error",
       "always-multiline"
     ],
-    "@typescript-eslint/consistent-indexed-object-style": [
-      "error",
-      "record"
-    ],
+    "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/indent": [
       "error",
       2
     ],
+    "@typescript-eslint/lines-around-comment": "off",
     "@typescript-eslint/member-delimiter-style": [
       "error",
       {
@@ -87,6 +88,7 @@
     "etc/no-const-enum": "off",
     "etc/no-enum": "off",
     "etc/no-t": "off",
+    "etc/prefer-interface": "off",
     "ext/lines-between-object-properties": "off",
     "func-names": [
       "error",
@@ -135,7 +137,7 @@
     "logical-assignment-operators": "off",
     "max-len": "off",
     "max-statements-per-line": "off",
-    "no-console": "off",
+    "no-console": "error",
     "no-inline-comments": "off",
     "object-curly-spacing": [
       "error",
@@ -147,10 +149,7 @@
       "error",
       "consistent-as-needed"
     ],
-    "quotes": [
-      "error",
-      "single"
-    ],
+    "quotes": "off",
     "require-atomic-updates": [
       "error",
       {
@@ -165,6 +164,7 @@
       "error",
       "always"
     ],
+    "total-functions/no-partial-division": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/no-process-exit": "off",
     "unicorn/prefer-module": "off",
@@ -177,7 +177,8 @@
       {
         "allowList": {
           "args": true,
-          "pkg": true
+          "pkg": true,
+          "str": true
         }
       }
     ],

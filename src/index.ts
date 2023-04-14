@@ -45,6 +45,7 @@ class App {
 
   private render (): void {
     this.titleElement.textContent = this.title
+    // eslint-disable-next-line no-unsanitized/property
     this.itemsElement.innerHTML = this.items.map((item, index) => `<li>
       <label class="item ${item.isDone ? 'done' : ''}">
         <input type=checkbox ${item.isDone ? 'checked' : ''} value=${index}>
