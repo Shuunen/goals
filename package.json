@@ -14,7 +14,7 @@
     "esbuild": "0.17",
     "eslint": "8.41",
     "eslint-config-hardcore": "36",
-    "eslint-plugin-unicorn": "47",
+    "eslint-plugin-unicorn": "48",
     "npm-parallel": "2",
     "repo-check": "1.31",
     "servor": "4",
