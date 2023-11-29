@@ -11,7 +11,7 @@
     "@types/node": "18",
     "c8": "7",
     "dependency-cruiser": "latest",
-    "esbuild": "0.17",
+    "esbuild": "0.19",
     "eslint": "8.41",
     "eslint-config-hardcore": "36",
     "eslint-plugin-unicorn": "47",
