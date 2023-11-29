@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/goals/issues",
   "dependencies": {
-    "shuutils": "7.2"
+    "shuutils": "7.4"
   },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
