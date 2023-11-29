@@ -8,7 +8,7 @@
   "description": "web app to visualize & reach goals",
   "devDependencies": {
     "@types/mocha": "10",
-    "@types/node": "18",
+    "@types/node": "20",
     "c8": "7",
     "dependency-cruiser": "latest",
     "esbuild": "0.17",
