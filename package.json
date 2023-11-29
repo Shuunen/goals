@@ -9,7 +9,7 @@
   "devDependencies": {
     "@types/mocha": "10",
     "@types/node": "18",
-    "c8": "7",
+    "c8": "8",
     "dependency-cruiser": "latest",
     "esbuild": "0.17",
     "eslint": "8.41",
