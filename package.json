@@ -3,24 +3,22 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/goals/issues",
   "dependencies": {
-    "shuutils": "7.2"
+    "shuutils": "7.4"
   },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
-    "@types/mocha": "10",
-    "@types/node": "18",
-    "c8": "7",
+    "@types/node": "20",
+    "@vitest/coverage-v8": "1.0",
     "dependency-cruiser": "latest",
-    "esbuild": "0.17",
-    "eslint": "8.41",
-    "eslint-config-hardcore": "36",
-    "eslint-plugin-unicorn": "47",
+    "esbuild": "0.19",
+    "eslint": "8.55",
+    "eslint-config-hardcore": "45.0",
+    "eslint-plugin-unicorn": "49.0",
     "npm-parallel": "2",
-    "repo-check": "1.31",
+    "repo-check": "1.34",
     "servor": "4",
-    "tsm": "2.3",
-    "typescript": "5.0",
-    "uvu": "0.5",
+    "typescript": "5.3",
+    "vitest": "1.0",
     "watchlist": "0.3"
   },
   "files": [
@@ -43,15 +41,17 @@
   "scripts": {
     "build": "esbuild src/index.ts --bundle --outdir=public --format=iife && echo build success",
     "build:watch": "watchlist src -eager -- pnpm build",
-    "check": "pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
+    "check": "pnpm install && echo install success && pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
     "dev": "parallel serve build:watch",
     "lint": "tsc --noEmit && eslint --cache --fix --ext .js,.ts . && depcruise src --config && echo lint success",
     "mark": "unique-mark public/index.html",
     "postversion": "git push && git push --tags",
     "preversion": "pnpm check",
     "serve": "servor public --reload",
-    "test": "c8 uvu -r tsm tests && echo test success",
-    "test:watch": "watchlist src tests -eager -- npm test"
+    "test": "vitest --coverage --run && echo test success",
+    "test:bench": "vitest bench && echo test bench success",
+    "test:update": "vitest --run --update && echo test update success",
+    "test:watch": "vitest --coverage"
   },
   "version": "0.1.0"
 }

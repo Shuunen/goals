@@ -12,16 +12,6 @@
   "ignorePatterns": [
     "public/*.js"
   ],
-  "overrides": [
-    {
-      "files": [
-        "tests/*"
-      ],
-      "rules": {
-        "func-names": "off"
-      }
-    }
-  ],
   "parserOptions": {
     "project": "tsconfig.json"
   },
@@ -40,6 +30,13 @@
     ],
     "@typescript-eslint/consistent-indexed-object-style": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "fixStyle": "inline-type-imports",
+        "prefer": "type-imports"
+      }
+    ],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/indent": [
       "error",
@@ -66,6 +63,7 @@
       "error",
       "always"
     ],
+    "@typescript-eslint/prefer-destructuring": "off",
     "@typescript-eslint/prefer-readonly-parameter-types": "off",
     "@typescript-eslint/quotes": [
       "error",
@@ -86,7 +84,9 @@
     ],
     "eslint-comments/no-use": "off",
     "etc/no-const-enum": "off",
+    "etc/no-deprecated": "off",
     "etc/no-enum": "off",
+    "etc/no-internal": "off",
     "etc/no-t": "off",
     "etc/prefer-interface": "off",
     "ext/lines-between-object-properties": "off",
@@ -145,11 +145,13 @@
     ],
     "padding-line-between-statements": "off",
     "prettier/prettier": "off",
+    "putout/putout": "off",
     "quote-props": [
       "error",
       "consistent-as-needed"
     ],
     "quotes": "off",
+    "regexp/require-unicode-sets-regexp": "off",
     "require-atomic-updates": [
       "error",
       {
@@ -160,11 +162,13 @@
       "error",
       "never"
     ],
+    "simple-import-sort/imports": "off",
     "space-before-function-paren": [
       "error",
       "always"
     ],
     "total-functions/no-partial-division": "off",
+    "total-functions/no-unsafe-readonly-mutable-assignment": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/no-process-exit": "off",
     "unicorn/prefer-module": "off",

@@ -1,9 +1,13 @@
 
-import { check, checksRun } from 'shuutils'
+import { expect, it } from 'vitest'
 import { Item } from '../src/models'
 
-const item = new Item()
-const expected = new Item('', false)
-check('item default title is empty and not done', item, expected)
+it('item default title is empty and not done', () => {
+  expect(new Item()).toMatchInlineSnapshot(`
+    Item {
+      "isDone": false,
+      "title": "",
+    }
+  `)
+})
 
-checksRun()

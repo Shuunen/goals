@@ -1,20 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
+    "alwaysStrict": true,
     "checkJs": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
     "jsx": "preserve",
     "lib": [
-      "ES2020",
-      "DOM"
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
@@ -29,11 +35,20 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
+    "strictNullChecks": true,
     "target": "ESNext",
-    "useDefineForClassFields": true
+    "types": [
+      "node/fs/promises"
+    ],
+    "useDefineForClassFields": true,
+    "verbatimModuleSyntax": true
   },
+  "exclude": [
+    "node_modules"
+  ],
   "include": [
     "src",
-    "tests"
+    "tests",
+    "*.ts"
   ]
 }

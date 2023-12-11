@@ -1,16 +1,73 @@
-
-import { check, checksRun } from 'shuutils'
+import { expect, it } from 'vitest'
 import { Item } from '../src/models'
 import { dataToHash, hashToData } from '../src/utils'
 
-const expectedItems = [new Item('have fun', false), new Item('avoid shitty job', true)]
+const items = [new Item('have fun', false), new Item('avoid shitty job', true)]
 
-check('hashToData A get title & items from hash', hashToData('#My%20great%20goals=have%20fun,!avoid%20shitty%20job'), { title: 'My great goals', items: expectedItems })
-check('hashToData B get default title & items from hash', hashToData('#have%20fun,!avoid%20shitty%20job'), { title: '', items: expectedItems })
-check('hashToData C get default title & empty items from faulty hash', hashToData(''), { title: '', items: [] })
-check('hashToData D', hashToData('#'), { title: '', items: [] })
-check('hashToData E', hashToData('#='), { title: '', items: [] })
+it('hashToData A get title & items from hash', () => {
+  expect(hashToData('#My%20great%20goals=have%20fun,!avoid%20shitty%20job')).toMatchInlineSnapshot(`
+    {
+      "items": [
+        Item {
+          "isDone": false,
+          "title": "have fun",
+        },
+        Item {
+          "isDone": true,
+          "title": "avoid shitty job",
+        },
+      ],
+      "title": "My great goals",
+    }
+  `)
+})
 
-check('dataToHash A', dataToHash('My super tasks', expectedItems), '#My%20super%20tasks=have%20fun,!avoid%20shitty%20job')
+it('hashToData B get default title & items from hash', () => {
+  expect(hashToData('#have%20fun,!avoid%20shitty%20job')).toMatchInlineSnapshot(`
+    {
+      "items": [
+        Item {
+          "isDone": false,
+          "title": "have fun",
+        },
+        Item {
+          "isDone": true,
+          "title": "avoid shitty job",
+        },
+      ],
+      "title": "",
+    }
+  `)
+})
 
-checksRun()
+it('hashToData C empty faulty hash', () => {
+  expect(hashToData('')).toMatchInlineSnapshot(`
+    {
+      "items": [],
+      "title": "",
+    }
+  `)
+})
+
+it('hashToData D empty hash', () => {
+  expect(hashToData('#')).toMatchInlineSnapshot(`
+    {
+      "items": [],
+      "title": "",
+    }
+  `)
+})
+
+it('hashToData E empty faulty hash with equal', () => {
+  expect(hashToData('#=')).toMatchInlineSnapshot(`
+    {
+      "items": [],
+      "title": "",
+    }
+  `)
+})
+
+it('dataToHash A', () => {
+  expect(dataToHash('My super tasks', items)).toMatchInlineSnapshot('"#My%20super%20tasks=have%20fun,!avoid%20shitty%20job"')
+})
+

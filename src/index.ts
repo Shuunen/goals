@@ -1,4 +1,4 @@
-
+/* c8 ignore start */
 import { h1, ul } from 'shuutils'
 import { logger } from './logger'
 import { Item } from './models'
@@ -36,7 +36,7 @@ class App {
   }
 
   private checkDataSources (): void {
-    const { title, items } = hashToData(document.location.hash)
+    const { items, title } = hashToData(document.location.hash)
     this.title = title.length > 0 ? title : defaultTitle
     this.items = items.length > 0 ? items : defaultItems
     logger.info('detected', this.items.length, 'items :', this.items)
@@ -72,5 +72,3 @@ class App {
 
 // eslint-disable-next-line no-new
 new App()
-
-export { defaultItems, defaultTitle }
