@@ -11,7 +11,7 @@
     "@vitest/coverage-v8": "1.0",
     "dependency-cruiser": "latest",
     "esbuild": "0.19",
-    "eslint": "8.55",
+    "eslint": "8.56",
     "eslint-config-hardcore": "45.1",
     "eslint-plugin-unicorn": "49.0",
     "npm-parallel": "2",
