@@ -10,7 +10,7 @@
     "@types/node": "20",
     "@vitest/coverage-v8": "1.2",
     "dependency-cruiser": "latest",
-    "esbuild": "0.19",
+    "esbuild": "0.20",
     "eslint": "8.56",
     "eslint-config-hardcore": "45.2",
     "eslint-plugin-unicorn": "50.0",
