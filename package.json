@@ -15,7 +15,7 @@
     "eslint-config-hardcore": "45.2",
     "eslint-plugin-unicorn": "51.0",
     "npm-parallel": "2",
-    "repo-check": "1.34",
+    "repo-check": "1.35",
     "servor": "4",
     "typescript": "5.3",
     "vitest": "1.2",
