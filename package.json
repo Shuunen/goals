@@ -8,7 +8,7 @@
   "description": "web app to visualize & reach goals",
   "devDependencies": {
     "@types/node": "20",
-    "@vitest/coverage-v8": "1.2",
+    "@vitest/coverage-v8": "1.3",
     "dependency-cruiser": "latest",
     "esbuild": "0.20",
     "eslint": "8.56",
@@ -18,7 +18,7 @@
     "repo-check": "1.35",
     "servor": "4",
     "typescript": "5.3",
-    "vitest": "1.2",
+    "vitest": "1.3",
     "watchlist": "0.3"
   },
   "files": [
