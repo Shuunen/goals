@@ -17,7 +17,7 @@
     "npm-parallel": "2",
     "repo-check": "1.35",
     "servor": "4",
-    "typescript": "5.3",
+    "typescript": "5.4",
     "vitest": "1.3",
     "watchlist": "0.3"
   },
