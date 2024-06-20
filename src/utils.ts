@@ -3,11 +3,11 @@ import { Item } from './models'
 const doneMarker = '!'
 const separator = ','
 
-function itemDataToHash (item: Item): string {
+function itemDataToHash (item: Item) {
   return `${item.isDone ? doneMarker : ''}${item.title}`
 }
 
-export function hashToData (hash: string): { items: Item[]; title: string } {
+export function hashToData (hash: string) {
   let title = ''
   let items: Item[] = []
   // eslint-disable-next-line security/detect-unsafe-regex, regexp/no-super-linear-move
@@ -26,6 +26,6 @@ export function hashToData (hash: string): { items: Item[]; title: string } {
   return { items, title }
 }
 
-export function dataToHash (title: string, items: Item[]): string {
+export function dataToHash (title: string, items: Item[]) {
   return encodeURI(`#${title}=${items.map(item => itemDataToHash(item)).join(separator)}`)
 }

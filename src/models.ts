@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-syntax
 export class Item {
 
   public title = ''
