@@ -26,8 +26,8 @@ devDependencies:
     specifier: '8.57'
     version: 8.57.0
   eslint-config-hardcore:
-    specifier: '46.1'
-    version: 46.1.0(@babel/core@7.24.7)(@babel/eslint-parser@7.24.7)(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2)(vue-eslint-parser@9.4.3)
+    specifier: '47.0'
+    version: 47.0.0(@babel/core@7.24.7)(@babel/eslint-parser@7.24.7)(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2)(vue-eslint-parser@9.4.3)
   eslint-plugin-unicorn:
     specifier: '54.0'
     version: 54.0.0(eslint@8.57.0)
@@ -1128,8 +1128,6 @@ packages:
       putout: 35.36.0(typescript@5.5.2)
       try-catch: 3.0.1
       try-to-catch: 3.0.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@putout/engine-parser@10.8.0:
@@ -1158,8 +1156,6 @@ packages:
       picomatch: 4.0.2
       putout: 35.36.0(typescript@5.5.2)
       try-to-catch: 3.0.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@putout/engine-reporter@1.0.2(putout@35.36.0):
@@ -1175,8 +1171,6 @@ packages:
       putout: 35.36.0(typescript@5.5.2)
       try-catch: 3.0.1
       try-to-catch: 3.0.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@putout/engine-runner@21.1.0(putout@35.36.0):
@@ -1212,7 +1206,7 @@ packages:
       eslint: '>=8.0.0'
     dependencies:
       '@eslint/js': 9.5.0
-      '@stylistic/eslint-plugin-js': 2.2.2(eslint@8.57.0)
+      '@stylistic/eslint-plugin-js': 2.3.0(eslint@8.57.0)
       eslint: 8.57.0
     dev: true
 
@@ -1422,8 +1416,6 @@ packages:
       '@putout/operator-filesystem': 4.1.0(putout@35.36.0)
       '@putout/operator-json': 2.2.0
       putout: 35.36.0(typescript@5.5.2)
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@putout/operator-regexp@1.0.0(putout@35.36.0):
@@ -2654,19 +2646,6 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /@stylistic/eslint-plugin-js@2.2.2(eslint@8.57.0):
-    resolution: {integrity: sha512-Vj2Q1YHVvJw+ThtOvmk5Yx7wZanVrIBRUTT89horLDb4xdP9GA1um9XOYQC6j67VeUC2gjZQnz5/RVJMzaOhtw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: '>=8.40.0'
-    dependencies:
-      '@types/eslint': 8.56.10
-      acorn: 8.12.0
-      eslint: 8.57.0
-      eslint-visitor-keys: 4.0.0
-      espree: 10.1.0
-    dev: true
-
   /@stylistic/eslint-plugin-js@2.3.0(eslint@8.57.0):
     resolution: {integrity: sha512-lQwoiYb0Fs6Yc5QS3uT8+T9CPKK2Eoxc3H8EnYJgM26v/DgtW+1lvy2WNgyBflU+ThShZaHm3a6CdD9QeKx23w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -2678,19 +2657,6 @@ packages:
       eslint: 8.57.0
       eslint-visitor-keys: 4.0.0
       espree: 10.1.0
-    dev: true
-
-  /@stylistic/eslint-plugin-jsx@2.2.2(eslint@8.57.0):
-    resolution: {integrity: sha512-xfIMdLivoMV1wV+5Tl0PtkLN/oUwjIt7LuIu48vhrZfJ2jCXwjlTGPGSoM7dnLZYD65XjtrHHIFAvPuvvvjlaw==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: '>=8.40.0'
-    dependencies:
-      '@stylistic/eslint-plugin-js': 2.2.2(eslint@8.57.0)
-      '@types/eslint': 8.56.10
-      eslint: 8.57.0
-      estraverse: 5.3.0
-      picomatch: 4.0.2
     dev: true
 
   /@stylistic/eslint-plugin-jsx@2.3.0(eslint@8.57.0):
@@ -2711,21 +2677,6 @@ packages:
     peerDependencies:
       eslint: '*'
     dependencies:
-      '@types/eslint': 8.56.10
-      '@typescript-eslint/utils': 7.13.1(eslint@8.57.0)(typescript@5.5.2)
-      eslint: 8.57.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
-
-  /@stylistic/eslint-plugin-ts@2.2.2(eslint@8.57.0)(typescript@5.5.2):
-    resolution: {integrity: sha512-n6cYMSWTDDcrQLLxEKIrL/ihQ1lyyq6+gGp0g5VdstBElmImSRsQkCq+g3jRoDJIUo7tGO9lwQtGnuJ7oGB4kg==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: '>=8.40.0'
-    dependencies:
-      '@stylistic/eslint-plugin-js': 2.2.2(eslint@8.57.0)
       '@types/eslint': 8.56.10
       '@typescript-eslint/utils': 7.13.1(eslint@8.57.0)(typescript@5.5.2)
       eslint: 8.57.0
@@ -4410,8 +4361,8 @@ packages:
       semver: 7.6.2
     dev: true
 
-  /eslint-config-hardcore@46.1.0(@babel/core@7.24.7)(@babel/eslint-parser@7.24.7)(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2)(vue-eslint-parser@9.4.3):
-    resolution: {integrity: sha512-Qxv1JTg/IRSLmS0n63Q5KGAVW66qjnyVMrSRkiOHMj7TfWOlehJyjWUMnvnj4riv94FbbAq7MGW1R2MEWOIXiA==}
+  /eslint-config-hardcore@47.0.0(@babel/core@7.24.7)(@babel/eslint-parser@7.24.7)(eslint@8.57.0)(prettier@3.3.2)(typescript@5.5.2)(vue-eslint-parser@9.4.3):
+    resolution: {integrity: sha512-oHPvhIykN7WDCV3TmRyXw3cLUbXpx8j6WsXdF48RbxXR8hWp4FGip7UnWy1+RFY1W6rZn9zfhV1yV9zBYU2N3A==}
     peerDependencies:
       eslint: ^8.57.0
       typescript: '>=4.0.0'
@@ -5015,8 +4966,8 @@ packages:
       '@putout/engine-parser': 10.8.0
       '@putout/eslint': 3.5.0
       '@putout/eslint-config': 9.1.0(eslint@8.57.0)
-      '@stylistic/eslint-plugin-jsx': 2.2.2(eslint@8.57.0)
-      '@stylistic/eslint-plugin-ts': 2.2.2(eslint@8.57.0)(typescript@5.5.2)
+      '@stylistic/eslint-plugin-jsx': 2.3.0(eslint@8.57.0)
+      '@stylistic/eslint-plugin-ts': 2.3.0(eslint@8.57.0)(typescript@5.5.2)
       '@typescript-eslint/eslint-plugin': 7.13.1(@typescript-eslint/parser@7.13.1)(eslint@8.57.0)(typescript@5.5.2)
       '@typescript-eslint/parser': 7.13.1(eslint@8.57.0)(typescript@5.5.2)
       align-spaces: 1.0.4
