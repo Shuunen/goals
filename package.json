@@ -11,9 +11,8 @@
     "@vitest/coverage-v8": "1.6",
     "dependency-cruiser": "latest",
     "esbuild": "0.23",
-    "eslint": "8.57",
-    "eslint-config-hardcore": "47.0",
-    "eslint-plugin-unicorn": "54.0",
+    "eslint": "*",
+    "eslint-plugin-shuunen": "0.1",
     "npm-parallel": "2",
     "repo-check": "1.36",
     "servor": "4",
@@ -43,7 +42,10 @@
     "build:watch": "watchlist src -eager -- pnpm build",
     "check": "pnpm install && echo install success && pnpm build && repo-check && pnpm lint && pnpm test && echo check success",
     "dev": "parallel serve build:watch",
-    "lint": "tsc --noEmit && eslint --cache --fix --ext .js,.ts . && depcruise src --config && echo lint success",
+    "lint": "pnpm lint:tsc && pnpm lint:eslint && pnpm lint:dep && echo lint success",
+    "lint:eslint": "eslint --cache --max-warnings 0 src && echo lint:eslint success",
+    "lint:tsc": "tsc --noEmit && echo lint:tsc success",
+    "lint:dep": "depcruise src --config && echo lint:dep success",
     "mark": "unique-mark public/index.html",
     "postversion": "git push && git push --tags",
     "preversion": "pnpm check",
@@ -53,5 +55,6 @@
     "test:update": "vitest --run --update && echo test update success",
     "test:watch": "vitest --coverage"
   },
+  "type": "module",
   "version": "0.1.0"
 }

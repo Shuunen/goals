@@ -1,4 +1,6 @@
 /* c8 ignore start */
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable jsdoc/require-jsdoc */
 import { h1, ul } from 'shuutils'
 import { logger } from './logger'
 import { Item } from './models'
@@ -24,35 +26,12 @@ class App {
     this.checkDataSources()
   }
 
-  private setupElements () {
-    const main = document.querySelector('main')
-    if (!main) throw new Error('No main element found')
-    main.append(this.titleElement)
-    main.append(this.itemsElement)
-  }
-
-  private setupListeners () {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    this.itemsElement.addEventListener('click', event => { this.onListClick(event.target as unknown as HTMLInputElement) })
-  }
-
   private checkDataSources () {
     const { items, title } = hashToData(document.location.hash)
     this.title = title.length > 0 ? title : defaultTitle
     this.items = items.length > 0 ? items : defaultItems
     logger.info('detected', this.items.length, 'items :', this.items)
     if (this.items.length > 0) this.render()
-  }
-
-  private render () {
-    this.titleElement.textContent = this.title
-    // eslint-disable-next-line no-unsanitized/property
-    this.itemsElement.innerHTML = this.items.map((item, index) => `<li>
-      <label class="item ${item.isDone ? 'done' : ''}">
-        <input type=checkbox ${item.isDone ? 'checked' : ''} value=${index}>
-        <span class=title>${item.title}</span>
-      </label>
-    </li>`).join('\n')
   }
 
   private onListClick (element: HTMLInputElement) {
@@ -64,6 +43,28 @@ class App {
     if (item !== undefined) item.isDone = isDone
     this.render()
     this.updateUrl()
+  }
+
+  private render () {
+    this.titleElement.textContent = this.title
+    this.itemsElement.innerHTML = this.items.map((item, index) => `<li>
+      <label class="item ${item.isDone ? 'done' : ''}">
+        <input type=checkbox ${item.isDone ? 'checked' : ''} value=${index}>
+        <span class=title>${item.title}</span>
+      </label>
+    </li>`).join('\n')
+  }
+
+  private setupElements () {
+    const main = document.querySelector('main')
+    if (!main) throw new Error('No main element found')
+    main.append(this.titleElement)
+    main.append(this.itemsElement)
+  }
+
+  private setupListeners () {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    this.itemsElement.addEventListener('click', event => { this.onListClick(event.target as unknown as HTMLInputElement) })
   }
 
   private updateUrl () {

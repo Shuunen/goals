@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-lines */
 /* eslint-disable no-useless-escape */
-/* eslint-disable import/unambiguous */
-/* eslint-disable import/no-commonjs */
 /** @type {import('dependency-cruiser').IConfiguration} */
-module.exports = {
+export default {
   forbidden: [
     /* rules from the 'recommended' preset: */
     {

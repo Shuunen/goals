@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types */
+/* eslint-disable jsdoc/require-jsdoc */
 import { Item } from './models'
 
 const doneMarker = '!'
@@ -10,7 +12,6 @@ function itemDataToHash (item: Item) {
 export function hashToData (hash: string) {
   let title = ''
   let items: Item[] = []
-  // eslint-disable-next-line security/detect-unsafe-regex, regexp/no-super-linear-move
   const matches = (/(?<title>[\s\w]+=)?(?<items>[\s\w!,]+)/u.exec(decodeURI(hash)))
   if (matches === null) return { items, title }
   title = matches.groups?.title?.split('=')[0] ?? ''
