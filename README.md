@@ -2,7 +2,6 @@
 
 [![GitHub license](https://img.shields.io/github/license/shuunen/goals.svg?color=informational)](https://github.com/Shuunen/goals/blob/master/LICENSE)
 [![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/shuunen-goals.netlify.app.svg?publish)](https://observatory.mozilla.org/analyze/shuunen-goals.netlify.app)
-[![Scrutinizer Score](https://scrutinizer-ci.com/g/Shuunen/recipes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Shuunen/recipes)
 [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Shuunen/goals?style=flat)](https://codeclimate.com/github/Shuunen/goals)
 [![Website](https://img.shields.io/website/https/shuunen-goals.netlify.app.svg)](https://shuunen-goals.netlify.app)
 
