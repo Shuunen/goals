@@ -10,7 +10,7 @@
     "@types/node": "20",
     "@vitest/coverage-v8": "2.1",
     "dependency-cruiser": "latest",
-    "esbuild": "0.23",
+    "esbuild": "0.24",
     "eslint": "*",
     "eslint-plugin-shuunen": "0.3",
     "npm-parallel": "2",
