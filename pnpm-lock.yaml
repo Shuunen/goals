@@ -32,8 +32,8 @@ devDependencies:
     specifier: '2'
     version: 2.0.1
   repo-check:
-    specifier: '1.39'
-    version: 1.39.0
+    specifier: '1.40'
+    version: 1.40.0
   servor:
     specifier: '4'
     version: 4.0.2
@@ -2734,8 +2734,8 @@ packages:
       jsesc: 0.5.0
     dev: true
 
-  /repo-check@1.39.0:
-    resolution: {integrity: sha512-Xl/ySyPRjNs4zmlohJUQvlxmVphf5mHnhDx6Ws8+L8vhmzpIlZxsd17y2qiOIHsu0ydwyMGA/hJtb9h6io/QfA==}
+  /repo-check@1.40.0:
+    resolution: {integrity: sha512-EO5AKEYlUU8cRDq/9PVEkTsQ19371lCdw38KTHVWH48Nxq7kS6uJXYEHBii/AQ0kXRVxJP57uMi84lGH5zNRZQ==}
     hasBin: true
     dependencies:
       arg: 5.0.2
