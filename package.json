@@ -12,7 +12,7 @@
     "dependency-cruiser": "latest",
     "esbuild": "0.24",
     "eslint": "*",
-    "eslint-plugin-shuunen": "0.3",
+    "eslint-plugin-shuunen": "0.4",
     "npm-parallel": "2",
     "repo-check": "1.39",
     "servor": "4",
