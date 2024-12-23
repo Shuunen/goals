@@ -63,7 +63,7 @@ class App {
   }
 
   private setupListeners () {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
     this.itemsElement.addEventListener('click', event => { this.onListClick(event.target as unknown as HTMLInputElement) })
   }
 

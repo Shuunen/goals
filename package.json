@@ -3,7 +3,7 @@
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/goals/issues",
   "dependencies": {
-    "shuutils": "9.0"
+    "shuutils": "10.1"
   },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
@@ -12,9 +12,9 @@
     "dependency-cruiser": "latest",
     "esbuild": "0.24",
     "eslint": "*",
-    "eslint-plugin-shuunen": "0.3",
+    "eslint-plugin-shuunen": "0.4",
     "npm-parallel": "2",
-    "repo-check": "1.39",
+    "repo-check": "1.40",
     "servor": "4",
     "typescript": "5.7",
     "vitest": "2.1",

@@ -5,7 +5,7 @@ it('logger', () => {
   expect(logger.options).toMatchInlineSnapshot(`
     {
       "isActive": true,
-      "minimumLevel": "1-debug",
+      "minimumLevel": "3-info",
       "willLogDate": false,
       "willLogDelay": true,
       "willLogTime": false,
