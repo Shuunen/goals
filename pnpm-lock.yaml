@@ -20,7 +20,7 @@ importers:
         version: 2.1.8(vitest@2.1.8(@types/node@22.10.2)(stylus@0.57.0))
       dependency-cruiser:
         specifier: latest
-        version: 16.8.0
+        version: 16.10.0
       esbuild:
         specifier: '0.24'
         version: 0.24.2
@@ -34,8 +34,8 @@ importers:
         specifier: '2'
         version: 2.0.1
       repo-check:
-        specifier: '1.40'
-        version: 1.40.0
+        specifier: '1.42'
+        version: 1.42.0
       servor:
         specifier: '4'
         version: 4.0.2
@@ -851,8 +851,8 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
-  commander@12.1.0:
-    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+  commander@13.1.0:
+    resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
     engines: {node: '>=18'}
 
   commander@4.1.1:
@@ -901,8 +901,8 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  dependency-cruiser@16.8.0:
-    resolution: {integrity: sha512-VyBzIrLHfG7rT36URln+CTy8VSjrLB7YDlMx5vtBSHRHCOXgLUCcP4n5ZoD+s166T0i5LN33q1CvBkEOGsDTSg==}
+  dependency-cruiser@16.10.0:
+    resolution: {integrity: sha512-o6pEB8X/XS0AjpQBhPJW3pSY7HIviRM7+G601T9ruV63NVJC4DxLMA+a1VzZlKOzO2fO6JKRHjRmGjzZZHEFYA==}
     engines: {node: ^18.17||>=20}
     hasBin: true
 
@@ -932,8 +932,8 @@ packages:
   emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
 
-  enhanced-resolve@5.18.0:
-    resolution: {integrity: sha512-0/r0MySGYG8YqlayBZ6MuCfECmHFdJ5qyPh8s8wa5Hnm6SaFLSK1VYCbj+NKp090Nm1caZhD+QTnmxO7esYGyQ==}
+  enhanced-resolve@5.18.1:
+    resolution: {integrity: sha512-ZSW3ma5GkcQBIpwZTSRAI8N71Uuwgs93IezB7mf7R60tC8ZbJideoDNKjHn2O9KIlx6rkGTTEk1xUCK2E1Y2Yg==}
     engines: {node: '>=10.13.0'}
 
   error-ex@1.3.2:
@@ -1176,8 +1176,8 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
-  ignore@6.0.2:
-    resolution: {integrity: sha512-InwqeHHN2XpumIkMvpl/DCJVrAHgCsG5+cn1XlnLWGwtZBm8QJfSusItfrwx81CTp5agNZqpKU2J/ccC5nGT4A==}
+  ignore@7.0.3:
+    resolution: {integrity: sha512-bAH5jbK/F3T3Jls4I0SO1hmPR0dKU0a7+SY6n1yzRtG54FLO8d6w/nxLFX2Nb7dBu6cCWXPaAME6cYqFUMmuCA==}
     engines: {node: '>= 4'}
 
   import-fresh@3.3.0:
@@ -1615,8 +1615,8 @@ packages:
     resolution: {integrity: sha512-qx+xQGZVsy55CH0a1hiVwHmqjLryfh7wQyF5HO07XJ9f7dQMY/gPQHhlyDkIzJKC+x2fUCpCcUODUUUFrm7SHA==}
     hasBin: true
 
-  repo-check@1.40.0:
-    resolution: {integrity: sha512-EO5AKEYlUU8cRDq/9PVEkTsQ19371lCdw38KTHVWH48Nxq7kS6uJXYEHBii/AQ0kXRVxJP57uMi84lGH5zNRZQ==}
+  repo-check@1.42.0:
+    resolution: {integrity: sha512-AsmKM/MNM26fjJPqob8oMw+7m28/pLUMpH8u05AF1yHLOeW2S1+Hhx6iPSN1T3XBOsO0d7ol1WgCcVF75ZjTYA==}
     hasBin: true
 
   require-from-string@2.0.2:
@@ -1662,6 +1662,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.1:
+    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   servor@4.0.2:
     resolution: {integrity: sha512-MlmQ5Ntv4jDYUN060x/KEmN7emvIqKMZ9OkM+nY8Bf2+KkyLmGsTqWLyAN2cZr5oESAcH00UanUyyrlS1LRjFw==}
     hasBin: true
@@ -1676,6 +1681,10 @@ packages:
 
   shuutils@10.1.0:
     resolution: {integrity: sha512-Q+8PaUIik4W3bEE2xtDMZvYC7y4B8mnh3x7cneXPJmry0esVRir+hSZHh5Kjh6rtV0pYj+eKtAXBxJ8LDqPZhA==}
+    hasBin: true
+
+  shuutils@10.5.0:
+    resolution: {integrity: sha512-XIBlpWI8zIRYV1f1hdIApAPtsThzqBkIoLfBpmbQY+RVTwDn3mtfJ/ir3ifhdsnoQjcDKkcdiJGdnoLje/KU3w==}
     hasBin: true
 
   siginfo@2.0.0:
@@ -1970,8 +1979,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  watskeburt@4.2.2:
-    resolution: {integrity: sha512-AOCg1UYxWpiHW1tUwqpJau8vzarZYTtzl2uu99UptBmbzx6kOzCGMfRLF6KIRX4PYekmryn89MzxlRNkL66YyA==}
+  watskeburt@4.2.3:
+    resolution: {integrity: sha512-uG9qtQYoHqAsnT711nG5iZc/8M5inSmkGCOp7pFaytKG2aTfIca7p//CjiVzAE4P7hzaYuCozMjNNaLgmhbK5g==}
     engines: {node: ^18||>=20}
     hasBin: true
 
@@ -2669,7 +2678,7 @@ snapshots:
 
   color-name@1.1.4: {}
 
-  commander@12.1.0: {}
+  commander@13.1.0: {}
 
   commander@4.1.1: {}
 
@@ -2707,7 +2716,7 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  dependency-cruiser@16.8.0:
+  dependency-cruiser@16.10.0:
     dependencies:
       acorn: 8.14.0
       acorn-jsx: 5.3.2(acorn@8.14.0)
@@ -2715,9 +2724,9 @@ snapshots:
       acorn-loose: 8.4.0
       acorn-walk: 8.3.4
       ajv: 8.17.1
-      commander: 12.1.0
-      enhanced-resolve: 5.18.0
-      ignore: 6.0.2
+      commander: 13.1.0
+      enhanced-resolve: 5.18.1
+      ignore: 7.0.3
       interpret: 3.1.1
       is-installed-globally: 1.0.0
       json5: 2.2.3
@@ -2727,10 +2736,10 @@ snapshots:
       prompts: 2.4.2
       rechoir: 0.8.0
       safe-regex: 2.1.1
-      semver: 7.6.3
+      semver: 7.7.1
       teamcity-service-messages: 0.1.14
       tsconfig-paths-webpack-plugin: 4.2.0
-      watskeburt: 4.2.2
+      watskeburt: 4.2.3
 
   detect-indent@5.0.0: {}
 
@@ -2748,7 +2757,7 @@ snapshots:
 
   emoji-regex@9.2.2: {}
 
-  enhanced-resolve@5.18.0:
+  enhanced-resolve@5.18.1:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.1
@@ -3104,7 +3113,7 @@ snapshots:
 
   ignore@5.3.2: {}
 
-  ignore@6.0.2: {}
+  ignore@7.0.3: {}
 
   import-fresh@3.3.0:
     dependencies:
@@ -3482,10 +3491,10 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  repo-check@1.40.0:
+  repo-check@1.42.0:
     dependencies:
       arg: 5.0.2
-      shuutils: 10.1.0
+      shuutils: 10.5.0
       sort-json: 2.0.1
 
   require-from-string@2.0.2: {}
@@ -3543,6 +3552,8 @@ snapshots:
 
   semver@7.6.3: {}
 
+  semver@7.7.1: {}
+
   servor@4.0.2: {}
 
   shebang-command@2.0.0:
@@ -3552,6 +3563,10 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shuutils@10.1.0:
+    dependencies:
+      tiny-glob: 0.2.9
+
+  shuutils@10.5.0:
     dependencies:
       tiny-glob: 0.2.9
 
@@ -3740,7 +3755,7 @@ snapshots:
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.18.0
+      enhanced-resolve: 5.18.1
       tapable: 2.2.1
       tsconfig-paths: 4.2.0
 
@@ -3874,7 +3889,7 @@ snapshots:
     dependencies:
       mri: 1.2.0
 
-  watskeburt@4.2.2: {}
+  watskeburt@4.2.3: {}
 
   which@2.0.2:
     dependencies:
