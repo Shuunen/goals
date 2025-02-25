@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       shuutils:
-        specifier: '10.1'
-        version: 10.1.0
+        specifier: '10.5'
+        version: 10.5.0
     devDependencies:
       '@types/node':
         specifier: '22'
@@ -1686,10 +1686,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  shuutils@10.1.0:
-    resolution: {integrity: sha512-Q+8PaUIik4W3bEE2xtDMZvYC7y4B8mnh3x7cneXPJmry0esVRir+hSZHh5Kjh6rtV0pYj+eKtAXBxJ8LDqPZhA==}
-    hasBin: true
 
   shuutils@10.5.0:
     resolution: {integrity: sha512-XIBlpWI8zIRYV1f1hdIApAPtsThzqBkIoLfBpmbQY+RVTwDn3mtfJ/ir3ifhdsnoQjcDKkcdiJGdnoLje/KU3w==}
@@ -3583,10 +3579,6 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
-
-  shuutils@10.1.0:
-    dependencies:
-      tiny-glob: 0.2.9
 
   shuutils@10.5.0:
     dependencies:
