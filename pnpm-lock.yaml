@@ -20,7 +20,7 @@ importers:
         version: 3.0.7(vitest@3.0.7(@types/node@22.10.2)(stylus@0.57.0))
       dependency-cruiser:
         specifier: latest
-        version: 16.10.0
+        version: 16.10.1
       esbuild:
         specifier: '0.25'
         version: 0.25.0
@@ -34,8 +34,8 @@ importers:
         specifier: '2'
         version: 2.0.1
       repo-check:
-        specifier: '1.42'
-        version: 1.42.0
+        specifier: '1.43'
+        version: 1.43.0
       servor:
         specifier: '4'
         version: 4.0.2
@@ -729,6 +729,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
 
@@ -902,8 +907,8 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  dependency-cruiser@16.10.0:
-    resolution: {integrity: sha512-o6pEB8X/XS0AjpQBhPJW3pSY7HIviRM7+G601T9ruV63NVJC4DxLMA+a1VzZlKOzO2fO6JKRHjRmGjzZZHEFYA==}
+  dependency-cruiser@16.10.1:
+    resolution: {integrity: sha512-Uw8/emAfzD+Zcua6Hfg1wCnskJd2QSRGKw5tUWrCtA8PBSz+n/zfUYCTjFi9MwdiTA5oecN93FBvh9jJhTLs4A==}
     engines: {node: ^18.17||>=20}
     hasBin: true
 
@@ -1365,8 +1370,8 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
 
-  memoize@10.0.0:
-    resolution: {integrity: sha512-H6cBLgsi6vMWOcCpvVCdFFnl3kerEXbrYh9q+lY6VXvQSmM6CkmV08VOwT+WE2tzIEqRPFfAq3fm4v/UIW6mSA==}
+  memoize@10.1.0:
+    resolution: {integrity: sha512-MMbFhJzh4Jlg/poq1si90XRlTZRDHVqdlz2mPyGJ6kqMpyHUyVpDd5gpFAvVehW64+RA1eKE9Yt8aSLY7w2Kgg==}
     engines: {node: '>=18'}
 
   merge2@1.4.1:
@@ -1624,8 +1629,8 @@ packages:
     resolution: {integrity: sha512-qx+xQGZVsy55CH0a1hiVwHmqjLryfh7wQyF5HO07XJ9f7dQMY/gPQHhlyDkIzJKC+x2fUCpCcUODUUUFrm7SHA==}
     hasBin: true
 
-  repo-check@1.42.0:
-    resolution: {integrity: sha512-AsmKM/MNM26fjJPqob8oMw+7m28/pLUMpH8u05AF1yHLOeW2S1+Hhx6iPSN1T3XBOsO0d7ol1WgCcVF75ZjTYA==}
+  repo-check@1.43.0:
+    resolution: {integrity: sha512-vKeQysGHFjT27m8kXUnspSdoIPnvXh+VXzj/XZHJzXbCCAWnn/pIUyJTWjtO5JhJcOeT+C0PyfloN7aBZHhXiA==}
     hasBin: true
 
   require-from-string@2.0.2:
@@ -1687,10 +1692,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  shuutils@10.5.0:
-    resolution: {integrity: sha512-XIBlpWI8zIRYV1f1hdIApAPtsThzqBkIoLfBpmbQY+RVTwDn3mtfJ/ir3ifhdsnoQjcDKkcdiJGdnoLje/KU3w==}
-    hasBin: true
 
   shuutils@10.6.0:
     resolution: {integrity: sha512-y3dveSrmnFKIxxIwKN6sSaX6nfCMK8WF20MJWzqqJ1DIFv7MBK9SXoJT4mU7F+w+yz3404vgnDD8wohWC7w1IA==}
@@ -2563,15 +2564,21 @@ snapshots:
     dependencies:
       acorn: 8.14.0
 
+  acorn-jsx@5.3.2(acorn@8.14.1):
+    dependencies:
+      acorn: 8.14.1
+
   acorn-loose@8.4.0:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn@8.14.0: {}
+
+  acorn@8.14.1: {}
 
   ajv@6.12.6:
     dependencies:
@@ -2728,10 +2735,10 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  dependency-cruiser@16.10.0:
+  dependency-cruiser@16.10.1:
     dependencies:
-      acorn: 8.14.0
-      acorn-jsx: 5.3.2(acorn@8.14.0)
+      acorn: 8.14.1
+      acorn-jsx: 5.3.2(acorn@8.14.1)
       acorn-jsx-walk: 2.0.0
       acorn-loose: 8.4.0
       acorn-walk: 8.3.4
@@ -2742,7 +2749,7 @@ snapshots:
       interpret: 3.1.1
       is-installed-globally: 1.0.0
       json5: 2.2.3
-      memoize: 10.0.0
+      memoize: 10.1.0
       picocolors: 1.1.1
       picomatch: 4.0.2
       prompts: 2.4.2
@@ -3288,7 +3295,7 @@ snapshots:
     dependencies:
       semver: 7.7.1
 
-  memoize@10.0.0:
+  memoize@10.1.0:
     dependencies:
       mimic-function: 5.0.1
 
@@ -3517,10 +3524,10 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  repo-check@1.42.0:
+  repo-check@1.43.0:
     dependencies:
       arg: 5.0.2
-      shuutils: 10.5.0
+      shuutils: 10.6.0
       sort-json: 2.0.1
 
   require-from-string@2.0.2: {}
@@ -3587,10 +3594,6 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
-
-  shuutils@10.5.0:
-    dependencies:
-      tiny-glob: 0.2.9
 
   shuutils@10.6.0:
     dependencies:

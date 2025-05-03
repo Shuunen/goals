@@ -14,7 +14,7 @@
     "eslint": "*",
     "eslint-plugin-shuunen": "0.4",
     "npm-parallel": "2",
-    "repo-check": "1.42",
+    "repo-check": "1.43",
     "servor": "4",
     "typescript": "5.8",
     "vitest": "3.0",
