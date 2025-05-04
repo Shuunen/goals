@@ -24,6 +24,7 @@
 
 ## Thanks
 
+- [Boxy Svg](https://boxy-svg.com) : simple & effective svg editor
 - [Dependency-cruiser](https://github.com/sverweij/dependency-cruiser) : handy tool to validate and visualize dependencies
 - [Esbuild](https://github.com/evanw/esbuild) : an extremely fast JavaScript bundler and minifier
 - [Eslint](https://eslint.org) : super tool to find & fix problems
@@ -36,6 +37,11 @@
 - [Servor](https://github.com/lukejacksonn/servor) : dependency free dev server for single page app development
 - [Shields.io](https://shields.io) : nice looking badges to be proud of
 - [Shuutils](https://github.com/Shuunen/shuutils) : collection of pure JS utils
+- [Svg Omg](https://jakearchibald.github.io/svgomg/) : the great king of svg file size reduction
 - [V8](https://github.com/demurgos/v8-coverage) : simple & effective cli for code coverage
 - [Vitest](https://github.com/vitest-dev/vitest) : super fast vite-native testing framework
 - [Watchlist](https://github.com/lukeed/watchlist) : recursively watch a list of directories & run a command on any file system
+
+## Stargazers over time
+
+[![Stargazers over time](https://api.star-history.com/svg?repos=Shuunen/goals&type=Date&theme=dark)](https://www.star-history.com/#Shuunen/goals&Date)

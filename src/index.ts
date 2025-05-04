@@ -26,7 +26,7 @@ class App {
     this.checkDataSources()
   }
 
-  private checkDataSources () {
+  private checkDataSources() {
     const { items, title } = hashToData(document.location.hash)
     this.title = title.length > 0 ? title : defaultTitle
     this.items = items.length > 0 ? items : defaultItems
@@ -34,7 +34,7 @@ class App {
     if (this.items.length > 0) this.render()
   }
 
-  private onListClick (element: HTMLInputElement) {
+  private onListClick(element: HTMLInputElement) {
     if (element.tagName !== 'INPUT') return
     const isDone = element.checked
     const index = Number.parseInt(element.value, 10)
@@ -45,7 +45,7 @@ class App {
     this.updateUrl()
   }
 
-  private render () {
+  private render() {
     this.titleElement.textContent = this.title
     this.itemsElement.innerHTML = this.items.map((item, index) => `<li>
       <label class="item ${item.isDone ? 'done' : ''}">
@@ -55,19 +55,20 @@ class App {
     </li>`).join('\n')
   }
 
-  private setupElements () {
+  private setupElements() {
     const main = document.querySelector('main')
+    // eslint-disable-next-line no-restricted-syntax
     if (!main) throw new Error('No main element found')
     main.append(this.titleElement)
     main.append(this.itemsElement)
   }
 
-  private setupListeners () {
+  private setupListeners() {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
     this.itemsElement.addEventListener('click', event => { this.onListClick(event.target as unknown as HTMLInputElement) })
   }
 
-  private updateUrl () {
+  private updateUrl() {
     document.location.hash = dataToHash(this.title, this.items)
   }
 }
