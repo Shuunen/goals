@@ -34,8 +34,8 @@ importers:
         specifier: '2.0'
         version: 2.0.1
       repo-check:
-        specifier: '1.43'
-        version: 1.43.0
+        specifier: '1.46'
+        version: 1.46.0
       servor:
         specifier: '4.0'
         version: 4.0.2
@@ -1794,8 +1794,8 @@ packages:
     resolution: {integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==}
     hasBin: true
 
-  repo-check@1.43.0:
-    resolution: {integrity: sha512-vKeQysGHFjT27m8kXUnspSdoIPnvXh+VXzj/XZHJzXbCCAWnn/pIUyJTWjtO5JhJcOeT+C0PyfloN7aBZHhXiA==}
+  repo-check@1.46.0:
+    resolution: {integrity: sha512-BekT7/1cpw8iP6vc77gGNnXfnK4VmqzDi54tmx/gnwJ97ZderVIhe/oBi4USxm7hu3w1+CvFH7j6/j772RjxBw==}
     hasBin: true
 
   require-from-string@2.0.2:
@@ -3876,7 +3876,7 @@ snapshots:
     dependencies:
       jsesc: 3.0.2
 
-  repo-check@1.43.0:
+  repo-check@1.46.0:
     dependencies:
       arg: 5.0.2
       shuutils: 10.6.0
