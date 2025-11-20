@@ -20,7 +20,7 @@ importers:
         version: 3.2.4(vitest@3.2.4(@types/node@24.10.0)(jiti@1.21.7)(stylus@0.57.0)(yaml@2.7.1))
       dependency-cruiser:
         specifier: latest
-        version: 17.2.0
+        version: 17.3.1
       esbuild:
         specifier: '0.27'
         version: 0.27.0
@@ -34,8 +34,8 @@ importers:
         specifier: '2.0'
         version: 2.0.1
       repo-check:
-        specifier: '1.43'
-        version: 1.43.0
+        specifier: '1.46'
+        version: 1.46.0
       servor:
         specifier: '4.0'
         version: 4.0.2
@@ -952,8 +952,8 @@ packages:
     resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
     engines: {node: '>= 0.8'}
 
-  dependency-cruiser@17.2.0:
-    resolution: {integrity: sha512-EiOkB41fdAOCef3ycMX4pAXqkWrCOQ+G4IKOjcs9uPILShAuki2fHlTQPnv4aIHka/3lGJJdpRVrrwTMD7v1dg==}
+  dependency-cruiser@17.3.1:
+    resolution: {integrity: sha512-yWwszB4GKIBKK/xiHSQ6TVIV6k8byd+gMGT2RMQ+03wb1jGH48cSsLH29iUUZgGtKyLSH51NurbnjXV0+niUjA==}
     engines: {node: ^20.12||^22||>=24}
     hasBin: true
 
@@ -1794,8 +1794,8 @@ packages:
     resolution: {integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==}
     hasBin: true
 
-  repo-check@1.43.0:
-    resolution: {integrity: sha512-vKeQysGHFjT27m8kXUnspSdoIPnvXh+VXzj/XZHJzXbCCAWnn/pIUyJTWjtO5JhJcOeT+C0PyfloN7aBZHhXiA==}
+  repo-check@1.46.0:
+    resolution: {integrity: sha512-BekT7/1cpw8iP6vc77gGNnXfnK4VmqzDi54tmx/gnwJ97ZderVIhe/oBi4USxm7hu3w1+CvFH7j6/j772RjxBw==}
     hasBin: true
 
   require-from-string@2.0.2:
@@ -2186,9 +2186,9 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  watskeburt@4.2.3:
-    resolution: {integrity: sha512-uG9qtQYoHqAsnT711nG5iZc/8M5inSmkGCOp7pFaytKG2aTfIca7p//CjiVzAE4P7hzaYuCozMjNNaLgmhbK5g==}
-    engines: {node: ^18||>=20}
+  watskeburt@5.0.0:
+    resolution: {integrity: sha512-fEMhfIzu9WOuAJdDcTT+aPjn0JHI2+UeJ+zWSEs/tgMvc+MFDZVmhlZ8C1uJWXax1ETYc4trUnHFHyx2DrG0jQ==}
+    engines: {node: ^20.12||^22.13||>=24.0}
     hasBin: true
 
   which@2.0.2:
@@ -2988,7 +2988,7 @@ snapshots:
 
   depd@2.0.0: {}
 
-  dependency-cruiser@17.2.0:
+  dependency-cruiser@17.3.1:
     dependencies:
       acorn: 8.15.0
       acorn-jsx: 5.3.2(acorn@8.15.0)
@@ -3009,7 +3009,7 @@ snapshots:
       safe-regex: 2.1.1
       semver: 7.7.3
       tsconfig-paths-webpack-plugin: 4.2.0
-      watskeburt: 4.2.3
+      watskeburt: 5.0.0
 
   detect-indent@5.0.0: {}
 
@@ -3876,7 +3876,7 @@ snapshots:
     dependencies:
       jsesc: 3.0.2
 
-  repo-check@1.43.0:
+  repo-check@1.46.0:
     dependencies:
       arg: 5.0.2
       shuutils: 10.6.0
@@ -4339,7 +4339,7 @@ snapshots:
     dependencies:
       mri: 1.2.0
 
-  watskeburt@4.2.3: {}
+  watskeburt@5.0.0: {}
 
   which@2.0.2:
     dependencies:
