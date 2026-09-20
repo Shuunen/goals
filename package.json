@@ -5,14 +5,14 @@
   "dependencies": {
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "shuutils": "^10.6.0"
+    "shuutils": "^11.0.0"
   },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.6.1",
+    "@types/node": "^26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
@@ -21,9 +21,9 @@
     "happy-dom": "^20.14.5",
     "oxfmt": "^0.68.0",
     "oxlint": "^1.83.0",
-    "oxlint-tsgolint": "^7.0.2001",
+    "oxlint-tsgolint": "^7.0.2002",
     "tailwindcss": "^4.3.3",
-    "turbo": "^2.10.13",
+    "turbo": "^2.11.2",
     "typescript": "~7.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.1"
