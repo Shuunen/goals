@@ -1,12 +1,11 @@
 .cache
 .env
-.eslintcache
 .nyc_output
+.turbo
 *.log
 *.tgz
 coverage
 dist
 node_modules
-public/*.js
-public/*.map
+tsconfig.tsbuildinfo
 sample.*
