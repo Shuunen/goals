@@ -10,7 +10,6 @@ describe('logger', () => {
         "willLogDelay": true,
         "willLogTime": false,
         "willOutputToConsole": true,
-        "willOutputToMemory": false,
       }
     `)
   })
