@@ -1,0 +1,8 @@
+{
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "name": "@shuunen/goals",
+  "short_name": "@shuunen/goals",
+  "start_url": "/",
+  "theme_color": "#ffffff"
+}
