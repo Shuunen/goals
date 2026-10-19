@@ -139,6 +139,7 @@
 
 html {
   font-size: min(max(12px, 3vw), 16px);
+  scroll-behavior: smooth;
 }
 
 html,
@@ -163,6 +164,8 @@ main {
   height: 100%;
   justify-content: center;
   margin: auto;
+  /* the list backdrop bleeds past the edges ; clip it so mobile browsers don't widen the layout viewport */
+  overflow-x: clip;
 }
 
 h1.title {
