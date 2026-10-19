@@ -20,8 +20,8 @@ const repositoryUrl = 'https://github.com/Shuunen/goals'
 // a swatch can carry both badges at once (title and labels on the same font) or just one
 function fontMarkers(labelFont: Font, titleFont: Font) {
   const markers: Partial<Record<Font, string[]>> = {}
-  ;(markers[titleFont] ??= []).push('T')
-  ;(markers[labelFont] ??= []).push('L')
+  ;(markers[titleFont] ??= []).push('Title')
+  ;(markers[labelFont] ??= []).push('Label')
   return markers
 }
 
@@ -45,7 +45,7 @@ export function SettingsModal({ isOpen, labelFont, onClose, onFontPick, onThemeC
           </button>
         </header>
         <ChoiceGrid attribute="data-theme" legend="Theme" onChange={onThemeChange} options={themes} value={theme} />
-        <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Font — click sets title, then labels, then title…" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
+        <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Fonts" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
         <dl className="about">
           <dt>Repository</dt>
           <dd>
