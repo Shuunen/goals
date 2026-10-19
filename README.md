@@ -19,13 +19,18 @@
 - [x] dead simple todo list
 - [x] 100% privacy safe, no analytics, no cookie, no database, list is stored the url of your tab
 - [x] shareable : give the link to someone [like this one](https://shuunen-goals.netlify.app#My%20goals=become%20a%20ninja,buy%20milk,!eat%20lots%20of%20pastas,find%20goals%20ideas,number%20five&something_else=12)
+- [x] WYSIWYG edit : toggle the pencil to rename the title, rename, add or remove goals in place (removing asks for a second click to confirm)
+- [x] re-order goals by dragging the handle (mouse or touch) or with the up / down arrow keys, with smooth animations
+- [x] settings modal (gear icon) : 6 themes (paper, dark, ocean, sunset, forest, rose) and 6 fonts (caveat, indie, inter, lora, mono, grotesk) with live previews, plus a link to the repository and the app version
+- [x] theme & font are kept in the link too (`&theme=rose&font=lora`), so a shared link looks the same for everyone
+- [x] styled print
 
 ## Todo
 
-- [ ] WYSIWYG edit
-- [ ] display themes
-- [ ] styled print
-- [ ] add settings modal with theme, link to repository, app version etc..
+- [x] WYSIWYG edit
+- [x] display themes
+- [x] styled print
+- [x] add settings modal with theme, link to repository, app version etc..
 
 ## Thanks
 
