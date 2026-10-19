@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { App } from './app.page'
 
 function indexOf(element: HTMLElement) {
@@ -158,5 +158,31 @@ describe('App', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     fireEvent.keyDown(document, { key: 'Escape' })
     expect(screen.queryByRole('dialog')).toBeNull()
+  })
+
+  it('App J celebrates a goal that gets checked off, then stops', () => {
+    vi.useFakeTimers()
+    document.location.hash = '#t=a,!b'
+    render(<App />)
+    const label = screen.getByText('a').closest('label')
+    expect(label).not.toHaveClass('celebrate')
+    fireEvent.click(screen.getByLabelText('a'))
+    expect(label).toHaveClass('celebrate')
+    act(() => {
+      vi.runAllTimers()
+    })
+    expect(label).not.toHaveClass('celebrate')
+    fireEvent.click(screen.getByLabelText('b'))
+    expect(screen.getByText('b').closest('label')).not.toHaveClass('celebrate')
+    vi.useRealTimers()
+  })
+
+  it('App K does not celebrate when the user prefers reduced motion', () => {
+    const matchMedia = vi.spyOn(globalThis, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList)
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByLabelText('a'))
+    expect(screen.getByText('a').closest('label')).not.toHaveClass('celebrate')
+    matchMedia.mockRestore()
   })
 })
