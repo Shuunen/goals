@@ -1,20 +1,31 @@
+import { useState } from 'react'
+import { EditableText } from '../components/editable-text'
+import { GearIcon } from '../components/gear-icon'
+import { GoalList } from '../components/goal-list'
+import { PencilIcon } from '../components/pencil-icon'
+import { SettingsModal } from '../components/settings-modal'
+import { useFont } from '../hooks/use-font'
 import { useGoals } from '../hooks/use-goals'
+import { useTheme } from '../hooks/use-theme'
 
 export function App() {
-  const { items, title, toggleItem } = useGoals()
+  const { addItem, items, moveItem, removeItem, renameItem, renameTitle, title, toggleItem } = useGoals()
+  const { labelFont, pickFont, titleFont } = useFont()
+  const { changeTheme, theme } = useTheme()
+  const [isEditing, setIsEditing] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   return (
     <main>
-      <h1 className="title">{title}</h1>
-      <ul className="list">
-        {items.map((item, index) => (
-          <li key={item.title}>
-            <label className={`item ${item.isDone ? 'done' : ''}`}>
-              <input checked={item.isDone} onChange={() => toggleItem(index)} type="checkbox" />
-              <span className="title">{item.title}</span>
-            </label>
-          </li>
-        ))}
-      </ul>
+      {/* same two corners on every screen size : settings pinned top right, edit pinned bottom right */}
+      <button className="icon-button settings-button" onClick={() => setIsSettingsOpen(true)} title="Settings" type="button">
+        <GearIcon />
+      </button>
+      {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
+      <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
+      <SettingsModal isOpen={isSettingsOpen} labelFont={labelFont} onClose={() => setIsSettingsOpen(false)} onFontPick={pickFont} onThemeChange={changeTheme} theme={theme} titleFont={titleFont} />
+      <button aria-pressed={isEditing} className="edit-button" onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
+        <PencilIcon />
+      </button>
     </main>
   )
 }

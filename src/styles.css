@@ -4,21 +4,156 @@
   --color-primary: #0a5;
 }
 
+:root,
+[data-theme='paper'] {
+  --bg: snow;
+  --fg: #333;
+  --surface: white;
+  --accent: #0a5;
+}
+
+[data-theme='sunset'] {
+  --bg: #fff1e6;
+  --fg: #4a2c1a;
+  --surface: #fff8f2;
+  --accent: #e8590c;
+}
+
+[data-theme='forest'] {
+  --bg: #14261c;
+  --fg: #dcefe2;
+  --surface: #14261c;
+  --accent: #7bd88f;
+}
+
+[data-theme='rose'] {
+  --bg: #fdeef2;
+  --fg: #4a1f2e;
+  --surface: #fff7f9;
+  --accent: #d6336c;
+}
+
+:root,
+[data-font='indie-flower'] {
+  --font: 'Indie Flower', cursive;
+}
+
+[data-font='caveat'] {
+  --font: 'Caveat', cursive;
+}
+
+[data-font='inter'] {
+  --font: 'Inter', sans-serif;
+}
+
+[data-font='lora'] {
+  --font: 'Lora', serif;
+}
+
+[data-font='jetbrains-mono'] {
+  --font: 'JetBrains Mono', monospace;
+}
+
+[data-font='space-grotesk'] {
+  --font: 'Space Grotesk', sans-serif;
+}
+
+/* the title and the goal labels each pick their own font from the same grid (see the settings modal) */
+:root,
+[data-title-font='indie-flower'] {
+  --font-title: 'Indie Flower', cursive;
+}
+
+[data-title-font='caveat'] {
+  --font-title: 'Caveat', cursive;
+}
+
+[data-title-font='inter'] {
+  --font-title: 'Inter', sans-serif;
+}
+
+[data-title-font='lora'] {
+  --font-title: 'Lora', serif;
+}
+
+[data-title-font='jetbrains-mono'] {
+  --font-title: 'JetBrains Mono', monospace;
+}
+
+[data-title-font='space-grotesk'] {
+  --font-title: 'Space Grotesk', sans-serif;
+}
+
+:root,
+[data-label-font='indie-flower'] {
+  --font-label: 'Indie Flower', cursive;
+}
+
+[data-label-font='caveat'] {
+  --font-label: 'Caveat', cursive;
+}
+
+[data-label-font='inter'] {
+  --font-label: 'Inter', sans-serif;
+}
+
+[data-label-font='lora'] {
+  --font-label: 'Lora', serif;
+}
+
+[data-label-font='jetbrains-mono'] {
+  --font-label: 'JetBrains Mono', monospace;
+}
+
+[data-label-font='space-grotesk'] {
+  --font-label: 'Space Grotesk', sans-serif;
+}
+
+[data-theme='dark'] {
+  --bg: #1b1d23;
+  --fg: #e6e6e6;
+  --surface: #1b1d23;
+  --accent: #3ddc84;
+}
+
+/* dark theme trades the graph paper for a quiet star field, and lets the accent glow a little */
+[data-theme='dark'] body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%23ffffff' fill-opacity='0.14'%3E%3Ccircle cx='10' cy='15' r='1'/%3E%3Ccircle cx='40' cy='5' r='1.2'/%3E%3Ccircle cx='70' cy='30' r='0.8'/%3E%3Ccircle cx='95' cy='12' r='1'/%3E%3Ccircle cx='20' cy='55' r='1.1'/%3E%3Ccircle cx='55' cy='70' r='0.9'/%3E%3Ccircle cx='85' cy='60' r='1.3'/%3E%3Ccircle cx='15' cy='95' r='1'/%3E%3Ccircle cx='65' cy='100' r='0.8'/%3E%3Ccircle cx='100' cy='90' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+[data-theme='dark'] .item.done {
+  text-shadow: 0 0 0.75rem color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+[data-theme='dark'] h1.title,
+[data-theme='dark'] input.editable.title {
+  filter: drop-shadow(0 0 0.5rem color-mix(in srgb, var(--accent) 35%, transparent));
+}
+
+[data-theme='ocean'] {
+  --bg: #e6f4fa;
+  --fg: #12395a;
+  --surface: #f5fbfe;
+  --accent: #0a7fb5;
+}
+
 html {
   font-size: min(max(12px, 3vw), 16px);
 }
 
 html,
-body {
+body,
+#root {
   height: 100%;
 }
 
 body {
-  background-color: snow;
+  background-color: var(--bg);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23acb4c3' fill-opacity='0.2'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  color: #333;
-  font-family: 'Indie Flower', cursive;
+  color: var(--fg);
+  font-family: var(--font-label);
   margin: 0;
+  overflow-x: hidden;
 }
 
 main {
@@ -39,57 +174,96 @@ h1.title {
 }
 
 ul.list {
-  background-color: white;
-  box-shadow: 0 0 14rem 6rem white;
   font-size: 3rem;
+  isolation: isolate;
   list-style-type: none;
   margin: 1.6rem 0 2rem;
   padding-left: 1rem;
+  position: relative;
+}
+
+/* a backdrop for the goals that fades out on every side, so it never shows as a box over the page background */
+ul.list::before {
+  background: var(--surface);
+  content: '';
+  inset: -5rem -8rem -1rem -8rem;
+  mask-composite: intersect;
+  mask-image: linear-gradient(to right, transparent, black 8rem, black calc(100% - 8rem), transparent), linear-gradient(to bottom, transparent, black 4rem, black calc(100% - 4rem), transparent);
+  position: absolute;
+  z-index: -1;
 }
 
 .item {
   cursor: pointer;
   display: flex;
+  margin-bottom: 0.5rem;
   padding-left: 2.4rem;
   position: relative;
   transition: opacity 0.3s;
   user-select: none;
 }
 
-.item:hover {
-  text-decoration: line-through;
+/* one strike-through line, shared by both states : hovering a not-done goal starts a 20px tease of it,
+   checking it off finishes the stroke to the end, and hovering a done goal starts erasing it back from the
+   right, as a preview of unchecking it. A plain CSS transition on background-size carries all of this,
+   whichever state it's moving from or to. */
+.item .title {
+  background: linear-gradient(var(--accent), var(--accent)) 0 60% / 0% 4px no-repeat;
+  display: inline-block;
+  line-height: 1.3;
+  position: relative;
+  transition: background-size 0.25s ease-out;
+}
+
+.item:not(.done):hover .title {
+  background-size: 20px 4px;
+}
+
+.item.done .title {
+  background-size: 100% 4px;
+}
+
+.item.done:hover .title {
+  background-size: calc(100% - 20px) 4px;
+}
+
+/* a second, accent-colored copy of the label sits on top of the real (always default-colored) text, revealed
+   by an animated clip : fully shown once a goal is done, and on hover the same sliver that un-strikes on the
+   right also un-colors back to default, in step with the line */
+.item .title::after {
+  clip-path: inset(0 100% 0 0);
+  color: var(--accent);
+  content: attr(data-label);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: clip-path 0.25s ease-out;
+}
+
+.item.done .title::after {
+  clip-path: inset(0 0 0 0);
+}
+
+.item.done:hover .title::after {
+  clip-path: inset(0 20px 0 0);
 }
 
 .item.done {
-  color: var(--color-primary);
-  opacity: 0.4;
+  color: var(--fg);
+  opacity: 0.55;
 }
 
 .item.done:hover {
   opacity: 1;
-  text-decoration: inherit;
 }
 
-.item .title {
-  display: inline-block;
-}
-
-.item.done .title {
-  transform: skewX(-20deg);
-}
-
-.item.done:hover .title {
-  transform: skewX(0);
-  transition: transform 0.3s;
-}
-
-.item input {
+.item input[type='checkbox'] {
   height: 0;
   margin: 0;
   width: 0;
 }
 
-.item input::before {
+.item input[type='checkbox']::before {
   content: '☐';
   cursor: pointer;
   font-size: 2rem;
@@ -98,7 +272,474 @@ ul.list {
   top: 0.7rem;
 }
 
-.item input:checked::before {
-  color: var(--color-primary);
+.item input[type='checkbox']:checked::before {
+  color: var(--accent);
   content: '🗹';
+}
+
+/* the not-done checkbox gets its own tiny color wave on hover, left to right, same idea as the done label's */
+.item:not(.done) input[type='checkbox']::after {
+  clip-path: inset(0 100% 0 0);
+  color: var(--accent);
+  content: '☐';
+  font-size: 2rem;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0.7rem;
+  transition: clip-path 0.25s ease-out;
+}
+
+.item:not(.done):hover input[type='checkbox']::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* plays once, right when a goal gets checked off : the box pops and a burst of dots fires outward */
+.item.celebrate input[type='checkbox']::before {
+  animation: check-pop 0.38s ease-out;
+}
+
+.item.celebrate::after {
+  animation: confetti-burst 0.5s ease-out;
+  background-color: var(--accent);
+  content: '';
+  height: 2.6rem;
+  left: -0.6rem;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg fill='black'%3E%3Ccircle cx='40' cy='22' r='2.2'/%3E%3Ccircle cx='31' cy='6.4' r='2.2'/%3E%3Ccircle cx='13' cy='6.4' r='2.2'/%3E%3Ccircle cx='4' cy='22' r='2.2'/%3E%3Ccircle cx='13' cy='37.6' r='2.2'/%3E%3Ccircle cx='31' cy='37.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: -0.3rem;
+  width: 2.6rem;
+}
+
+@keyframes check-pop {
+  0% {
+    transform: scale(0.6);
+  }
+
+  55% {
+    transform: scale(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes confetti-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-8deg);
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.25) rotate(6deg);
+  }
+}
+
+/* the same two corners at every width : settings stays a plain icon top right, edit becomes the one accent action bottom right */
+.icon-button.settings-button {
+  height: 3.4rem;
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  width: 3.4rem;
+  z-index: 20;
+}
+
+.settings-button svg {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.edit-button {
+  align-items: center;
+  background: var(--accent);
+  border: 0;
+  border-radius: 50%;
+  bottom: calc(1.2rem + env(safe-area-inset-bottom));
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.25);
+  color: var(--surface);
+  display: flex;
+  height: 3.4rem;
+  justify-content: center;
+  opacity: 1;
+  position: fixed;
+  right: 1.2rem;
+  width: 3.4rem;
+  z-index: 20;
+}
+
+.edit-button svg {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.edit-button[aria-pressed='true'] {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 0.4rem 1rem rgb(0 0 0 / 0.25);
+}
+
+button,
+select {
+  background: var(--surface);
+  border: 1px solid var(--fg);
+  border-radius: 0.4rem;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+  padding: 0.1rem 0.6rem;
+}
+
+.icon-button {
+  background: transparent;
+  align-items: center;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  height: 2.6rem;
+  justify-content: center;
+  opacity: 0.6;
+  padding: 0;
+  transition:
+    opacity 0.2s,
+    background-color 0.2s;
+  width: 2.6rem;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  opacity: 1;
+}
+
+.icon-button.handle {
+  cursor: grab;
+  left: -0.1rem;
+  position: absolute;
+  top: 50%;
+  touch-action: none;
+  transform: translateY(-50%);
+}
+
+.icon-button.remove {
+  left: 100%;
+  margin-left: 0.4rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icon-button.remove:hover,
+.icon-button.remove:focus-visible {
+  color: #e5484d;
+}
+
+.icon-button.remove.confirming,
+.icon-button.remove.confirming:hover,
+.icon-button.remove.confirming:focus-visible {
+  background: #e5484d;
+  border-radius: 1.3rem;
+  color: white;
+  font-size: 1.5rem;
+  gap: 0.4rem;
+  opacity: 1;
+  padding: 0 0.9rem 0 0.6rem;
+  white-space: nowrap;
+  width: auto;
+}
+
+button[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--surface);
+  opacity: 1;
+}
+
+.editable {
+  /* dashed line drawn as a background so it sits on the baseline of the text, above the descenders */
+  background: repeating-linear-gradient(90deg, currentcolor 0 4px, transparent 4px 8px) 0 calc(100% - 0.29em) / 100% 1px no-repeat;
+  border: 0;
+  color: inherit;
+  field-sizing: content;
+  font: inherit;
+  flex-shrink: 0;
+  min-width: 1ch;
+  outline: none;
+}
+
+h1.title,
+input.editable.title {
+  font-family: var(--font-title);
+  font-size: 5rem;
+  text-align: center;
+  text-decoration-color: var(--accent);
+  z-index: 10;
+}
+
+.editable::placeholder {
+  color: inherit;
+  opacity: 0.4;
+}
+
+.item.editing {
+  align-items: center;
+  cursor: default;
+  gap: 1rem;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+/* zero width so the add row never makes the list wider, its input just overflows */
+.new-row {
+  width: 0;
+}
+
+.modal-backdrop {
+  /* no dimming, so the list stays visible while changing the settings */
+  align-items: flex-start;
+  display: flex;
+  inset: 0;
+  justify-content: flex-end;
+  padding: 4.4rem 1rem 1rem;
+  position: fixed;
+  z-index: 30;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 0.35);
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 1.2rem 2rem 2rem;
+  opacity: 0;
+  transform: translate(0.6rem, -2.4rem) scale(0.15);
+  transform-origin: top right;
+  transition:
+    transform 0.25s ease-in,
+    opacity 0.2s ease-in,
+    visibility 0s 0.25s;
+  visibility: hidden;
+  width: min(30rem, 90vw);
+}
+
+.modal-backdrop.open .modal {
+  opacity: 1;
+  transform: none;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 1.1, 0.4, 1),
+    opacity 0.2s ease-out,
+    visibility 0s;
+  visibility: visible;
+}
+
+.modal-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal h2 {
+  font-size: 2.6rem;
+  margin: 0;
+}
+
+.choices {
+  border: 0;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  margin: 1rem 0 1.6rem;
+  padding: 0;
+}
+
+.choices legend {
+  margin-bottom: 0.6rem;
+  opacity: 0.7;
+  padding: 0;
+}
+
+.swatch {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.swatch input {
+  height: 0;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+  width: 0;
+}
+
+.swatch {
+  font-family: var(--font);
+}
+
+/* a swatch rendered as a toggle button (the font grid, which can carry a T and/or L badge) rather than a
+   radio label : reset the generic button chrome back to plain */
+button.swatch {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.swatch .preview {
+  background: var(--bg);
+  border: 2px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  border-radius: 0.7rem;
+  color: var(--accent);
+  font-size: 2.2rem;
+  padding: 0.4rem 0;
+  position: relative;
+  text-align: center;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.swatch:hover .preview {
+  border-color: var(--accent);
+}
+
+.swatch input:checked + .preview,
+.swatch[aria-pressed='true'] .preview {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.swatch input:focus-visible + .preview,
+.swatch:focus-visible .preview {
+  outline: 2px dashed var(--accent);
+  outline-offset: 3px;
+}
+
+/* the T (title) and L (labels) badges a font swatch wears to show what it's currently used for */
+.marker {
+  background: var(--accent);
+  border-radius: 0.3rem;
+  color: var(--surface);
+  font-family: system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: bold;
+  line-height: 1.4;
+  padding: 0 0.3rem;
+  position: absolute;
+  top: -0.5rem;
+}
+
+.marker:nth-child(1) {
+  left: -0.3rem;
+}
+
+.marker:nth-child(2) {
+  right: -0.3rem;
+}
+
+.about {
+  border-top: 1px dashed color-mix(in srgb, var(--fg) 35%, transparent);
+  display: grid;
+  gap: 0.6rem 1rem;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+  padding-top: 1.2rem;
+}
+
+.about dt {
+  opacity: 0.7;
+}
+
+.about dd {
+  margin: 0;
+  text-align: right;
+}
+
+.about a {
+  color: var(--accent);
+}
+
+@media print {
+  ul.list::before {
+    display: none;
+  }
+
+  .toolbar,
+  .modal-backdrop {
+    display: none;
+  }
+
+  body {
+    background: none;
+    color: black;
+  }
+
+  .item.done {
+    color: black;
+    opacity: 1;
+    text-decoration: line-through;
+  }
+
+  .item input::before {
+    color: black;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
+ul.list > li {
+  animation: enter 0.3s ease-out backwards;
+}
+
+ul.list.is-dragging {
+  user-select: none;
+}
+
+ul.list > li.dragging {
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ul.list > li {
+    animation: none;
+  }
+
+  .modal,
+  .modal-backdrop.open .modal {
+    transition: none;
+  }
+
+  .item.celebrate::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .item.celebrate input[type='checkbox']::before {
+    animation: none;
+  }
+
+  .item .title,
+  .item .title::after,
+  .item input[type='checkbox']::after {
+    transition: none;
+  }
 }
