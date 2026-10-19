@@ -2,8 +2,8 @@
 
 [![GitHub license](https://img.shields.io/github/license/shuunen/goals.svg?color=informational)](https://github.com/Shuunen/goals/blob/master/LICENSE)
 [![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/shuunen-goals.netlify.app.svg?publish)](https://observatory.mozilla.org/analyze/shuunen-goals.netlify.app)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Shuunen/goals?style=flat)](https://codeclimate.com/github/Shuunen/goals)
 [![Website](https://img.shields.io/website/https/shuunen-goals.netlify.app.svg)](https://shuunen-goals.netlify.app)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b96b92ed-f020-468f-95bc-61c0dbf24c91/deploy-status)](https://app.netlify.com/projects/shuunen-goals/deploys)
 [![Visitors](https://hits.sh/github.com/Shuunen/goals.svg?label=visitors&color=informational)](https://hits.sh/github.com/Shuunen/goals/)
 
 ![logo](docs/banner.svg)
