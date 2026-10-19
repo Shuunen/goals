@@ -266,30 +266,39 @@ ul.list::before {
   width: 0;
 }
 
+.item input[type='checkbox']::before,
+.item input[type='checkbox']::after {
+  height: 1.7rem;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='3.5' width='17' height='17' rx='2.5' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  width: 1.7rem;
+}
+
+/* svg masks instead of ☐ / 🗹 glyphs : those depend on the system font, and mobile fonts often lack them */
 .item input[type='checkbox']::before {
-  content: '☐';
+  background-color: currentColor;
+  content: '';
   cursor: pointer;
-  font-size: 2rem;
   left: 0;
   position: absolute;
-  top: 0.7rem;
+  top: 0.85rem;
 }
 
 .item input[type='checkbox']:checked::before {
-  color: var(--accent);
-  content: '🗹';
+  background-color: var(--accent);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='3.5' width='17' height='17' rx='2.5' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M7.5 12.5l3 3 6-7' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 /* the not-done checkbox gets its own tiny color wave on hover, left to right, same idea as the done label's */
 .item:not(.done) input[type='checkbox']::after {
+  background-color: var(--accent);
   clip-path: inset(0 100% 0 0);
-  color: var(--accent);
-  content: '☐';
-  font-size: 2rem;
+  content: '';
   left: 0;
   pointer-events: none;
   position: absolute;
-  top: 0.7rem;
+  top: 0.85rem;
   transition: clip-path 0.25s ease-out;
 }
 
@@ -299,7 +308,9 @@ ul.list::before {
 
 /* plays once, right when a goal gets checked off : the box pops and a burst of dots fires outward */
 .item.celebrate input[type='checkbox']::before {
-  animation: check-pop 0.38s ease-out;
+  animation:
+    check-pop 0.38s ease-out,
+    check-draw 0.3s ease-out;
 }
 
 .item.celebrate::after {
@@ -316,6 +327,16 @@ ul.list::before {
   position: absolute;
   top: -0.3rem;
   width: 2.6rem;
+}
+
+@keyframes check-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 @keyframes check-pop {
@@ -595,11 +616,13 @@ input.editable.title {
   font-family: var(--font);
 }
 
-/* a swatch rendered as a toggle button (the font grid, which can carry a T and/or L badge) rather than a
+/* a swatch rendered as a toggle button (the font grid, which can carry a Title and/or Label badge) rather than a
    radio label : reset the generic button chrome back to plain */
-button.swatch {
+button.swatch,
+button.swatch[aria-pressed='true'] {
   background: none;
   border: 0;
+  color: var(--fg);
   padding: 0;
 }
 
@@ -632,7 +655,7 @@ button.swatch {
   outline-offset: 3px;
 }
 
-/* the T (title) and L (labels) badges a font swatch wears to show what it's currently used for */
+/* the Title and Label badges a font swatch wears to show what it's currently used for */
 .marker {
   background: var(--accent);
   border-radius: 0.3rem;
