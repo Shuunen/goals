@@ -1,5 +1,5 @@
 import { createItem } from '../models/item.model'
-import { dataToHash, hashToData } from './hash.utils'
+import { dataToHash, hashToData, sanitizeText, writeHashSetting } from './hash.utils'
 
 const items = [createItem('have fun', false), createItem('avoid shitty job', true)]
 
@@ -17,6 +17,7 @@ describe('hashToData', () => {
             "title": "avoid shitty job",
           },
         ],
+        "settings": {},
         "title": "My great goals",
       }
     `)
@@ -35,6 +36,7 @@ describe('hashToData', () => {
             "title": "avoid shitty job",
           },
         ],
+        "settings": {},
         "title": "",
       }
     `)
@@ -44,6 +46,7 @@ describe('hashToData', () => {
     expect(hashToData('')).toMatchInlineSnapshot(`
       {
         "items": [],
+        "settings": {},
         "title": "",
       }
     `)
@@ -53,6 +56,7 @@ describe('hashToData', () => {
     expect(hashToData('#')).toMatchInlineSnapshot(`
       {
         "items": [],
+        "settings": {},
         "title": "",
       }
     `)
@@ -62,6 +66,7 @@ describe('hashToData', () => {
     expect(hashToData('#=')).toMatchInlineSnapshot(`
       {
         "items": [],
+        "settings": {},
         "title": "",
       }
     `)
@@ -71,5 +76,36 @@ describe('hashToData', () => {
 describe('dataToHash', () => {
   it('dataToHash A', () => {
     expect(dataToHash('My super tasks', items)).toMatchInlineSnapshot('"#My%20super%20tasks=have%20fun,!avoid%20shitty%20job"')
+  })
+})
+
+describe('sanitizeText', () => {
+  it('sanitizeText A strips unsupported chars and extra spaces', () => {
+    expect(sanitizeText('  hello,   world! = ok ')).toBe('hello world ok')
+  })
+})
+
+describe('settings in the hash', () => {
+  it('settings A hashToData reads the settings after the goals', () => {
+    expect(hashToData('#My%20goals=have%20fun&theme=dark&font=jetbrains-mono').settings).toStrictEqual({ font: 'jetbrains-mono', theme: 'dark' })
+  })
+
+  it('settings B hashToData reads settings even without goals', () => {
+    expect(hashToData('#&theme=dark')).toStrictEqual({ items: [], settings: { theme: 'dark' }, title: '' })
+  })
+
+  it('settings C dataToHash writes the settings after the goals', () => {
+    expect(dataToHash('My goals', items, { theme: 'dark' })).toBe('#My%20goals=have%20fun,!avoid%20shitty%20job&theme=dark')
+  })
+
+  it('settings D dataToHash writes only the settings when there are no goals', () => {
+    expect(dataToHash('', [], { theme: 'dark' })).toBe('#&theme=dark')
+  })
+
+  it('settings E writeHashSetting adds or replaces a setting and keeps the goals', () => {
+    document.location.hash = '#t=a,!b&theme=dark'
+    writeHashSetting('font', 'lora')
+    writeHashSetting('theme', 'rose')
+    expect(document.location.hash).toBe('#t=a,!b&theme=rose&font=lora')
   })
 })
