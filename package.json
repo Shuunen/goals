@@ -5,7 +5,7 @@
   "dependencies": {
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "shuutils": "^11.0.0"
+    "shuutils": "^12.0.0"
   },
   "description": "web app to visualize & reach goals",
   "devDependencies": {
@@ -18,15 +18,15 @@
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/coverage-v8": "^5.0.5",
     "@vitest/ui": "^5.0.5",
-    "happy-dom": "^21.0.3",
-    "knip": "~6.41.0",
-    "oxfmt": "^0.73.0",
-    "oxlint": "^1.88.0",
-    "oxlint-tsgolint": "^7.0.2004",
+    "happy-dom": "^21.0.4",
+    "knip": "~6.42.1",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
+    "oxlint-tsgolint": "^7.0.2005",
     "tailwindcss": "^4.3.3",
-    "turbo": "^2.11.9",
+    "turbo": "^2.11.10",
     "typescript": "~7.0.2",
-    "vite": "^8.3.4",
+    "vite": "^8.3.5",
     "vitest": "^5.0.5"
   },
   "homepage": "https://github.com/Shuunen/goals",
@@ -37,7 +37,7 @@
   ],
   "license": "GPL-3.0",
   "name": "@shuunen/goals",
-  "packageManager": "pnpm@12.14.0",
+  "packageManager": "pnpm@12.15.0",
   "private": true,
   "repository": {
     "type": "git",
