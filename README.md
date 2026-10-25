@@ -3,7 +3,6 @@
 [![GitHub license](https://img.shields.io/github/license/shuunen/goals.svg?color=informational)](https://github.com/Shuunen/goals/blob/master/LICENSE)
 [![Mozilla HTTP Observatory Grade](https://img.shields.io/mozilla-observatory/grade/shuunen-goals.netlify.app.svg?publish)](https://observatory.mozilla.org/analyze/shuunen-goals.netlify.app)
 [![Website](https://img.shields.io/website/https/shuunen-goals.netlify.app.svg)](https://shuunen-goals.netlify.app)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b96b92ed-f020-468f-95bc-61c0dbf24c91/deploy-status)](https://app.netlify.com/projects/shuunen-goals/deploys)
 [![Visitors](https://hits.sh/github.com/Shuunen/goals.svg?label=visitors&color=informational)](https://hits.sh/github.com/Shuunen/goals/)
 
 ![logo](docs/banner.svg)
@@ -24,13 +23,6 @@
 - [x] settings modal (gear icon) : 6 themes (paper, dark, ocean, sunset, forest, rose) and 6 fonts (caveat, indie, inter, lora, mono, grotesk) with live previews, plus a link to the repository and the app version
 - [x] theme & font are kept in the link too (`&theme=rose&font=lora`), so a shared link looks the same for everyone
 - [x] styled print
-
-## Todo
-
-- [x] WYSIWYG edit
-- [x] display themes
-- [x] styled print
-- [x] add settings modal with theme, link to repository, app version etc..
 
 ## Thanks
 
