@@ -847,6 +847,8 @@ button.swatch[aria-pressed='true'] {
 }
 
 @media print {
+  .settings-button,
+  .edit-button,
   .toast-area {
     display: none;
   }
@@ -855,7 +857,6 @@ button.swatch[aria-pressed='true'] {
     display: none;
   }
 
-  .toolbar,
   .modal-backdrop {
     display: none;
   }
