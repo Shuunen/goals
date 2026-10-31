@@ -460,4 +460,16 @@ describe('App', () => {
     expect(fireEvent.keyDown(middle, { key: 'Tab' })).toBe(true)
     expect(fireEvent.keyDown(middle, { key: 'a' })).toBe(true)
   })
+
+  it('App AG the size stepper offers a Reset only away from 100%, and announces the size politely', () => {
+    localStorage.clear()
+    document.location.hash = '#t=a'
+    render(<App />)
+    expect(screen.queryByText('Reset')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('Larger'))
+    expect(screen.getByLabelText('Current size')).toHaveAttribute('aria-live', 'polite')
+    expect(screen.getByLabelText('Current size')).toHaveTextContent('110%')
+    fireEvent.click(screen.getByText('Reset'))
+    expect(screen.getByLabelText('Current size')).toHaveTextContent('100%')
+  })
 })

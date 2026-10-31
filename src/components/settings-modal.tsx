@@ -2,25 +2,20 @@ import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { version } from '../../package.json'
 import { useDialogFocus } from '../hooks/use-dialog-focus'
 import { fontLabels, fonts, type Font } from '../hooks/use-font'
-import type { Size } from '../hooks/use-size'
 import { themes, type Theme } from '../hooks/use-theme'
 import { ChoiceGrid } from './choice-grid'
 import { CloseIcon } from './close-icon'
-import { SizeStepper } from './size-stepper'
+import { SizeStepper, type SizeStepperProps } from './size-stepper'
 
 type SettingsModalProps = {
-  canGrow: boolean
   canReset: boolean
-  canShrink: boolean
   isOpen: boolean
   labelFont: Font
   onClose: () => void
   onFontPick: (font: Font) => void
-  onLarger: () => void
   onReset: () => void
-  onSmaller: () => void
   onThemeChange: (theme: Theme) => void
-  size: Size
+  sizing: SizeStepperProps
   theme: Theme
   titleFont: Font
 }
@@ -51,7 +46,7 @@ function trapTab(event: ReactKeyboardEvent<HTMLDivElement>) {
   ;(isLeavingStart ? last : first)?.focus()
 }
 
-export function SettingsModal({ canGrow, canReset, canShrink, isOpen, labelFont, onClose, onFontPick, onLarger, onReset, onSmaller, onThemeChange, size, theme, titleFont }: SettingsModalProps) {
+export function SettingsModal({ canReset, isOpen, labelFont, onClose, onFontPick, onReset, onThemeChange, sizing, theme, titleFont }: SettingsModalProps) {
   const dialog = useDialogFocus(isOpen, onClose)
   return (
     // always mounted so it can animate in and out, inert & hidden from assistive tech while closed
@@ -65,7 +60,7 @@ export function SettingsModal({ canGrow, canReset, canShrink, isOpen, labelFont,
         </header>
         <ChoiceGrid attribute="data-theme" legend="Theme" onChange={onThemeChange} options={themes} value={theme} />
         <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Fonts" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
-        <SizeStepper canGrow={canGrow} canShrink={canShrink} onLarger={onLarger} onSmaller={onSmaller} size={size} />
+        <SizeStepper {...sizing} />
         <fieldset className="list-actions">
           <legend>Your list</legend>
           <button disabled={!canReset} onClick={onReset} type="button">

@@ -45,4 +45,20 @@ describe('useSize', () => {
     expect(smallest.result.current.size).toBe('10')
     localStorage.clear()
   })
+
+  it('useSize reset goes back to 100% and only shows when the size is not 100%', () => {
+    localStorage.clear()
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useSize())
+    expect(result.current.canReset).toBe(false)
+    act(() => {
+      result.current.larger()
+    })
+    expect(result.current.canReset).toBe(true)
+    act(() => {
+      result.current.reset()
+    })
+    expect(result.current.size).toBe('100')
+    expect(result.current.canReset).toBe(false)
+  })
 })

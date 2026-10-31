@@ -18,7 +18,7 @@ export function App() {
   const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
-  const { canGrow, canShrink, larger, size, smaller } = useSize()
+  const sizing = useSize()
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   // the buttons only step aside while reading : never while editing or with the settings open
@@ -41,18 +41,14 @@ export function App() {
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <ClearDone count={doneCount} isEditing={isEditing} onClear={clearDone} />
       <SettingsModal
-        canGrow={canGrow}
         canReset={doneCount > 0}
-        canShrink={canShrink}
         isOpen={isSettingsOpen}
         labelFont={labelFont}
         onClose={() => setIsSettingsOpen(false)}
         onFontPick={pickFont}
-        onLarger={larger}
         onReset={resetAll}
-        onSmaller={smaller}
         onThemeChange={changeTheme}
-        size={size}
+        sizing={sizing}
         theme={theme}
         titleFont={titleFont}
       />

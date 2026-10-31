@@ -8,10 +8,10 @@ const stepsEachSide = 10
 const sizes = Array.from({ length: stepsEachSide + stepsEachSide + 1 }, (_unused, index) => nbPercentMax + (index - stepsEachSide) * gap)
   .filter(size => size > 0)
   .map(String)
-export type Size = string
+const defaultSize = String(nbPercentMax)
 
 export function useSize() {
-  const [size, changeSize] = usePreference('size', sizes, String(nbPercentMax))
+  const [size, changeSize] = usePreference('size', sizes, defaultSize)
   const index = sizes.indexOf(size)
 
   // every length of the app is in rem, so scaling the root font size scales the text, line heights & icons together
@@ -21,5 +21,6 @@ export function useSize() {
 
   const smaller = useCallback(() => changeSize(sizes[index - 1] ?? size), [changeSize, index, size])
   const larger = useCallback(() => changeSize(sizes[index + 1] ?? size), [changeSize, index, size])
-  return { canGrow: index < sizes.length - 1, canShrink: index > 0, larger, size, smaller }
+  const reset = useCallback(() => changeSize(defaultSize), [changeSize])
+  return { canGrow: index < sizes.length - 1, canReset: size !== defaultSize, canShrink: index > 0, larger, reset, size, smaller }
 }
