@@ -69,7 +69,6 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText('New goal'), { target: { value: 'd' } })
     fireEvent.blur(screen.getByLabelText('New goal'))
     fireEvent.click(screen.getAllByLabelText('Remove a')[0])
-    fireEvent.click(screen.getByLabelText('Confirm removing a'))
     expect(document.location.hash).toBe('#Mine=a,c,d')
     fireEvent.click(screen.getByTitle('Edit'))
     expect(screen.queryByLabelText('Title')).toBeNull()
@@ -158,17 +157,20 @@ describe('App', () => {
     vi.useRealTimers()
   })
 
-  it('App H asks for a confirmation before removing and cancels on blur or when the pointer leaves', () => {
-    document.location.hash = '#t=a,b'
+  it('App H removes at once, the toast gives back the most recent removal where it was', () => {
+    document.location.hash = '#t=a,!b,c'
     render(<App />)
     fireEvent.click(screen.getByTitle('Edit'))
-    fireEvent.click(screen.getByLabelText('Remove a'))
-    expect(document.location.hash).toBe('#t=a,b')
-    fireEvent.blur(screen.getByLabelText('Confirm removing a'))
-    expect(screen.queryByLabelText('Confirm removing a')).toBeNull()
     fireEvent.click(screen.getByLabelText('Remove b'))
-    fireEvent.pointerLeave(screen.getByLabelText('Confirm removing b'))
-    expect(screen.queryByLabelText('Confirm removing b')).toBeNull()
+    expect(screen.getByText('Removed “b”')).toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('Remove a'))
+    expect(document.location.hash).toBe('#t=c')
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,c')
+    fireEvent.click(screen.getByLabelText('Remove c'))
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,c')
+    expect(screen.queryByText('Undo')).not.toBeInTheDocument()
   })
 
   it('App I closes the settings with the escape key only', () => {
@@ -293,5 +295,45 @@ describe('App', () => {
     render(<App />)
     fireEvent.click(screen.getByLabelText('a'))
     expect(document.location.hash).toBe('#t=!a')
+  })
+
+  it('App T Escape leaves the edit mode when no field is focused', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    fireEvent.keyDown(document.body, { key: 'a' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    expect(screen.queryByLabelText('Goal 1')).not.toBeInTheDocument()
+  })
+
+  it('App U Escape in a field only gives the text back, the edit mode stays', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const field = screen.getByLabelText('Goal 1')
+    field.focus()
+    fireEvent.keyDown(field, { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    field.focus()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+  })
+
+  it('App V Escape keeps the edit mode during a drag, with the settings open or on a toast button', () => {
+    document.location.hash = '#t=!a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    document.querySelector('ul.list')?.classList.add('is-dragging')
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    document.querySelector('ul.list')?.classList.remove('is-dragging')
+    fireEvent.click(screen.getByTitle('Settings'))
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    fireEvent.click(screen.getByText('Reset all'))
+    screen.getByText('Undo').focus()
+    fireEvent.keyDown(screen.getByText('Undo'), { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
   })
 })

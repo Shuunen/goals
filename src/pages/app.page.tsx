@@ -6,6 +6,7 @@ import { PencilIcon } from '../components/pencil-icon'
 import { ProgressBar } from '../components/progress-bar'
 import { SettingsModal } from '../components/settings-modal'
 import { Toast } from '../components/toast'
+import { useEscapeToLeave } from '../hooks/use-escape-to-leave'
 import { useFont } from '../hooks/use-font'
 import { useScrollHide } from '../hooks/use-scroll-hide'
 import { useSize } from '../hooks/use-size'
@@ -22,6 +23,8 @@ export function App() {
   // the buttons only step aside while reading : never while editing or with the settings open
   const isScrolledAway = useScrollHide() && !isEditing && !isSettingsOpen
   const cornerClass = isScrolledAway ? 'is-away' : ''
+  // with the settings open, the Escape key closes them first
+  useEscapeToLeave(isEditing && !isSettingsOpen, () => setIsEditing(false))
   const doneCount = items.filter(item => item.isDone).length
   return (
     <main>
