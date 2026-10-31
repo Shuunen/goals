@@ -82,14 +82,14 @@ function useUndo(setState: SetState, markChanged: () => void) {
   return { forget, remember, undo }
 }
 
-// a checked goal sinks to the end of the list, an unchecked one goes back to the boundary, right after the open goals
+// a toggled goal goes to the boundary between open & done goals (the top of the done ones), so a goal already next to it doesn't move
 function toggleAt(state: State, index: number): State {
   const item = state.items[index]
   if (item === undefined) return state
   const toggled = { ...item, isDone: !item.isDone }
   const others = state.items.filter((_other, otherIndex) => otherIndex !== index)
   const firstDone = others.findIndex(other => other.isDone)
-  const target = toggled.isDone || firstDone === -1 ? others.length : firstDone
+  const target = firstDone === -1 ? others.length : firstDone
   return { ...state, items: [...others.slice(0, target), toggled, ...others.slice(target)] }
 }
 

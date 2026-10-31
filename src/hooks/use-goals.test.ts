@@ -50,14 +50,14 @@ describe('useGoals', () => {
     `)
   })
 
-  it('useGoals C toggleItem checks a goal, which sinks to the end, and updates the hash', () => {
+  it('useGoals C toggleItem checks a goal, which goes to the top of the done ones, and updates the hash', () => {
     document.location.hash = '#My%20great%20goals=have%20fun,!avoid%20shitty%20job'
     const { result } = renderHook(() => useGoals())
     act(() => {
       result.current.toggleItem(0)
     })
     expect(result.current.items[0]?.isDone).toBe(true)
-    expect(document.location.hash).toBe('#My%20great%20goals=!avoid%20shitty%20job,!have%20fun')
+    expect(document.location.hash).toBe('#My%20great%20goals=!have%20fun,!avoid%20shitty%20job')
   })
 
   it('useGoals D toggleItem flips a done item back to undone', () => {
@@ -324,14 +324,14 @@ describe('useGoals', () => {
     ])
   })
 
-  it('useGoals Z checking the last open goal & toggling a missing one', () => {
+  it('useGoals Z checking the last open goal keeps its place & toggling a missing one', () => {
     document.location.hash = '#t=a,!b'
     const { result } = renderHook(() => useGoals())
     act(() => {
       result.current.toggleItem(0)
       result.current.toggleItem(9)
     })
-    expect(result.current.items.map(item => item.title)).toStrictEqual(['b', 'a'])
+    expect(result.current.items.map(item => item.title)).toStrictEqual(['a', 'b'])
   })
 
   it('useGoals resetAll unchecks every goal and keeps the order', () => {
