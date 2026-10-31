@@ -210,32 +210,37 @@ h1.title {
   transition: width 0.3s ease-out;
 }
 
-/* every goal done : a bigger burst around the bar & a short glow */
-.progress-wrap.celebrate::after {
-  animation: confetti-burst 0.9s ease-out;
-  background-color: var(--accent);
-  content: '';
-  height: 14rem;
-  left: 50%;
-  margin: -7rem 0 0 -7rem;
-  mask-image: var(--confetti);
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 50%;
-  width: 14rem;
+/* the stamp lands with a short thud, tilted like a real one */
+.done-stamp {
+  /* always green, whatever the theme : it says "all good" */
+  color: #22a559;
+  margin-top: 1rem;
+  position: relative;
+  z-index: 10;
 }
 
-.progress-wrap.celebrate .progress {
-  animation: glow 1.2s ease-out;
+.done-stamp-art {
+  animation: stamp-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  display: block;
+  opacity: 0.85;
+  transform: rotate(-6deg);
+  width: min(14rem, 60vw);
 }
 
-@keyframes glow {
-  30% {
-    filter: drop-shadow(0 0 0.8rem var(--accent));
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.8);
   }
+}
+
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 /* in edit mode the add row is the way in, no hint needed */
@@ -1213,8 +1218,7 @@ ul.list > li.dragging > .item.editing > * {
     transition: none;
   }
 
-  .progress-wrap.celebrate::after,
-  .progress-wrap.celebrate .progress {
+  .done-stamp-art {
     animation: none;
   }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ClearDone } from '../components/clear-done'
+import { DoneStamp } from '../components/done-stamp'
 import { EditableText } from '../components/editable-text'
 import { GearIcon } from '../components/gear-icon'
 import { GoalList } from '../components/goal-list'
@@ -43,7 +44,8 @@ export function App() {
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
-      <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
+      <ProgressBar done={doneCount} total={items.length} />
+      {items.length > 0 && doneCount === items.length ? <DoneStamp /> : undefined}
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <UrlWarning isEditing={isEditing} length={shareUrl.length} />
