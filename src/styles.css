@@ -138,7 +138,7 @@
 }
 
 html {
-  font-size: min(max(12px, 3vw), 16px);
+  font-size: calc(min(max(12px, 3vw), 16px) * var(--zoom, 1));
   scroll-behavior: smooth;
 }
 
@@ -588,10 +588,37 @@ input.editable.title {
   padding: 0;
 }
 
-.choices legend {
+.choices legend,
+.size-stepper legend {
   margin-bottom: 0.6rem;
   opacity: 0.7;
   padding: 0;
+}
+
+.size-stepper {
+  align-items: center;
+  border: 0;
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0 1.6rem;
+  padding: 0;
+}
+
+.size-stepper button {
+  height: 2.6rem;
+  line-height: 1;
+  padding: 0;
+  width: 2.6rem;
+}
+
+.size-stepper button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.size-stepper output {
+  min-width: 4ch;
+  text-align: center;
 }
 
 .swatch {
