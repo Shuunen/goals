@@ -11,6 +11,7 @@ import { UrlWarning } from '../components/url-warning'
 import { useEscapeToLeave } from '../hooks/use-escape-to-leave'
 import { useFont } from '../hooks/use-font'
 import { useScrollHide } from '../hooks/use-scroll-hide'
+import { updateToastDuration, useServiceWorker } from '../hooks/use-service-worker'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
 import { useUndoableGoals } from '../hooks/use-undoable-goals'
@@ -18,7 +19,7 @@ import { clearEverything } from '../utils/reset.utils'
 import { buildShareUrl } from '../utils/url.utils'
 
 export function App() {
-  const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, replaceList, resetAll, title, toast, toggleItem } = useUndoableGoals()
+  const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, replaceList, resetAll, showToast, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const sizing = useSize()
@@ -27,6 +28,8 @@ export function App() {
   // the buttons only step aside while reading : never while editing or with the settings open
   const isScrolledAway = useScrollHide() && !isEditing && !isSettingsOpen
   const cornerClass = isScrolledAway ? 'is-away' : ''
+  // the offline worker of the built app : a new version waits for the user, who can read it in the toast
+  useServiceWorker(apply => showToast({ actionLabel: 'Reload', duration: updateToastDuration, message: 'New version available', onAction: apply }))
   // with the settings open, the Escape key closes them first
   useEscapeToLeave(isEditing && !isSettingsOpen, () => setIsEditing(false))
   // the name says what a press does, so there is no pressed state to announce twice

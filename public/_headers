@@ -1,5 +1,7 @@
 /*
-  Content-Security-Policy: script-src 'self' 'strict-dynamic' 'nonce-shu6692n1' 'unsafe-inline' http: https:; object-src 'none'; base-uri 'self';
+  Content-Security-Policy: script-src 'self' 'strict-dynamic' 'nonce-shu6692n1' 'unsafe-inline' http: https:; object-src 'none'; base-uri 'self'; worker-src 'self';
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
+/sw.js
+  Cache-Control: no-cache
