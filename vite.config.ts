@@ -23,6 +23,7 @@ export default defineConfig({
   server: { port: 5103, strictPort: true },
   test: {
     coverage: {
+      exclude: ['src/assets/**'],
       provider: 'v8' as const,
       thresholds: {
         100: true,

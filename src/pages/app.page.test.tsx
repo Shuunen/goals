@@ -280,7 +280,7 @@ describe('App', () => {
     vi.useFakeTimers()
     document.location.hash = '#t=!a'
     render(<App />)
-    fireEvent.click(screen.getByText('Reset all'))
+    fireEvent.click(screen.getAllByText('Reset all')[0])
     act(() => {
       vi.advanceTimersByTime(5000)
     })
@@ -342,7 +342,7 @@ describe('App', () => {
     document.querySelector('ul.list')?.classList.remove('is-dragging')
     fireEvent.click(screen.getByTitle('Settings'))
     fireEvent.keyDown(document.body, { key: 'Escape' })
-    fireEvent.click(screen.getByText('Reset all'))
+    fireEvent.click(screen.getAllByText('Reset all')[0])
     screen.getByText('Undo').focus()
     fireEvent.keyDown(screen.getByText('Undo'), { key: 'Escape' })
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
@@ -405,9 +405,8 @@ describe('App', () => {
   it('App AB clear done removes every done goal in edit mode, and the toast gives them back', () => {
     document.location.hash = '#t=a,!b,c,!d'
     render(<App />)
-    expect(screen.getByText('Clear done (2)').closest('button')).toHaveAttribute('inert')
+    expect(screen.queryByText('Clear done (2)')).not.toBeInTheDocument()
     fireEvent.click(editButton())
-    expect(screen.getByText('Clear done (2)').closest('button')).not.toHaveAttribute('inert')
     fireEvent.click(screen.getByText('Clear done (2)'))
     expect(document.location.hash).toBe('#t=a,c')
     expect(screen.getByText('Cleared 2 done goals')).toBeInTheDocument()
@@ -480,10 +479,9 @@ describe('App', () => {
     const long = Array.from({ length: 150 }, (_unused, index) => `goal number ${index}`).join(',')
     document.location.hash = `#t=${long}`
     render(<App />)
-    const warning = screen.getByText(/getting long/u)
-    expect(warning).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.queryByText(/getting long/u)).not.toBeInTheDocument()
     fireEvent.click(editButton())
-    expect(warning).toHaveAttribute('aria-hidden', 'false')
+    expect(screen.getByText(/getting long/u)).toBeInTheDocument()
     expect(screen.getByText(/some apps may cut such a long link/u)).toBeInTheDocument()
   })
 
@@ -533,5 +531,27 @@ describe('App', () => {
     expect(screen.getByText('New version available')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Reload'))
     expect(apply).toHaveBeenCalledOnce()
+  })
+
+  it('App AN the done illustration shows when every goal is done, but not while editing', () => {
+    document.location.hash = '#t=!a,!b'
+    render(<App />)
+    expect(screen.getByText('All goals done')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Edit goals' }))
+    expect(screen.queryByText('All goals done')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Done editing' }))
+    expect(screen.getByText('All goals done')).toBeInTheDocument()
+  })
+
+  it('App AO a reset all button under the list appears once every goal is done and unchecks them', () => {
+    document.location.hash = '#t=a,!b'
+    render(<App />)
+    // only the one in the settings
+    expect(screen.getAllByText('Reset all')).toHaveLength(1)
+    fireEvent.click(screen.getByText('a'))
+    expect(screen.getAllByText('Reset all')).toHaveLength(2)
+    fireEvent.click(screen.getAllByText('Reset all')[0])
+    expect(document.location.hash).toBe('#t=a,b')
+    expect(screen.getAllByText('Reset all')).toHaveLength(1)
   })
 })

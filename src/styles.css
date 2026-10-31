@@ -210,32 +210,27 @@ h1.title {
   transition: width 0.3s ease-out;
 }
 
-/* every goal done : a bigger burst around the bar & a short glow */
-.progress-wrap.celebrate::after {
-  animation: confetti-burst 0.9s ease-out;
-  background-color: var(--accent);
-  content: '';
-  height: 14rem;
-  left: 50%;
-  margin: -7rem 0 0 -7rem;
-  mask-image: var(--confetti);
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  opacity: 0;
-  pointer-events: none;
+/* the illustration pops in where the progress bar was */
+.done-illustration {
+  margin-top: 1rem;
+  position: relative;
+  z-index: 10;
+}
+
+.done-illustration-art {
+  display: block;
+  height: auto;
+  margin-inline: auto;
+  width: min(28rem, 100%);
+}
+
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
   position: absolute;
-  top: 50%;
-  width: 14rem;
-}
-
-.progress-wrap.celebrate .progress {
-  animation: glow 1.2s ease-out;
-}
-
-@keyframes glow {
-  30% {
-    filter: drop-shadow(0 0 0.8rem var(--accent));
-  }
+  white-space: nowrap;
+  width: 1px;
 }
 
 /* in edit mode the add row is the way in, no hint needed */
@@ -731,10 +726,6 @@ li:not(.new-row) .item.editing .editable,
   padding-left: 4.7rem;
 }
 
-.invisible {
-  visibility: hidden;
-}
-
 /* zero width so the add row never makes the list wider, its input just overflows, up to the screen edge */
 .new-row {
   width: 0;
@@ -756,7 +747,8 @@ li:not(.new-row) .item.editing .editable,
   z-index: 10;
 }
 
-.clear-done {
+.clear-done,
+.reset-all {
   font-size: 1.6rem;
   margin-top: 0.4rem;
   padding: 0.4rem 1.2rem;
@@ -1138,6 +1130,7 @@ button.swatch[aria-pressed='true'] {
   .edit-button,
   .progress-wrap,
   .clear-done,
+  .reset-all,
   .url-warning,
   .empty-hint,
   .toast-area {
@@ -1211,11 +1204,6 @@ ul.list > li.dragging > .item.editing > * {
   .settings-button,
   .edit-button {
     transition: none;
-  }
-
-  .progress-wrap.celebrate::after,
-  .progress-wrap.celebrate .progress {
-    animation: none;
   }
 
   .toast,

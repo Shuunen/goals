@@ -1,10 +1,10 @@
 type ClearDoneProps = { count: number; isEditing: boolean; onClear: () => void }
 
-// below the list and there whenever something is done, like the add row, so the goals never move when switching modes
+// below the list while editing and something is done, gone the rest of the time so it leaves no gap
 export function ClearDone({ count, isEditing, onClear }: Readonly<ClearDoneProps>) {
-  if (count === 0) return undefined
+  if (count === 0 || !isEditing) return undefined
   return (
-    <button aria-hidden={!isEditing} className={`clear-done ${isEditing ? '' : 'invisible'}`} inert={!isEditing} onClick={onClear} type="button">
+    <button className="clear-done" onClick={onClear} type="button">
       Clear done ({count})
     </button>
   )
