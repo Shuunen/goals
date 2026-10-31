@@ -5,6 +5,7 @@ import { EditableText } from './editable-text'
 import { RemoveButton } from './remove-button'
 
 const celebrationDuration = 500
+const hapticDuration = 10
 
 type GoalRowProps = {
   handleProps?: DragHandleProps
@@ -28,9 +29,13 @@ export function GoalRow({ handleProps, index, isEditing, item, onRemove, onRenam
     )
   // only the moment a goal gets checked off deserves a burst, never a goal that merely loads already done
   const onChange = () => {
-    if (!item.isDone && !globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsCelebrating(true)
-      setTimeout(() => setIsCelebrating(false), celebrationDuration)
+    if (!item.isDone) {
+      // a short tick under the finger, where the device has a vibration motor
+      globalThis.navigator.vibrate?.(hapticDuration)
+      if (!globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setIsCelebrating(true)
+        setTimeout(() => setIsCelebrating(false), celebrationDuration)
+      }
     }
     onToggle(index)
   }
