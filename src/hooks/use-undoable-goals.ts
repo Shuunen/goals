@@ -7,43 +7,38 @@ import { useToast } from './use-toast'
 export function useUndoableGoals() {
   const goals = useGoals()
   const { dismissToast, showToast, toast } = useToast()
-  const { addItems, clearDone, forget, items, remember, removeItem, resetAll, undo } = goals
+  const { addItems, clearDone, forget, items, remember, removeItem, replaceList, resetAll, undo } = goals
 
-  const announce = useCallback((message: string) => showToast({ actionLabel: 'Undo', message, onAction: undo, onExpire: forget }), [forget, showToast, undo])
-
-  const resetAllUndoable = useCallback(() => {
-    remember()
-    resetAll()
-    announce('All goals unchecked')
-  }, [announce, remember, resetAll])
+  const undoable = useCallback(
+    (message: string, action: () => void) => {
+      remember()
+      action()
+      showToast({ actionLabel: 'Undo', message, onAction: undo, onExpire: forget })
+    },
+    [forget, remember, showToast, undo],
+  )
 
   const removeItemUndoable = useCallback(
     (index: number) => {
       const item = items[index]
-      if (item === undefined) return
-      remember()
-      removeItem(index)
-      announce(`Removed “${item.title}”`)
+      if (item !== undefined) undoable(`Removed “${item.title}”`, () => removeItem(index))
     },
-    [announce, items, remember, removeItem],
-  )
-
-  const addItemsUndoable = useCallback(
-    (added: Item[]) => {
-      remember()
-      addItems(added)
-      announce(`Added ${added.length} goals`)
-    },
-    [addItems, announce, remember],
+    [items, removeItem, undoable],
   )
 
   const clearDoneUndoable = useCallback(() => {
     const count = items.filter(item => item.isDone).length
-    if (count === 0) return
-    remember()
-    clearDone()
-    announce(`Cleared ${count} done ${count === 1 ? 'goal' : 'goals'}`)
-  }, [announce, clearDone, items, remember])
+    if (count > 0) undoable(`Cleared ${count} done ${count === 1 ? 'goal' : 'goals'}`, clearDone)
+  }, [clearDone, items, undoable])
 
-  return { ...goals, addItems: addItemsUndoable, clearDone: clearDoneUndoable, dismissToast, removeItem: removeItemUndoable, resetAll: resetAllUndoable, toast }
+  return {
+    ...goals,
+    addItems: (added: Item[]) => undoable(`Added ${added.length} goals`, () => addItems(added)),
+    clearDone: clearDoneUndoable,
+    dismissToast,
+    removeItem: removeItemUndoable,
+    replaceList: (imported: Item[], title?: string) => undoable(`List replaced by ${imported.length} goals`, () => replaceList(imported, title)),
+    resetAll: () => undoable('All goals unchecked', resetAll),
+    toast,
+  }
 }
