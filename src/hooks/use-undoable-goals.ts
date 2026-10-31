@@ -39,6 +39,7 @@ export function useUndoableGoals() {
     removeItem: removeItemUndoable,
     replaceList: (imported: Item[], title?: string) => undoable(`List replaced by ${imported.length} goals`, () => replaceList(imported, title)),
     resetAll: () => undoable('All goals unchecked', resetAll),
+    showToast,
     toast,
   }
 }

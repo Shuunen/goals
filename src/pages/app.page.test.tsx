@@ -1,5 +1,8 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
+import { useServiceWorker } from '../hooks/use-service-worker'
 import { App } from './app.page'
+
+vi.mock(import('../hooks/use-service-worker'), async importOriginal => ({ ...(await importOriginal()), useServiceWorker: vi.fn<() => void>() }))
 
 function indexOf(element: HTMLElement) {
   return [...(element.parentElement?.children ?? [])].indexOf(element)
@@ -519,5 +522,16 @@ describe('App', () => {
     expect(localStorage.getItem('goals-saved')).toBeNull()
     expect(reload).toHaveBeenCalledOnce()
     reload.mockRestore()
+  })
+
+  it('App AM a waiting update shows a Reload toast that applies it', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    const offer = vi.mocked(useServiceWorker).mock.calls.at(-1)?.[0]
+    const apply = vi.fn<() => void>()
+    act(() => offer?.(apply))
+    expect(screen.getByText('New version available')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Reload'))
+    expect(apply).toHaveBeenCalledOnce()
   })
 })

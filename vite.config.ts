@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vitest/config'
 import { cspNonce } from './src/plugins/csp-nonce.ts'
+import { offline } from './src/plugins/offline.ts'
 import { uniqueMark } from './src/plugins/unique-mark.ts'
 
 // oxlint-disable-next-line import/no-default-export
@@ -16,7 +17,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react(), tailwindcss(), uniqueMark(), cspNonce()],
+  plugins: [react(), tailwindcss(), uniqueMark(), cspNonce(), offline()],
   test: {
     coverage: {
       provider: 'v8' as const,
