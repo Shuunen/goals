@@ -180,6 +180,25 @@ h1.title {
   z-index: 10;
 }
 
+/* same in view & edit mode, so toggling moves nothing */
+.progress {
+  background: color-mix(in srgb, var(--fg) 12%, transparent);
+  border-radius: 0.2rem;
+  height: 0.25rem;
+  margin-top: 1rem;
+  overflow: hidden;
+  /* above the list backdrop, which bleeds upward */
+  width: min(16rem, 60vw);
+  z-index: 10;
+}
+
+.progress-fill {
+  background: var(--accent);
+  border-radius: inherit;
+  height: 100%;
+  transition: width 0.3s ease-out;
+}
+
 ul.list {
   font-size: 3rem;
   isolation: isolate;
@@ -930,6 +949,7 @@ button.swatch[aria-pressed='true'] {
 @media print {
   .settings-button,
   .edit-button,
+  .progress,
   .toast-area {
     display: none;
   }
@@ -997,6 +1017,10 @@ ul.list > li.dragging > .item.editing > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .progress-fill {
+    transition: none;
+  }
+
   .toast,
   .editable.shake {
     animation: none;

@@ -3,6 +3,7 @@ import { EditableText } from '../components/editable-text'
 import { GearIcon } from '../components/gear-icon'
 import { GoalList } from '../components/goal-list'
 import { PencilIcon } from '../components/pencil-icon'
+import { ProgressBar } from '../components/progress-bar'
 import { SettingsModal } from '../components/settings-modal'
 import { Toast } from '../components/toast'
 import { useFont } from '../hooks/use-font'
@@ -26,6 +27,7 @@ export function App() {
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
+      <ProgressBar done={items.filter(item => item.isDone).length} total={items.length} />
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <SettingsModal
         canGrow={canGrow}
