@@ -26,7 +26,7 @@
 [data-theme='forest'] {
   --bg: #14261c;
   --fg: #dcefe2;
-  --surface: #14261c;
+  --surface: #1b3126;
   --accent: #7bd88f;
   --done-opacity: 0.7;
 }
@@ -118,7 +118,7 @@
 [data-theme='dark'] {
   --bg: #282a36;
   --fg: #f8f8f2;
-  --surface: #282a36;
+  --surface: #30333f;
   --accent: #bd93f9;
   --done-opacity: 0.85;
 }
@@ -881,11 +881,18 @@ li:not(.new-row) .item.editing .editable,
   padding: 0;
 }
 
+/* a comfortable hit area : the root font size can be as low as 12px, so rem alone could end up under 44px */
 .size-stepper button {
-  height: 2.6rem;
+  font-size: 2rem;
+  height: max(3.4rem, 44px);
   line-height: 1;
+  min-width: max(3.4rem, 44px);
   padding: 0;
-  width: 2.6rem;
+}
+
+.size-stepper .size-reset {
+  font-size: 1.6rem;
+  padding: 0 1.2rem;
 }
 
 .size-stepper button:disabled {
