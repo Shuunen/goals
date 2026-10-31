@@ -8,7 +8,8 @@ function indexOf(element: HTMLElement) {
 // happy-dom does not implement the layout, so rows are stacked 100px apart in the order of the dom
 function mockLayout() {
   const rect = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function mock(this: HTMLElement) {
-    return { top: indexOf(this) * 100 } as DOMRect
+    const top = indexOf(this) * 100
+    return { bottom: top + 100, height: 100, left: 0, right: 300, top, width: 300 } as DOMRect
   })
   Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { configurable: true, value: 100 })
   Object.defineProperty(HTMLElement.prototype, 'offsetTop', {
@@ -18,6 +19,13 @@ function mockLayout() {
     },
   })
   return () => rect.mockRestore()
+}
+
+// lets dnd-kit run its own state updates, which it schedules after the event
+async function settle() {
+  await act(async () => {
+    await vi.advanceTimersByTimeAsync(0)
+  })
 }
 
 describe('App', () => {
@@ -100,57 +108,44 @@ describe('App', () => {
     localStorage.clear()
   })
 
-  it('App E reorders goals with the keyboard', () => {
-    document.location.hash = '#t=a,b,c'
-    render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
-    fireEvent.keyDown(screen.getByLabelText('Move goal 1'), { key: 'x' })
-    expect(document.location.hash).toBe('#t=a,b,c')
-    fireEvent.keyDown(screen.getByLabelText('Move goal 1'), { key: 'ArrowDown' })
-    expect(document.location.hash).toBe('#t=b,a,c')
-    fireEvent.keyDown(screen.getByLabelText('Move goal 3'), { key: 'ArrowUp' })
-    expect(document.location.hash).toBe('#t=b,c,a')
-  })
-
-  it('App F reorders goals by dragging a handle', () => {
+  it('App E reorders goals with the keyboard : Space picks up, arrows move, Space drops', async () => {
+    vi.useFakeTimers()
     document.location.hash = '#t=a,b,c'
     const restore = mockLayout()
     render(<App />)
     fireEvent.click(screen.getByTitle('Edit'))
-    const list = screen.getByRole('list')
-    fireEvent.pointerMove(list, { clientY: 250 })
-    fireEvent.pointerDown(screen.getByLabelText('Move goal 1'))
-    fireEvent.pointerMove(list, { clientY: 20 })
-    expect(document.location.hash).toBe('#t=a,b,c')
-    fireEvent.pointerMove(list, { clientY: 450 })
-    expect(document.location.hash).toBe('#t=b,c,a')
-    fireEvent.pointerMove(list, { clientY: 120 })
-    expect(document.location.hash).toBe('#t=b,a,c')
-    fireEvent.pointerUp(globalThis as unknown as Window)
-    expect(list).not.toHaveClass('is-dragging')
-    restore()
-  })
-
-  it('App F2 animates the rows that moved', () => {
-    document.location.hash = '#t=a,b,c'
-    const animate = vi.fn<() => void>()
-    Object.defineProperty(HTMLElement.prototype, 'animate', { configurable: true, value: animate })
-    const restore = mockLayout()
-    render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
-    fireEvent.keyDown(screen.getByLabelText('Move goal 1'), { key: 'ArrowDown' })
-    expect(animate).toHaveBeenCalledWith(expect.any(Array), expect.objectContaining({ duration: 220 }))
-    restore()
-  })
-
-  it('App G releases the handle when the pointer is cancelled', () => {
-    document.location.hash = '#t=a,b'
-    render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
-    fireEvent.pointerDown(screen.getByLabelText('Move goal 1'))
+    const handle = screen.getByLabelText('Move goal 1')
+    handle.focus()
+    fireEvent.keyDown(handle, { code: 'Space', key: ' ' })
+    await settle()
     expect(screen.getByRole('list')).toHaveClass('is-dragging')
-    fireEvent.pointerCancel(globalThis as unknown as Window)
+    fireEvent.keyDown(document, { code: 'ArrowDown', key: 'ArrowDown' })
+    await settle()
+    fireEvent.keyDown(document, { code: 'Space', key: ' ' })
+    await settle()
+    expect(document.location.hash).toBe('#t=b,a,c')
     expect(screen.getByRole('list')).not.toHaveClass('is-dragging')
+    restore()
+    vi.useRealTimers()
+  })
+
+  it('App F leaves the order alone when a drag is cancelled', async () => {
+    vi.useFakeTimers()
+    document.location.hash = '#t=a,b,c'
+    const restore = mockLayout()
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const handle = screen.getByLabelText('Move goal 1')
+    handle.focus()
+    fireEvent.keyDown(handle, { code: 'Space', key: ' ' })
+    await settle()
+    fireEvent.keyDown(document, { code: 'ArrowDown', key: 'ArrowDown' })
+    fireEvent.keyDown(document, { code: 'Escape', key: 'Escape' })
+    await settle()
+    expect(document.location.hash).toBe('#t=a,b,c')
+    expect(screen.getByRole('list')).not.toHaveClass('is-dragging')
+    restore()
+    vi.useRealTimers()
   })
 
   it('App H asks for a confirmation before removing and cancels on blur or when the pointer leaves', () => {
