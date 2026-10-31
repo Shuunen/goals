@@ -246,8 +246,11 @@ ul.list::before {
   --box-y: 0.9rem;
 }
 
-.item:not(.done):hover .title {
-  --strike: 20px;
+/* hover previews only exist where there is a real hover : on touch screens :hover sticks after a tap */
+@media (hover: hover) {
+  .item:not(.done):hover .title {
+    --strike: 20px;
+  }
 }
 
 .item.done .title {
@@ -255,9 +258,11 @@ ul.list::before {
   --wipe: 100%;
 }
 
-.item.done:hover .title {
-  --strike: calc(100% - 20px);
-  --wipe: calc(100% - 20px);
+@media (hover: hover) {
+  .item.done:hover .title {
+    --strike: calc(100% - 20px);
+    --wipe: calc(100% - 20px);
+  }
 }
 
 .item.done {
@@ -265,8 +270,10 @@ ul.list::before {
   opacity: 0.55;
 }
 
-.item.done:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .item.done:hover {
+    opacity: 1;
+  }
 }
 
 .item input[type='checkbox'] {
@@ -311,8 +318,10 @@ ul.list::before {
   transition: clip-path 0.25s ease-out;
 }
 
-.item:not(.done):hover input[type='checkbox']::after {
-  clip-path: inset(0 0 0 0);
+@media (hover: hover) {
+  .item:not(.done):hover input[type='checkbox']::after {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 /* plays once, right when a goal gets checked off : the box pops and a burst of dots fires outward */
