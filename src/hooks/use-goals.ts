@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createItem, type Item } from '../models/item.model'
+import { defaultTitle, storagePrefix } from '../utils/defaults.utils'
 import { dataToHash, hashToData, replaceHash, sanitizeText } from '../utils/hash.utils'
 import { logger } from '../utils/logger.utils'
 
-const defaultTitle = 'Goals'
 const defaultItems = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => createItem(title, index === 1))
 
-const storageKey = 'goals-saved'
+const storageKey = `${storagePrefix}saved`
 
 type Snapshot = { items: Item[]; title: string }
 type State = Snapshot & { undoStack: Snapshot[] }
@@ -133,10 +133,12 @@ export function useGoals() {
     [update],
   )
   const resetAll = useCallback(() => update(previous => ({ ...previous, items: previous.items.map(item => ({ ...item, isDone: false })) })), [update])
+  // a whole new list, the imported title replaces the current one when it has one
+  const replaceList = useCallback((items: Item[], title?: string) => update(previous => ({ ...previous, items, title: title ?? previous.title })), [update])
   const clearDone = useCallback(() => update(previous => ({ ...previous, items: previous.items.filter(item => !item.isDone) })), [update])
   const removeItem = useCallback((index: number) => update(previous => ({ ...previous, items: previous.items.filter((_item, itemIndex) => itemIndex !== index) })), [update])
 
   const { forget, remember, undo } = useUndo(setState, markChanged)
 
-  return { addItem, addItems, clearDone, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, resetAll, title: state.title, toggleItem, undo }
+  return { addItem, addItems, clearDone, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, replaceList, resetAll, title: state.title, toggleItem, undo }
 }

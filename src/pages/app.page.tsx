@@ -14,10 +14,11 @@ import { useScrollHide } from '../hooks/use-scroll-hide'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
 import { useUndoableGoals } from '../hooks/use-undoable-goals'
+import { clearEverything } from '../utils/reset.utils'
 import { buildShareUrl } from '../utils/url.utils'
 
 export function App() {
-  const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
+  const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, replaceList, resetAll, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const sizing = useSize()
@@ -45,12 +46,11 @@ export function App() {
       <UrlWarning isEditing={isEditing} length={shareUrl.length} />
       <ClearDone count={doneCount} isEditing={isEditing} onClear={clearDone} />
       <SettingsModal
-        canReset={doneCount > 0}
         isOpen={isSettingsOpen}
+        list={{ canReset: doneCount > 0, items, onClear: clearEverything, onReplace: replaceList, onReset: resetAll, title }}
         labelFont={labelFont}
         onClose={() => setIsSettingsOpen(false)}
         onFontPick={pickFont}
-        onReset={resetAll}
         onThemeChange={changeTheme}
         shareUrl={shareUrl}
         sizing={sizing}

@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
+import { storagePrefix } from '../utils/defaults.utils'
 import { hashToData, writeHashSetting } from '../utils/hash.utils'
 
 // a choice among a fixed list of options, kept in the url & remembered in the browser, applied as a data attribute on the page
 // the default is the first option, unless another one is given
 export function usePreference<Option extends string>(name: string, options: readonly Option[], defaultOption?: Option) {
   const fallback = defaultOption ?? options[0]
-  const storageKey = `goals-${name}`
+  const storageKey = `${storagePrefix}${name}`
   const [value, setValue] = useState(() => {
     // a shared link wins over what this browser remembers
     const wanted = hashToData(document.location.hash).settings[name] ?? localStorage.getItem(storageKey)

@@ -872,8 +872,51 @@ li:not(.new-row) .item.editing .editable,
   padding: 0;
 }
 
-.list-actions button {
+.your-list {
+  align-items: stretch;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.list-group {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.list-actions button,
+.file-picker {
   padding: 0.4rem 1rem;
+}
+
+.file-picker {
+  background: var(--surface);
+  border: 1px solid var(--fg);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.file-picker input {
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  width: 0;
+}
+
+.file-picker:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.import-count {
+  flex-basis: 100%;
+  opacity: 0.8;
+}
+
+.list-actions .danger {
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .list-actions button:disabled {
