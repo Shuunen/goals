@@ -199,7 +199,7 @@ describe('App', () => {
   })
 
   it('App K does not celebrate when the user prefers reduced motion', () => {
-    const matchMedia = vi.spyOn(globalThis, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList)
+    const matchMedia = vi.spyOn(globalThis, 'matchMedia').mockReturnValue({ addEventListener: vi.fn<() => void>(), matches: true, removeEventListener: vi.fn<() => void>() } as unknown as MediaQueryList)
     document.location.hash = '#t=a'
     render(<App />)
     fireEvent.click(screen.getByLabelText('a'))
