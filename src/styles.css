@@ -6,6 +6,7 @@
 
 :root,
 [data-theme='paper'] {
+  --confetti: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg fill='black'%3E%3Ccircle cx='40' cy='22' r='2.2'/%3E%3Ccircle cx='31' cy='6.4' r='2.2'/%3E%3Ccircle cx='13' cy='6.4' r='2.2'/%3E%3Ccircle cx='4' cy='22' r='2.2'/%3E%3Ccircle cx='13' cy='37.6' r='2.2'/%3E%3Ccircle cx='31' cy='37.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
   --danger: #e5484d;
   --bg: snow;
   --fg: #333;
@@ -181,15 +182,19 @@ h1.title {
 }
 
 /* same in view & edit mode, so toggling moves nothing */
+.progress-wrap {
+  margin-top: 1rem;
+  position: relative;
+  /* above the list backdrop, which bleeds upward */
+  z-index: 10;
+}
+
 .progress {
   background: color-mix(in srgb, var(--fg) 12%, transparent);
   border-radius: 0.2rem;
   height: 0.25rem;
-  margin-top: 1rem;
   overflow: hidden;
-  /* above the list backdrop, which bleeds upward */
   width: min(16rem, 60vw);
-  z-index: 10;
 }
 
 .progress-fill {
@@ -197,6 +202,34 @@ h1.title {
   border-radius: inherit;
   height: 100%;
   transition: width 0.3s ease-out;
+}
+
+/* every goal done : a bigger burst around the bar & a short glow */
+.progress-wrap.celebrate::after {
+  animation: confetti-burst 0.9s ease-out;
+  background-color: var(--accent);
+  content: '';
+  height: 14rem;
+  left: 50%;
+  margin: -7rem 0 0 -7rem;
+  mask-image: var(--confetti);
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  width: 14rem;
+}
+
+.progress-wrap.celebrate .progress {
+  animation: glow 1.2s ease-out;
+}
+
+@keyframes glow {
+  30% {
+    filter: drop-shadow(0 0 0.8rem var(--accent));
+  }
 }
 
 ul.list {
@@ -356,7 +389,7 @@ ul.list::before {
   content: '';
   height: 4rem;
   left: -0.8rem;
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg fill='black'%3E%3Ccircle cx='40' cy='22' r='2.2'/%3E%3Ccircle cx='31' cy='6.4' r='2.2'/%3E%3Ccircle cx='13' cy='6.4' r='2.2'/%3E%3Ccircle cx='4' cy='22' r='2.2'/%3E%3Ccircle cx='13' cy='37.6' r='2.2'/%3E%3Ccircle cx='31' cy='37.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image: var(--confetti);
   mask-repeat: no-repeat;
   mask-size: contain;
   opacity: 0;
@@ -949,7 +982,7 @@ button.swatch[aria-pressed='true'] {
 @media print {
   .settings-button,
   .edit-button,
-  .progress,
+  .progress-wrap,
   .toast-area {
     display: none;
   }
@@ -1019,6 +1052,11 @@ ul.list > li.dragging > .item.editing > * {
 @media (prefers-reduced-motion: reduce) {
   .progress-fill {
     transition: none;
+  }
+
+  .progress-wrap.celebrate::after,
+  .progress-wrap.celebrate .progress {
+    animation: none;
   }
 
   .toast,
