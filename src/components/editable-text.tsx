@@ -8,11 +8,14 @@ type EditableTextProps = {
   value: string
 }
 
-function onKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-  if (event.key === 'Enter') event.currentTarget.blur()
+function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+  if (event.key !== 'Enter') return
+  // a goal is a single line of text, Enter commits instead of adding a line break
+  event.preventDefault()
+  event.currentTarget.blur()
 }
 
-// a text input that looks like the text it replaces, committed on blur or Enter
+// a text area that looks like the text it replaces & wraps long text, committed on blur or Enter
 export function EditableText({ className, label, onCommit, placeholder, value }: EditableTextProps) {
-  return <input aria-label={label} className={`editable ${className ?? ''}`} defaultValue={value} onBlur={event => onCommit(event.target.value)} onKeyDown={onKeyDown} placeholder={placeholder} type="text" />
+  return <textarea aria-label={label} className={`editable ${className ?? ''}`} defaultValue={value} onBlur={event => onCommit(event.target.value)} onKeyDown={onKeyDown} placeholder={placeholder} rows={1} />
 }

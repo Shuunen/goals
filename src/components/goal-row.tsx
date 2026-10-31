@@ -38,9 +38,7 @@ export function GoalRow({ index, isEditing, item, onGrab, onMove, onRemove, onRe
   return (
     <label className={`item ${item.isDone ? 'done' : ''} ${isCelebrating ? 'celebrate' : ''}`}>
       <input checked={item.isDone} onChange={onChange} type="checkbox" />
-      <span className="title" data-label={item.title}>
-        {item.title}
-      </span>
+      <span className="title">{item.title}</span>
     </label>
   )
 }
