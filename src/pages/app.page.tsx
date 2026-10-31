@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ClearDone } from '../components/clear-done'
 import { EditableText } from '../components/editable-text'
 import { GearIcon } from '../components/gear-icon'
 import { GoalList } from '../components/goal-list'
@@ -14,7 +15,7 @@ import { useTheme } from '../hooks/use-theme'
 import { useUndoableGoals } from '../hooks/use-undoable-goals'
 
 export function App() {
-  const { addItem, addItems, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
+  const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const { canGrow, canShrink, larger, size, smaller } = useSize()
@@ -38,6 +39,7 @@ export function App() {
       <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
+      <ClearDone count={doneCount} isEditing={isEditing} onClear={clearDone} />
       <SettingsModal
         canGrow={canGrow}
         canReset={doneCount > 0}
