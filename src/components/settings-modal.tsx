@@ -9,12 +9,14 @@ import { SizeStepper } from './size-stepper'
 
 type SettingsModalProps = {
   canGrow: boolean
+  canReset: boolean
   canShrink: boolean
   isOpen: boolean
   labelFont: Font
   onClose: () => void
   onFontPick: (font: Font) => void
   onLarger: () => void
+  onReset: () => void
   onSmaller: () => void
   onThemeChange: (theme: Theme) => void
   size: Size
@@ -32,7 +34,7 @@ function fontMarkers(labelFont: Font, titleFont: Font) {
   return markers
 }
 
-export function SettingsModal({ canGrow, canShrink, isOpen, labelFont, onClose, onFontPick, onLarger, onSmaller, onThemeChange, size, theme, titleFont }: SettingsModalProps) {
+export function SettingsModal({ canGrow, canReset, canShrink, isOpen, labelFont, onClose, onFontPick, onLarger, onReset, onSmaller, onThemeChange, size, theme, titleFont }: SettingsModalProps) {
   useEffect(() => {
     if (!isOpen) return undefined
     const onKeyDown = (event: KeyboardEvent) => {
@@ -54,6 +56,12 @@ export function SettingsModal({ canGrow, canShrink, isOpen, labelFont, onClose, 
         <ChoiceGrid attribute="data-theme" legend="Theme" onChange={onThemeChange} options={themes} value={theme} />
         <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Fonts" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
         <SizeStepper canGrow={canGrow} canShrink={canShrink} onLarger={onLarger} onSmaller={onSmaller} size={size} />
+        <fieldset className="list-actions">
+          <legend>Your list</legend>
+          <button disabled={!canReset} onClick={onReset} type="button">
+            Reset all
+          </button>
+        </fieldset>
         <dl className="about">
           <dt>Repository</dt>
           <dd>
