@@ -17,7 +17,7 @@ type SortableGoalProps = {
 export function SortableGoal({ id, index, isEditing, item, onRemove, onRename, onToggle }: SortableGoalProps) {
   const { attributes, isDragging, listeners, setNodeRef, transform, transition } = useSortable({ disabled: !isEditing, id })
   return (
-    <li className={isDragging ? 'dragging' : ''} ref={setNodeRef} style={{ transform: CSS.Translate.toString(transform), transition }}>
+    <li className={isDragging ? 'dragging' : ''} data-flip={id} ref={setNodeRef} style={{ transform: CSS.Translate.toString(transform), transition }}>
       <GoalRow handleProps={{ ...attributes, ...listeners }} index={index} isEditing={isEditing} item={item} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
     </li>
   )
