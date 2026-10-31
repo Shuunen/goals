@@ -202,6 +202,7 @@ ul.list::before {
 }
 
 .item {
+  --box-y: 1rem;
   cursor: pointer;
   display: block;
   margin-bottom: 0.5rem;
@@ -219,9 +220,12 @@ ul.list::before {
    on background-size carries all of this, whichever state it's moving from or to. */
 .item .title {
   --strike: 0%;
+  --strike-y: 60%;
   --wipe: 0%;
   background-clip: border-box, text, text;
-  background-image: linear-gradient(transparent calc(60% - 2px), var(--accent) calc(60% - 2px) calc(60% + 2px), transparent calc(60% + 2px)), linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--fg), var(--fg));
+  background-image:
+    linear-gradient(transparent calc(var(--strike-y) - 2px), var(--accent) calc(var(--strike-y) - 2px) calc(var(--strike-y) + 2px), transparent calc(var(--strike-y) + 2px)), linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--fg), var(--fg));
   background-repeat: no-repeat;
   background-size:
     var(--strike) 100%,
@@ -231,6 +235,15 @@ ul.list::before {
   color: transparent;
   line-height: 1.3;
   transition: background-size 0.25s ease-out;
+}
+
+/* Indie Flower sits higher in its line box than the other fonts, so the strike-through is raised to stay centered */
+[data-label-font='indie-flower'] .item .title {
+  --strike-y: 52%;
+}
+
+[data-label-font='indie-flower'] .item {
+  --box-y: 0.9rem;
 }
 
 .item:not(.done):hover .title {
@@ -278,7 +291,7 @@ ul.list::before {
   cursor: pointer;
   left: 0;
   position: absolute;
-  top: 1rem;
+  top: var(--box-y);
 }
 
 .item input[type='checkbox']:checked::before {
@@ -294,7 +307,7 @@ ul.list::before {
   left: 0;
   pointer-events: none;
   position: absolute;
-  top: 1rem;
+  top: var(--box-y);
   transition: clip-path 0.25s ease-out;
 }
 
