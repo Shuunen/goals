@@ -38,6 +38,11 @@ function scrollDown(position: number) {
   })
 }
 
+function must<Value>(value: Value | undefined | null): Value {
+  if (value === undefined || value === null) throw new Error('missing element')
+  return value
+}
+
 const editButton = () => screen.getByRole('button', { name: /edit goals|done editing/iu })
 const pasteOneLine = (field: HTMLElement) => fireEvent.paste(field, { clipboardData: { getData: () => 'one line' } })
 
@@ -414,5 +419,45 @@ describe('App', () => {
     fireEvent.click(screen.getByText('Clear done (1)'))
     expect(screen.getByText('Cleared 1 done goal')).toBeInTheDocument()
     expect(document.location.hash).toBe('#t=')
+  })
+
+  it('App AD the settings take the focus when they open and give it back to the gear when they close', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    const gear = screen.getByRole('button', { name: 'Settings' })
+    gear.focus()
+    fireEvent.click(gear)
+    expect(screen.getByRole('dialog', { name: 'Settings' })).toHaveFocus()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(gear).toHaveFocus()
+  })
+
+  it('App AE the settings keep Tab and Shift+Tab inside, turning around at both ends', () => {
+    document.location.hash = '#t=!a'
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    const dialog = screen.getByRole('dialog', { name: 'Settings' })
+    const inside = [...dialog.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled)')]
+    const first = must(inside.at(0))
+    const last = must(inside.at(-1))
+    last.focus()
+    fireEvent.keyDown(last, { key: 'Tab' })
+    expect(first).toHaveFocus()
+    fireEvent.keyDown(first, { key: 'Tab', shiftKey: true })
+    expect(last).toHaveFocus()
+    dialog.focus()
+    fireEvent.keyDown(dialog, { key: 'Tab', shiftKey: true })
+    expect(last).toHaveFocus()
+  })
+
+  it('App AF Tab in the middle of the settings is left to the browser', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByRole('button', { name: 'Settings' }))
+    const dialog = screen.getByRole('dialog', { name: 'Settings' })
+    const middle = must(dialog.querySelectorAll<HTMLElement>('button').item(1))
+    middle.focus()
+    expect(fireEvent.keyDown(middle, { key: 'Tab' })).toBe(true)
+    expect(fireEvent.keyDown(middle, { key: 'a' })).toBe(true)
   })
 })

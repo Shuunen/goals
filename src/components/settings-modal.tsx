@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { version } from '../../package.json'
+import { useDialogFocus } from '../hooks/use-dialog-focus'
 import { fontLabels, fonts, type Font } from '../hooks/use-font'
 import type { Size } from '../hooks/use-size'
 import { themes, type Theme } from '../hooks/use-theme'
@@ -34,21 +35,30 @@ function fontMarkers(labelFont: Font, titleFont: Font) {
   return markers
 }
 
+const focusable = 'a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
+
+// Tab & Shift+Tab turn around inside the dialog instead of reaching the page behind it
+function trapTab(event: ReactKeyboardEvent<HTMLDivElement>) {
+  if (event.key !== 'Tab') return
+  const inside = [...event.currentTarget.querySelectorAll<HTMLElement>(focusable)]
+  const first = inside.at(0)
+  const last = inside.at(-1)
+  const active = document.activeElement
+  const isLeavingStart = event.shiftKey && (active === first || active === event.currentTarget)
+  const isLeavingEnd = !event.shiftKey && active === last
+  if (!isLeavingStart && !isLeavingEnd) return
+  event.preventDefault()
+  ;(isLeavingStart ? last : first)?.focus()
+}
+
 export function SettingsModal({ canGrow, canReset, canShrink, isOpen, labelFont, onClose, onFontPick, onLarger, onReset, onSmaller, onThemeChange, size, theme, titleFont }: SettingsModalProps) {
-  useEffect(() => {
-    if (!isOpen) return undefined
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [isOpen, onClose])
+  const dialog = useDialogFocus(isOpen, onClose)
   return (
     // always mounted so it can animate in and out, inert & hidden from assistive tech while closed
     <div aria-hidden={!isOpen} className={`modal-backdrop ${isOpen ? 'open' : ''}`} inert={!isOpen} onClick={onClose} role="presentation">
-      <div aria-label="Settings" aria-modal="true" className="modal" onClick={event => event.stopPropagation()} role="dialog">
+      <div aria-labelledby="settings-title" aria-modal="true" className="modal" onClick={event => event.stopPropagation()} onKeyDown={trapTab} ref={dialog} role="dialog" tabIndex={-1}>
         <header className="modal-header">
-          <h2>Settings</h2>
+          <h2 id="settings-title">Settings</h2>
           <button aria-label="Close" className="icon-button" onClick={onClose} type="button">
             <CloseIcon />
           </button>
