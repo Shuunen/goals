@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react'
 import { usePreference } from './use-preference'
 
-export const fonts = ['indie-flower', 'caveat', 'inter', 'lora', 'jetbrains-mono', 'space-grotesk'] as const
+export const fonts = ['indie-flower', 'caveat', 'dancing-script', 'lora', 'jetbrains-mono', 'inter'] as const
 export type Font = (typeof fonts)[number]
 
 export const fontLabels: Record<Font, string> = {
   caveat: 'caveat',
+  'dancing-script': 'script',
   'indie-flower': 'indie',
   inter: 'inter',
   'jetbrains-mono': 'mono',
   lora: 'lora',
-  'space-grotesk': 'grotesk',
 }
 
 // one picker, two targets : the title and the goal labels each keep their own font, picked from the same

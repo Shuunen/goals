@@ -42,8 +42,8 @@
   --font: 'Caveat', cursive;
 }
 
-[data-font='inter'] {
-  --font: 'Inter', sans-serif;
+[data-font='dancing-script'] {
+  --font: 'Dancing Script', cursive;
 }
 
 [data-font='lora'] {
@@ -54,8 +54,8 @@
   --font: 'JetBrains Mono', monospace;
 }
 
-[data-font='space-grotesk'] {
-  --font: 'Space Grotesk', sans-serif;
+[data-font='inter'] {
+  --font: 'Inter', sans-serif;
 }
 
 /* the title and the goal labels each pick their own font from the same grid (see the settings modal) */
@@ -68,8 +68,8 @@
   --font-title: 'Caveat', cursive;
 }
 
-[data-title-font='inter'] {
-  --font-title: 'Inter', sans-serif;
+[data-title-font='dancing-script'] {
+  --font-title: 'Dancing Script', cursive;
 }
 
 [data-title-font='lora'] {
@@ -80,8 +80,8 @@
   --font-title: 'JetBrains Mono', monospace;
 }
 
-[data-title-font='space-grotesk'] {
-  --font-title: 'Space Grotesk', sans-serif;
+[data-title-font='inter'] {
+  --font-title: 'Inter', sans-serif;
 }
 
 :root,
@@ -93,8 +93,8 @@
   --font-label: 'Caveat', cursive;
 }
 
-[data-label-font='inter'] {
-  --font-label: 'Inter', sans-serif;
+[data-label-font='dancing-script'] {
+  --font-label: 'Dancing Script', cursive;
 }
 
 [data-label-font='lora'] {
@@ -105,8 +105,8 @@
   --font-label: 'JetBrains Mono', monospace;
 }
 
-[data-label-font='space-grotesk'] {
-  --font-label: 'Space Grotesk', sans-serif;
+[data-label-font='inter'] {
+  --font-label: 'Inter', sans-serif;
 }
 
 [data-theme='dark'] {
