@@ -614,6 +614,21 @@ button[aria-pressed='true'] {
   resize: none;
 }
 
+/* in edit mode the title says it can be edited : a stronger dashed accent underline, a tint on hover & focus like the goal cards.
+   the padding is taken back by the margin, so nothing moves compared to the h1 */
+.editable.title {
+  cursor: text;
+  margin-inline: -0.3em;
+  padding-inline: 0.3em;
+  text-decoration-thickness: 2px;
+}
+
+.editable.title:hover,
+.editable.title:focus {
+  background: color-mix(in srgb, var(--fg) 6%, var(--surface));
+  border-radius: 0.3em;
+}
+
 h1.title,
 .editable.title {
   font-family: var(--font-title);
