@@ -58,4 +58,17 @@ describe('useTheme', () => {
     })
     expect(document.location.hash).toBe('#t=a&theme=paper')
   })
+
+  it('useTheme H colors the PWA bars like the theme background', () => {
+    document.head.insertAdjacentHTML('beforeend', '<meta name="theme-color" content="#0a5" />')
+    document.documentElement.style.setProperty('--bg', ' #123456 ')
+    renderHook(() => useTheme())
+    expect(document.querySelector('meta[name="theme-color"]')?.getAttribute('content')).toBe('#123456')
+  })
+
+  it('useTheme I leaves the PWA bars alone without a theme background or a meta tag', () => {
+    document.querySelector('meta[name="theme-color"]')?.remove()
+    document.documentElement.style.removeProperty('--bg')
+    expect(() => renderHook(() => useTheme())).not.toThrow()
+  })
 })
