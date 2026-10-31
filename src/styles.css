@@ -12,6 +12,7 @@
   --fg: #333;
   --surface: white;
   --accent: #0a5;
+  --done-opacity: 1;
 }
 
 [data-theme='sunset'] {
@@ -19,6 +20,7 @@
   --fg: #4a2c1a;
   --surface: #fff8f2;
   --accent: #e8590c;
+  --done-opacity: 0.9;
 }
 
 [data-theme='forest'] {
@@ -26,6 +28,7 @@
   --fg: #dcefe2;
   --surface: #14261c;
   --accent: #7bd88f;
+  --done-opacity: 0.7;
 }
 
 [data-theme='rose'] {
@@ -33,6 +36,7 @@
   --fg: #4a1f2e;
   --surface: #fff7f9;
   --accent: #d6336c;
+  --done-opacity: 0.8;
 }
 
 :root,
@@ -116,6 +120,7 @@
   --fg: #f8f8f2;
   --surface: #282a36;
   --accent: #bd93f9;
+  --done-opacity: 0.85;
 }
 
 /* dark theme trades the graph paper for a quiet star field, and lets the accent glow a little */
@@ -137,6 +142,7 @@
   --fg: #12395a;
   --surface: #f5fbfe;
   --accent: #0a7fb5;
+  --done-opacity: 0.8;
 }
 
 html {
@@ -317,9 +323,10 @@ ul.list::before {
   }
 }
 
+/* the lowest dimming that keeps the done text readable : see the contrast ratios of each theme in the commit that set them */
 .item.done {
   color: var(--fg);
-  opacity: 0.55;
+  opacity: var(--done-opacity);
 }
 
 @media (hover: hover) {
