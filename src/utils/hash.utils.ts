@@ -2,39 +2,68 @@ import { createItem, type Item } from '../models/item.model'
 
 const doneMarker = '!'
 const separator = ','
-
-function itemToHash(item: Item) {
-  return `${item.isDone ? doneMarker : ''}${item.title}`
-}
+const titleSeparator = '='
 
 // the goals come first, then the settings as query params : #My goals=have fun,!avoid shitty job&theme=dark&font=mono
+// every title, item & setting is escaped on its own, so any text can travel in the hash : "!" is the done marker, so it gets escaped too
 const settingsSeparator = '&'
 
 export type Settings = Record<string, string>
 
+function encodeText(text: string) {
+  return encodeURIComponent(text).replaceAll('!', '%21')
+}
+
+// a malformed escape sequence (like a lonely %) must not crash the app, the raw text is kept
+function decodeText(text: string) {
+  try {
+    return decodeURIComponent(text)
+  } catch {
+    return text
+  }
+}
+
+function itemToHash(item: Item) {
+  return `${item.isDone ? doneMarker : ''}${encodeText(item.title)}`
+}
+
+function hashToItem(part: string) {
+  // part could be "become a ninja" or "!become a ninja" if it's done, a "!" inside the text is escaped
+  const isDone = part.startsWith(doneMarker)
+  return createItem(decodeText(isDone ? part.slice(doneMarker.length) : part), isDone)
+}
+
+function hashToSettings(parts: string[]): Settings {
+  const entries = parts
+    .filter(part => part.length > 0)
+    .map(part => {
+      const [key = '', ...value] = part.split(titleSeparator)
+      // "+" is a space in a query param
+      return [decodeText(key.replaceAll('+', ' ')), decodeText(value.join(titleSeparator).replaceAll('+', ' '))] as const
+    })
+  return Object.fromEntries(entries)
+}
+
 export function hashToData(hash: string) {
-  let title = ''
-  let items: Item[] = []
-  const [goals = '', ...settingsParts] = decodeURI(hash).split(settingsSeparator)
-  const settings: Settings = Object.fromEntries(new URLSearchParams(settingsParts.join(settingsSeparator)))
-  const matches = /(?<title>[\s\w]+=)?(?<items>[\s\w!,]+)/u.exec(goals)
-  if (matches?.groups?.items === undefined) return { items, settings, title }
-  title = matches.groups.title?.split('=')[0] ?? ''
-  items = matches.groups.items.split(separator).map(item => {
-    // item could be "become a ninja" or "!become a ninja" if it's done
-    const data = item.split(doneMarker)
-    const itemTitle = data[1] ?? item
-    const expectedLength = 2
-    const isDone = data.length === expectedLength
-    return createItem(itemTitle, isDone)
-  })
+  const [goals = '', ...settingsParts] = hash.replace(/^#/u, '').split(settingsSeparator)
+  const settings = hashToSettings(settingsParts)
+  const titleEnd = goals.indexOf(titleSeparator)
+  const hasTitle = titleEnd !== -1
+  const title = hasTitle ? decodeText(goals.slice(0, titleEnd)) : ''
+  const rawItems = hasTitle ? goals.slice(titleEnd + titleSeparator.length) : goals
+  const items = rawItems
+    .split(separator)
+    .filter(part => part.length > 0)
+    .map(part => hashToItem(part))
   return { items, settings, title }
 }
 
+// the goals part is there even for an empty list, else the title would be lost
 export function dataToHash(title: string, items: Item[], settings: Settings = {}) {
-  const goals = items.length > 0 ? `${title}=${items.map(item => itemToHash(item)).join(separator)}` : ''
-  const params = Object.entries(settings).map(([key, value]) => `${settingsSeparator}${key}=${value}`)
-  return encodeURI(`#${goals}${params.join('')}`)
+  const hasGoals = title.length > 0 || items.length > 0
+  const goals = hasGoals ? `${encodeText(title)}${titleSeparator}${items.map(item => itemToHash(item)).join(separator)}` : ''
+  const params = Object.entries(settings).map(([key, value]) => `${settingsSeparator}${encodeText(key)}=${encodeText(value)}`)
+  return `#${goals}${params.join('')}`
 }
 
 // change one setting in the current location, leaving the goals as they are
@@ -43,10 +72,7 @@ export function writeHashSetting(name: string, value: string) {
   document.location.hash = dataToHash(title, items, { ...settings, [name]: value })
 }
 
-// keep only what the hash format can store : letters, digits, underscores & single spaces
+// unicode normalized, without control chars, with single spaces : everything else is fine since the hash escapes it
 export function sanitizeText(text: string) {
-  return text
-    .replaceAll(/[^\s\w]/gu, '')
-    .replaceAll(/\s+/gu, ' ')
-    .trim()
+  return text.normalize('NFC').replaceAll(/\p{C}/gu, ' ').replaceAll(/\s+/gu, ' ').trim()
 }

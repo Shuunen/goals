@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react'
+import { hashToData } from '../utils/hash.utils'
 import { useGoals } from './use-goals'
 
 describe('useGoals', () => {
@@ -76,8 +77,18 @@ describe('useGoals', () => {
       result.current.renameTitle('   ')
       result.current.renameTitle('New, title')
     })
-    expect(result.current.title).toBe('New title')
-    expect(document.location.hash).toBe('#New%20title=have%20fun')
+    expect(result.current.title).toBe('New, title')
+    expect(document.location.hash).toBe('#New%2C%20title=have%20fun')
+  })
+
+  it('useGoals E2 keeps accents & punctuation of an added item', () => {
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.addItem("café l'été ?")
+    })
+    expect(result.current.items[1]?.title).toBe("café l'été ?")
+    expect(hashToData(document.location.hash).items[1]?.title).toBe("café l'été ?")
   })
 
   it('useGoals F renames an item, ignoring empty values', () => {
