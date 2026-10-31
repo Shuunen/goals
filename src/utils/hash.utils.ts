@@ -66,10 +66,15 @@ export function dataToHash(title: string, items: Item[], settings: Settings = {}
   return `#${goals}${params.join('')}`
 }
 
-// change one setting in the current location, leaving the goals as they are
+// replace, not assign : every change in the history would make the back button useless
+export function replaceHash(hash: string) {
+  if (hash !== document.location.hash) globalThis.history.replaceState(undefined, '', hash)
+}
+
+// change one setting in the current location, leaving the goals as they are, without adding a history entry
 export function writeHashSetting(name: string, value: string) {
   const { items, settings, title } = hashToData(document.location.hash)
-  document.location.hash = dataToHash(title, items, { ...settings, [name]: value })
+  replaceHash(dataToHash(title, items, { ...settings, [name]: value }))
 }
 
 // unicode normalized, without control chars, with single spaces : everything else is fine since the hash escapes it

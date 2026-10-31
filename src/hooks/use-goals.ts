@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createItem, type Item } from '../models/item.model'
-import { dataToHash, hashToData, sanitizeText } from '../utils/hash.utils'
+import { dataToHash, hashToData, replaceHash, sanitizeText } from '../utils/hash.utils'
 import { logger } from '../utils/logger.utils'
 
 const defaultTitle = 'Goals'
@@ -10,14 +10,21 @@ const storageKey = 'goals-saved'
 
 type State = { items: Item[]; title: string }
 
+function hasGoals({ items, title }: Pick<State, 'items' | 'title'>) {
+  return items.length > 0 || title.length > 0
+}
+
+function toState({ items, title }: Pick<State, 'items' | 'title'>): State {
+  return { items, title: title.length > 0 ? title : defaultTitle }
+}
+
 function readInitialState(): State {
   // a shared link wins, else what this browser remembers : a PWA relaunch opens the start url without any hash
   const fromHash = hashToData(document.location.hash)
-  const { items, title } = fromHash.items.length > 0 ? fromHash : hashToData(localStorage.getItem(storageKey) ?? '')
-  const state = {
-    items: items.length > 0 ? items : defaultItems,
-    title: title.length > 0 ? title : defaultTitle,
-  }
+  const fromStorage = hashToData(localStorage.getItem(storageKey) ?? '')
+  const found = [fromHash, fromStorage].find(data => hasGoals(data))
+  // the defaults are for a first visit only : an emptied list, stored or shared, stays empty
+  const state = found ? toState(found) : { items: defaultItems, title: defaultTitle }
   logger.info('detected', state.items.length, 'items :', state.items)
   return state
 }
@@ -26,17 +33,47 @@ function changeItemAt(state: State, index: number, change: (item: Item) => Item)
   return { ...state, items: state.items.map((item, itemIndex) => (itemIndex === index ? change(item) : item)) }
 }
 
+// keeps the url & the browser memory in line with the state, in both ways
+function useSync(state: State, setState: (state: State | ((previous: State) => State)) => void) {
+  // only a change made here is saved : opening a shared link must not replace what this browser remembers
+  const isChanged = useRef(false)
+  const markChanged = useCallback(() => {
+    isChanged.current = true
+  }, [])
+
+  useEffect(() => {
+    if (!isChanged.current) return
+    isChanged.current = false
+    replaceHash(dataToHash(state.title, state.items, hashToData(document.location.hash).settings))
+    localStorage.setItem(storageKey, dataToHash(state.title, state.items))
+  }, [state])
+
+  // the hash can change from outside : a typed or pasted url, a link click, back & forward
+  useEffect(() => {
+    const onHashChange = () => {
+      const data = hashToData(document.location.hash)
+      if (!hasGoals(data)) return
+      const next = toState(data)
+      setState(previous => (dataToHash(previous.title, previous.items) === dataToHash(next.title, next.items) ? previous : next))
+    }
+    globalThis.addEventListener('hashchange', onHashChange)
+    return () => globalThis.removeEventListener('hashchange', onHashChange)
+  }, [setState])
+
+  return markChanged
+}
+
 export function useGoals() {
   const [state, setState] = useState(readInitialState)
+  const markChanged = useSync(state, setState)
 
-  const update = useCallback((change: (previous: State) => State) => {
-    setState(previous => {
-      const next = change(previous)
-      document.location.hash = dataToHash(next.title, next.items, hashToData(document.location.hash).settings)
-      localStorage.setItem(storageKey, dataToHash(next.title, next.items))
-      return next
-    })
-  }, [])
+  const update = useCallback(
+    (change: (previous: State) => State) => {
+      markChanged()
+      setState(change)
+    },
+    [markChanged],
+  )
 
   // empty values are ignored since an empty title or item can't be stored in the hash
   const updateText = useCallback(

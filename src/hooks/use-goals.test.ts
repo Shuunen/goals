@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { hashToData } from '../utils/hash.utils'
 import { useGoals } from './use-goals'
 
@@ -149,5 +149,103 @@ describe('useGoals', () => {
       result.current.toggleItem(0)
     })
     expect(document.location.hash).toBe('#t=!a,b&theme=dark&font=lora')
+  })
+
+  it('useGoals L first visit shows the default goals', () => {
+    localStorage.clear()
+    document.location.hash = ''
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('Goals')
+    expect(result.current.items).toHaveLength(3)
+  })
+
+  it('useGoals M a stored empty list is not replaced by the defaults', () => {
+    localStorage.setItem('goals-saved', '#Mine=')
+    document.location.hash = ''
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('Mine')
+    expect(result.current.items).toStrictEqual([])
+  })
+
+  it('useGoals N a shared empty list stays empty and keeps its title', () => {
+    localStorage.clear()
+    document.location.hash = '#Mine='
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('Mine')
+    expect(result.current.items).toStrictEqual([])
+  })
+
+  it('useGoals O removing the last goal keeps the title in the hash & the storage', () => {
+    localStorage.clear()
+    document.location.hash = '#Mine=a'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.removeItem(0)
+    })
+    expect(document.location.hash).toBe('#Mine=')
+    expect(localStorage.getItem('goals-saved')).toBe('#Mine=')
+  })
+
+  it('useGoals P opening a shared link without editing leaves the storage untouched', () => {
+    localStorage.setItem('goals-saved', '#Mine=mine')
+    document.location.hash = '#Shared=theirs'
+    renderHook(() => useGoals())
+    expect(localStorage.getItem('goals-saved')).toBe('#Mine=mine')
+  })
+
+  it('useGoals Q changes replace the history entry instead of adding one', () => {
+    document.location.hash = '#t=a,b,c'
+    const { result } = renderHook(() => useGoals())
+    const before = globalThis.history.length
+    act(() => {
+      result.current.toggleItem(0)
+      result.current.toggleItem(1)
+      result.current.toggleItem(2)
+    })
+    expect(globalThis.history).toHaveLength(before)
+  })
+
+  it('useGoals R a hash changed from outside updates the goals, without saving them', async () => {
+    localStorage.setItem('goals-saved', '#Mine=mine')
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      document.location.hash = '#Other=x,!y'
+    })
+    await waitFor(() => {
+      expect(result.current.title).toBe('Other')
+    })
+    expect(result.current.items.map(item => [item.title, item.isDone])).toStrictEqual([
+      ['x', false],
+      ['y', true],
+    ])
+    expect(localStorage.getItem('goals-saved')).toBe('#Mine=mine')
+  })
+
+  it('useGoals S a shared link without title gets the default one', () => {
+    localStorage.clear()
+    document.location.hash = '#a,b'
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('Goals')
+    expect(result.current.items).toHaveLength(2)
+  })
+
+  it('useGoals T a hash without goals or with the same goals changes nothing', async () => {
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useGoals())
+    const before = result.current.items
+    act(() => {
+      document.location.hash = '#&theme=dark'
+    })
+    await waitFor(() => {
+      expect(document.location.hash).toBe('#&theme=dark')
+    })
+    act(() => {
+      document.location.hash = '#t=a&theme=rose'
+    })
+    await waitFor(() => {
+      expect(document.location.hash).toBe('#t=a&theme=rose')
+    })
+    expect(result.current.items).toBe(before)
   })
 })

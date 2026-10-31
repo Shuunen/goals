@@ -1,5 +1,5 @@
 import { createItem } from '../models/item.model'
-import { dataToHash, hashToData, sanitizeText, writeHashSetting } from './hash.utils'
+import { dataToHash, hashToData, replaceHash, sanitizeText, writeHashSetting } from './hash.utils'
 
 const items = [createItem('have fun', false), createItem('avoid shitty job', true)]
 
@@ -165,5 +165,21 @@ describe('settings in the hash', () => {
     writeHashSetting('font', 'lora')
     writeHashSetting('theme', 'rose')
     expect(document.location.hash).toBe('#t=a,!b&theme=rose&font=lora')
+  })
+})
+
+describe('replaceHash', () => {
+  it('replaceHash A changes the hash without a new history entry', () => {
+    document.location.hash = '#a=b'
+    const before = globalThis.history.length
+    replaceHash('#c=d')
+    expect(document.location.hash).toBe('#c=d')
+    expect(globalThis.history).toHaveLength(before)
+  })
+
+  it('replaceHash B leaves the same hash alone', () => {
+    document.location.hash = '#a=b'
+    replaceHash('#a=b')
+    expect(document.location.hash).toBe('#a=b')
   })
 })
