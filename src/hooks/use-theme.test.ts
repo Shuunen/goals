@@ -144,6 +144,14 @@ describe('useTheme', () => {
     expect(link.result.current.theme).toBe('dracula')
   })
 
+  it('useTheme L2 a link naming something every object inherits is no theme', () => {
+    localStorage.clear()
+    document.location.hash = '#t=a&theme=constructor'
+    const { result } = renderHook(() => useTheme())
+    expect(result.current.theme).toBe('paper')
+    expect(document.documentElement.dataset.theme).toBe('paper')
+  })
+
   it('useTheme M paper is the first theme, there is no auto one', () => {
     expect(themes[0]).toBe('paper')
     expect(themes).not.toContain('auto')

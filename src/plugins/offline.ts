@@ -4,9 +4,9 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-// what is not worth caching : the worker itself, the netlify headers, the source maps
 const versionLength = 10
 
+// what is not worth caching : the worker itself, the netlify headers, the source maps
 const ignored = /(?:^|\/)(?:sw\.js|_headers)$|\.map$/u
 
 export function listFiles(directory: string, root = directory): string[] {
