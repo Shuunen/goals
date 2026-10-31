@@ -1,7 +1,8 @@
 import { closestCenter, DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core'
 import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { useFlip } from '../hooks/use-flip'
 import type { Item } from '../models/item.model'
 import { EditableText } from './editable-text'
 import { GoalRow } from './goal-row'
@@ -33,6 +34,8 @@ export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, 
       return `${item.title}-${occurrence}`
     })
   }, [items])
+  const list = useRef<HTMLUListElement>(null)
+  useFlip(list, keys.join('|'), !isEditing)
   const grabbedIndex = grabbed === undefined ? -1 : keys.indexOf(grabbed)
 
   const onDragStart = (event: DragStartEvent) => setGrabbed(String(event.active.id))
@@ -45,7 +48,7 @@ export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, 
   return (
     <DndContext collisionDetection={closestCenter} modifiers={modifiers} onDragCancel={() => setGrabbed(undefined)} onDragEnd={onDragEnd} onDragStart={onDragStart} sensors={sensors}>
       <SortableContext items={keys} strategy={verticalListSortingStrategy}>
-        <ul className={`list ${grabbed === undefined ? '' : 'is-dragging'}`}>
+        <ul className={`list ${grabbed === undefined ? '' : 'is-dragging'}`} ref={list}>
           {items.map((item, index) => (
             <SortableGoal id={keys[index]} index={index} isEditing={isEditing} item={item} key={keys[index]} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
           ))}
