@@ -17,8 +17,8 @@ describe('useSize', () => {
     act(() => {
       result.current.larger()
     })
-    expect(result.current.size).toBe('125')
-    expect(localStorage.getItem('goals-size')).toBe('125')
+    expect(result.current.size).toBe('110')
+    expect(localStorage.getItem('goals-size')).toBe('110')
     act(() => {
       result.current.smaller()
     })
@@ -27,22 +27,22 @@ describe('useSize', () => {
 
   it('useSize C stops at both ends', () => {
     document.location.hash = '#t=a'
-    localStorage.setItem('goals-size', '175')
+    localStorage.setItem('goals-size', '200')
     const { result, unmount } = renderHook(() => useSize())
     expect(result.current.canGrow).toBe(false)
     act(() => {
       result.current.larger()
     })
-    expect(result.current.size).toBe('175')
+    expect(result.current.size).toBe('200')
     unmount()
     document.location.hash = '#t=a'
-    localStorage.setItem('goals-size', '75')
+    localStorage.setItem('goals-size', '10')
     const smallest = renderHook(() => useSize())
     expect(smallest.result.current.canShrink).toBe(false)
     act(() => {
       smallest.result.current.smaller()
     })
-    expect(smallest.result.current.size).toBe('75')
+    expect(smallest.result.current.size).toBe('10')
     localStorage.clear()
   })
 })

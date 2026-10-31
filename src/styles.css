@@ -126,7 +126,7 @@
 }
 
 [data-theme='dark'] h1.title,
-[data-theme='dark'] input.editable.title {
+[data-theme='dark'] .editable.title {
   filter: drop-shadow(0 0 0.5rem color-mix(in srgb, var(--accent) 35%, transparent));
 }
 
@@ -161,9 +161,13 @@ main {
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100%;
   justify-content: center;
   margin: auto;
+  /* grows with its content instead of a fixed height, so a tall list (big size) scrolls from its top instead of overflowing above the screen */
+  min-height: 100%;
+  /* room under the list so the pinned edit button never hides the last goal */
+  padding-bottom: 5rem;
+  box-sizing: border-box;
   /* the list backdrop bleeds past the edges ; clip it so mobile browsers don't widen the layout viewport */
   overflow-x: clip;
 }
@@ -201,7 +205,7 @@ ul.list::before {
   cursor: pointer;
   display: block;
   margin-bottom: 0.5rem;
-  padding-left: 2.4rem;
+  padding-left: 3.4rem;
   position: relative;
   transition: opacity 0.3s;
   user-select: none;
@@ -260,11 +264,11 @@ ul.list::before {
 
 .item input[type='checkbox']::before,
 .item input[type='checkbox']::after {
-  height: 1.7rem;
+  height: 2.4rem;
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='3.5' y='3.5' width='17' height='17' rx='2.5' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
   mask-repeat: no-repeat;
   mask-size: contain;
-  width: 1.7rem;
+  width: 2.4rem;
 }
 
 /* svg masks instead of ☐ / 🗹 glyphs : those depend on the system font, and mobile fonts often lack them */
@@ -274,7 +278,7 @@ ul.list::before {
   cursor: pointer;
   left: 0;
   position: absolute;
-  top: 0.85rem;
+  top: 1rem;
 }
 
 .item input[type='checkbox']:checked::before {
@@ -290,7 +294,7 @@ ul.list::before {
   left: 0;
   pointer-events: none;
   position: absolute;
-  top: 0.85rem;
+  top: 1rem;
   transition: clip-path 0.25s ease-out;
 }
 
@@ -309,16 +313,16 @@ ul.list::before {
   animation: confetti-burst 0.5s ease-out;
   background-color: var(--accent);
   content: '';
-  height: 2.6rem;
-  left: -0.6rem;
+  height: 4rem;
+  left: -0.8rem;
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Cg fill='black'%3E%3Ccircle cx='40' cy='22' r='2.2'/%3E%3Ccircle cx='31' cy='6.4' r='2.2'/%3E%3Ccircle cx='13' cy='6.4' r='2.2'/%3E%3Ccircle cx='4' cy='22' r='2.2'/%3E%3Ccircle cx='13' cy='37.6' r='2.2'/%3E%3Ccircle cx='31' cy='37.6' r='2.2'/%3E%3C/g%3E%3C/svg%3E");
   mask-repeat: no-repeat;
   mask-size: contain;
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  top: -0.3rem;
-  width: 2.6rem;
+  top: 0.2rem;
+  width: 4rem;
 }
 
 @keyframes check-draw {
@@ -484,6 +488,7 @@ button[aria-pressed='true'] {
   field-sizing: content;
   font: inherit;
   line-height: 1.3;
+  max-width: 100%;
   min-width: 1ch;
   outline: none;
   overflow: hidden;
@@ -492,7 +497,7 @@ button[aria-pressed='true'] {
 }
 
 h1.title,
-input.editable.title {
+.editable.title {
   font-family: var(--font-title);
   font-size: 5rem;
   text-align: center;
@@ -522,6 +527,7 @@ input.editable.title {
 }
 
 .new-row .editable {
+  flex-shrink: 0;
   max-width: calc(100vw - 5rem);
   width: max-content;
 }
@@ -555,7 +561,7 @@ input.editable.title {
     opacity 0.2s ease-in,
     visibility 0s 0.25s;
   visibility: hidden;
-  width: min(30rem, 90vw);
+  width: min(31rem, 90vw);
 }
 
 .modal-backdrop.open .modal {
