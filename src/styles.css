@@ -552,6 +552,32 @@ h1.title,
   z-index: 10;
 }
 
+/* keyboard focus is always visible : a ring in the accent color, separated from what it surrounds by a small gap */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.toast-action:focus-visible {
+  outline-color: currentcolor;
+}
+
+/* the checkbox itself is 0x0, so the whole goal wears the ring */
+.item:has(input:focus-visible) {
+  border-radius: 0.6rem;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.editable:focus-visible {
+  border-radius: 0.3rem;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  text-decoration-style: solid;
+}
+
 /* an empty goal is refused : red underline & outline that stay until the text is fixed or Escape gives the old one back */
 .editable[aria-invalid='true'] {
   border-radius: 0.3rem;
