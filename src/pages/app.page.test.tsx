@@ -91,8 +91,8 @@ describe('App', () => {
     fireEvent.click(screen.getByTitle('Settings'))
     expect(screen.getByText('Version')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('dialog'))
-    fireEvent.click(screen.getByRole('radio', { name: 'dark' }))
-    expect(document.documentElement.dataset.theme).toBe('dark')
+    fireEvent.click(screen.getByRole('radio', { name: 'dracula' }))
+    expect(document.documentElement.dataset.theme).toBe('dracula')
     fireEvent.click(screen.getByLabelText('Close'))
     expect(screen.queryByRole('dialog')).toBeNull()
     // do not leak the choices to the other tests

@@ -11,7 +11,7 @@ const sizes = Array.from({ length: stepsEachSide + stepsEachSide + 1 }, (_unused
 const defaultSize = String(nbPercentMax)
 
 export function useSize() {
-  const [size, changeSize] = usePreference('size', sizes, defaultSize)
+  const [size, changeSize] = usePreference('size', sizes, { defaultOption: defaultSize })
   const index = sizes.indexOf(size)
 
   // every length of the app is in rem, so scaling the root font size scales the text, line heights & icons together
