@@ -173,7 +173,6 @@ main {
 }
 
 h1.title {
-  font-size: 5rem;
   margin-bottom: 0;
   margin-top: 0;
   text-decoration: underline;
@@ -246,8 +245,11 @@ ul.list::before {
   --box-y: 0.9rem;
 }
 
-.item:not(.done):hover .title {
-  --strike: 20px;
+/* hover previews only exist where there is a real hover : on touch screens :hover sticks after a tap */
+@media (hover: hover) {
+  .item:not(.done):hover .title {
+    --strike: 20px;
+  }
 }
 
 .item.done .title {
@@ -255,9 +257,11 @@ ul.list::before {
   --wipe: 100%;
 }
 
-.item.done:hover .title {
-  --strike: calc(100% - 20px);
-  --wipe: calc(100% - 20px);
+@media (hover: hover) {
+  .item.done:hover .title {
+    --strike: calc(100% - 20px);
+    --wipe: calc(100% - 20px);
+  }
 }
 
 .item.done {
@@ -265,8 +269,10 @@ ul.list::before {
   opacity: 0.55;
 }
 
-.item.done:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .item.done:hover {
+    opacity: 1;
+  }
 }
 
 .item input[type='checkbox'] {
@@ -311,8 +317,10 @@ ul.list::before {
   transition: clip-path 0.25s ease-out;
 }
 
-.item:not(.done):hover input[type='checkbox']::after {
-  clip-path: inset(0 0 0 0);
+@media (hover: hover) {
+  .item:not(.done):hover input[type='checkbox']::after {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 /* plays once, right when a goal gets checked off : the box pops and a burst of dots fires outward */
@@ -522,10 +530,10 @@ button[aria-pressed='true'] {
 h1.title,
 .editable.title {
   font-family: var(--font-title);
-  font-size: 5rem;
+  font-size: 6rem;
   text-align: center;
   text-decoration-color: var(--accent);
-  text-underline-offset: 0.1em;
+  text-underline-offset: 0.2em;
   z-index: 10;
 }
 
