@@ -52,7 +52,7 @@ export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, 
           {/* always there, to keep the list as tall in both modes and avoid shifting the goals when switching */}
           <li aria-hidden={!isEditing} className={`new-row ${isEditing ? '' : 'invisible'}`} inert={!isEditing}>
             <div className="item editing">
-              <EditableText key={items.length} label="New goal" onCommit={onAdd} placeholder="add something…" value="" />
+              <EditableText label="New goal" onCommit={onAdd} placeholder="add something…" resetOnCommit value="" />
             </div>
           </li>
         </ul>
