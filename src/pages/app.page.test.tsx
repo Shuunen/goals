@@ -37,13 +37,13 @@ describe('App', () => {
     expect(screen.getByText('avoid shitty job')).toBeInTheDocument()
   })
 
-  it('App B toggles an item when clicked', () => {
+  it('App B toggles an item when clicked, it sinks below the open ones', () => {
     document.location.hash = '#My%20goals=have%20fun,!avoid%20shitty%20job'
     render(<App />)
     const checkbox = screen.getByText('have fun').closest('label')?.querySelector('input')
     expect(checkbox).not.toBeNull()
     if (checkbox) fireEvent.click(checkbox)
-    expect(document.location.hash).toBe('#My%20goals=!have%20fun,!avoid%20shitty%20job')
+    expect(document.location.hash).toBe('#My%20goals=!avoid%20shitty%20job,!have%20fun')
   })
 
   it('App C edits title, renames, adds and removes goals', () => {

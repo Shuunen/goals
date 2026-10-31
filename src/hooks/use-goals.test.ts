@@ -50,14 +50,14 @@ describe('useGoals', () => {
     `)
   })
 
-  it('useGoals C toggleItem flips the item done state and updates the hash', () => {
+  it('useGoals C toggleItem checks a goal, which sinks to the end, and updates the hash', () => {
     document.location.hash = '#My%20great%20goals=have%20fun,!avoid%20shitty%20job'
     const { result } = renderHook(() => useGoals())
     act(() => {
       result.current.toggleItem(0)
     })
     expect(result.current.items[0]?.isDone).toBe(true)
-    expect(document.location.hash).toBe('#My%20great%20goals=!have%20fun,!avoid%20shitty%20job')
+    expect(document.location.hash).toBe('#My%20great%20goals=!avoid%20shitty%20job,!have%20fun')
   })
 
   it('useGoals D toggleItem flips a done item back to undone', () => {
@@ -148,7 +148,7 @@ describe('useGoals', () => {
     act(() => {
       result.current.toggleItem(0)
     })
-    expect(document.location.hash).toBe('#t=!a,b&theme=dark&font=lora')
+    expect(document.location.hash).toBe('#t=b,!a&theme=dark&font=lora')
   })
 
   it('useGoals L first visit shows the default goals', () => {
@@ -307,5 +307,30 @@ describe('useGoals', () => {
       result.current.undo()
     })
     expect(result.current.items).toHaveLength(1)
+  })
+
+  it('useGoals Y unchecking a goal moves it to the boundary, before the first done goal', () => {
+    document.location.hash = '#t=a,b,!c,!d,e'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.toggleItem(3)
+    })
+    expect(result.current.items.map(item => [item.title, item.isDone])).toStrictEqual([
+      ['a', false],
+      ['b', false],
+      ['d', false],
+      ['c', true],
+      ['e', false],
+    ])
+  })
+
+  it('useGoals Z checking the last open goal & toggling a missing one', () => {
+    document.location.hash = '#t=a,!b'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.toggleItem(0)
+      result.current.toggleItem(9)
+    })
+    expect(result.current.items.map(item => item.title)).toStrictEqual(['b', 'a'])
   })
 })
