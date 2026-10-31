@@ -6,12 +6,14 @@ import { PencilIcon } from '../components/pencil-icon'
 import { SettingsModal } from '../components/settings-modal'
 import { useFont } from '../hooks/use-font'
 import { useGoals } from '../hooks/use-goals'
+import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
 
 export function App() {
   const { addItem, items, moveItem, removeItem, renameItem, renameTitle, title, toggleItem } = useGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
+  const { canGrow, canShrink, larger, size, smaller } = useSize()
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   return (
@@ -22,7 +24,20 @@ export function App() {
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
-      <SettingsModal isOpen={isSettingsOpen} labelFont={labelFont} onClose={() => setIsSettingsOpen(false)} onFontPick={pickFont} onThemeChange={changeTheme} theme={theme} titleFont={titleFont} />
+      <SettingsModal
+        canGrow={canGrow}
+        canShrink={canShrink}
+        isOpen={isSettingsOpen}
+        labelFont={labelFont}
+        onClose={() => setIsSettingsOpen(false)}
+        onFontPick={pickFont}
+        onLarger={larger}
+        onSmaller={smaller}
+        onThemeChange={changeTheme}
+        size={size}
+        theme={theme}
+        titleFont={titleFont}
+      />
       <button aria-pressed={isEditing} className="edit-button" onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
         <PencilIcon />
       </button>

@@ -71,6 +71,22 @@ describe('App', () => {
     localStorage.clear()
   })
 
+  it('App D1 zooms the whole app from the settings, within the limits', () => {
+    localStorage.clear()
+    document.location.hash = '#My%20goals=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Settings'))
+    expect(screen.getByLabelText('Current size')).toHaveTextContent('100%')
+    fireEvent.click(screen.getByLabelText('Larger'))
+    expect(screen.getByLabelText('Current size')).toHaveTextContent('110%')
+    expect(document.documentElement.style.getPropertyValue('--zoom')).toBe('1.1')
+    for (let step = 0; step < 10; step += 1) fireEvent.click(screen.getByLabelText('Smaller'))
+    expect(screen.getByLabelText('Smaller')).toBeDisabled()
+    expect(screen.getByLabelText('Current size')).toHaveTextContent('10%')
+    // do not leak the choices to the other tests
+    localStorage.clear()
+  })
+
   it('App D2 the first font pick sets the title, the second the labels', () => {
     document.location.hash = '#My%20goals=a'
     render(<App />)
