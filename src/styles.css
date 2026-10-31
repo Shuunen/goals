@@ -6,6 +6,7 @@
 
 :root,
 [data-theme='paper'] {
+  --danger: #e5484d;
   --bg: snow;
   --fg: #333;
   --surface: white;
@@ -496,13 +497,13 @@ select {
 
 .icon-button.remove:hover,
 .icon-button.remove:focus-visible {
-  color: #e5484d;
+  color: var(--danger);
 }
 
 .icon-button.remove.confirming,
 .icon-button.remove.confirming:hover,
 .icon-button.remove.confirming:focus-visible {
-  background: #e5484d;
+  background: var(--danger);
   border-radius: 1.3rem;
   color: white;
   font-size: 1.5rem;
@@ -549,6 +550,30 @@ h1.title,
   text-decoration-color: var(--accent);
   text-underline-offset: 0.2em;
   z-index: 10;
+}
+
+/* an empty goal is refused : red underline & outline that stay until the text is fixed or Escape gives the old one back */
+.editable[aria-invalid='true'] {
+  border-radius: 0.3rem;
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+  text-decoration-color: var(--danger);
+}
+
+.editable.shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  20%,
+  60% {
+    transform: translateX(-0.5rem);
+  }
+
+  40%,
+  80% {
+    transform: translateX(0.5rem);
+  }
 }
 
 .editable::placeholder {
@@ -920,7 +945,8 @@ ul.list > li.dragging > .item.editing > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .toast {
+  .toast,
+  .editable.shake {
     animation: none;
   }
 
