@@ -1,5 +1,5 @@
 import { act, renderHook, waitFor } from '@testing-library/react'
-import { useTheme } from './use-theme'
+import { themes, useTheme } from './use-theme'
 
 describe('useTheme', () => {
   it('useTheme A defaults to paper', () => {
@@ -89,5 +89,53 @@ describe('useTheme', () => {
     await waitFor(() => {
       expect(result.current.theme).toBe('dark')
     })
+  })
+
+  it('useTheme J auto wears paper or dark like the system, the hash keeps auto', () => {
+    let isDark = false
+    const listeners: (() => void)[] = []
+    vi.stubGlobal('matchMedia', () => ({
+      addEventListener: (_type: string, listener: () => void) => {
+        listeners.push(listener)
+      },
+      get matches() {
+        return isDark
+      },
+      removeEventListener: vi.fn<() => void>(),
+    }))
+    localStorage.clear()
+    document.location.hash = '#t=a'
+    const { result, unmount } = renderHook(() => useTheme())
+    act(() => {
+      result.current.changeTheme('auto')
+    })
+    expect(result.current.theme).toBe('auto')
+    expect(document.documentElement.dataset.theme).toBe('paper')
+    expect(document.location.hash).toBe('#t=a&theme=auto')
+    isDark = true
+    act(() => {
+      for (const listener of listeners) listener()
+    })
+    expect(document.documentElement.dataset.theme).toBe('dark')
+    isDark = false
+    act(() => {
+      for (const listener of listeners) listener()
+    })
+    expect(document.documentElement.dataset.theme).toBe('paper')
+    unmount()
+    vi.unstubAllGlobals()
+  })
+
+  it('useTheme K auto is the last theme, paper stays the default', () => {
+    expect(themes.at(-1)).toBe('auto')
+    expect(themes[0]).toBe('paper')
+  })
+
+  it('useTheme L the PWA bars follow the resolved theme of auto', () => {
+    document.head.insertAdjacentHTML('beforeend', '<meta name="theme-color" content="#0a5" />')
+    localStorage.setItem('goals-theme', 'auto')
+    document.documentElement.style.setProperty('--bg', '#282a36')
+    renderHook(() => useTheme())
+    expect(document.querySelector('meta[name="theme-color"]')?.getAttribute('content')).toBe('#282a36')
   })
 })

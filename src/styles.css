@@ -925,6 +925,16 @@ button.swatch[aria-pressed='true'] {
   outline-offset: 3px;
 }
 
+/* the auto tile has no colors of its own : half light, half dark, like the two themes it picks from */
+.swatch[data-theme='auto'] {
+  grid-column: 1 / -1;
+}
+
+.swatch[data-theme='auto'] .preview {
+  background: linear-gradient(105deg, #fff 50%, #282a36 50%);
+  color: #7a7a7a;
+}
+
 /* the Title and Label badges a font swatch wears to show what it's currently used for */
 .marker {
   background: var(--accent);

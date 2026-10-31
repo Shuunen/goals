@@ -1,18 +1,36 @@
-import { useEffect } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import { usePreference } from './use-preference'
 
-export const themes = ['paper', 'dark', 'ocean', 'sunset', 'forest', 'rose'] as const
+// "auto" follows the system : light is paper, dark is dark
+export const themes = ['paper', 'dark', 'ocean', 'sunset', 'forest', 'rose', 'auto'] as const
 export type Theme = (typeof themes)[number]
+
+const darkQuery = '(prefers-color-scheme: dark)'
+
+function subscribeToSystem(onChange: () => void) {
+  const query = globalThis.matchMedia(darkQuery)
+  query.addEventListener('change', onChange)
+  return () => query.removeEventListener('change', onChange)
+}
+
+const isSystemDark = () => globalThis.matchMedia(darkQuery).matches
+
+function resolveTheme(theme: Theme, isDark: boolean) {
+  if (theme !== 'auto') return theme
+  return isDark ? 'dark' : 'paper'
+}
 
 export function useTheme() {
   const [theme, changeTheme] = usePreference('theme', themes)
+  const isDark = useSyncExternalStore(subscribeToSystem, isSystemDark)
 
-  // the installed PWA colors its status bar & title bar from this tag, so it follows the page background of the chosen theme
+  // the page wears the resolved theme, the hash & the settings keep "auto"
+  // the installed PWA colors its status bar & title bar from the theme-color tag, so it follows the page background too
   useEffect(() => {
+    document.documentElement.dataset.theme = resolveTheme(theme, isDark)
     const background = globalThis.getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
     if (background.length > 0) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', background)
-    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- the theme is the trigger, the color is read from the page
-  }, [theme])
+  }, [isDark, theme])
 
   return { changeTheme, theme }
 }
