@@ -502,6 +502,7 @@ h1.title,
   font-size: 5rem;
   text-align: center;
   text-decoration-color: var(--accent);
+  text-underline-offset: 0.1em;
   z-index: 10;
 }
 
