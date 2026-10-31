@@ -14,7 +14,7 @@ import { useTheme } from '../hooks/use-theme'
 import { useUndoableGoals } from '../hooks/use-undoable-goals'
 
 export function App() {
-  const { addItem, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
+  const { addItem, addItems, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const { canGrow, canShrink, larger, size, smaller } = useSize()
@@ -35,7 +35,7 @@ export function App() {
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
       <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
-      <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
+      <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <SettingsModal
         canGrow={canGrow}
         canReset={doneCount > 0}

@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { Item } from '../models/item.model'
 import { useGoals } from './use-goals'
 import { useToast } from './use-toast'
 
@@ -6,7 +7,7 @@ import { useToast } from './use-toast'
 export function useUndoableGoals() {
   const goals = useGoals()
   const { dismissToast, showToast, toast } = useToast()
-  const { forget, items, remember, removeItem, resetAll, undo } = goals
+  const { addItems, forget, items, remember, removeItem, resetAll, undo } = goals
 
   const announce = useCallback((message: string) => showToast({ actionLabel: 'Undo', message, onAction: undo, onExpire: forget }), [forget, showToast, undo])
 
@@ -27,5 +28,14 @@ export function useUndoableGoals() {
     [announce, items, remember, removeItem],
   )
 
-  return { ...goals, dismissToast, removeItem: removeItemUndoable, resetAll: resetAllUndoable, toast }
+  const addItemsUndoable = useCallback(
+    (added: Item[]) => {
+      remember()
+      addItems(added)
+      announce(`Added ${added.length} goals`)
+    },
+    [addItems, announce, remember],
+  )
+
+  return { ...goals, addItems: addItemsUndoable, dismissToast, removeItem: removeItemUndoable, resetAll: resetAllUndoable, toast }
 }

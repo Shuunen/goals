@@ -727,8 +727,13 @@ li:not(.new-row) .item.editing .editable,
 
 .new-row .item.editing .editable {
   flex: none;
-  max-width: calc(100vw - 5rem);
+  /* leaves the room of the add button */
+  max-width: calc(100vw - 10rem);
   width: max-content;
+}
+
+.icon-button.add {
+  flex-shrink: 0;
 }
 
 .modal-backdrop {
