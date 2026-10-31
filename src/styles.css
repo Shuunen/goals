@@ -699,6 +699,32 @@ li:not(.new-row) .item.editing .editable,
   visibility: visible;
 }
 
+/* narrow screens : the settings are a bottom sheet, so the list stays in sight above it and reacts live to the changes.
+   a width query in em follows the browser, not the size setting, and tablets keep the popover */
+@media (max-width: 40em) {
+  .modal-backdrop {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 1rem calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .modal {
+    max-height: 45dvh;
+    transform: translateY(calc(100% + 2rem));
+    transform-origin: bottom center;
+    width: 100%;
+  }
+
+  /* the list can scroll past the sheet & the toast rides above it */
+  body:has(.modal-backdrop.open) main {
+    padding-bottom: calc(45dvh + 2rem);
+  }
+
+  body:has(.modal-backdrop.open) .toast-area {
+    bottom: calc(45dvh + 2rem + env(safe-area-inset-bottom));
+  }
+}
+
 .modal-header {
   align-items: center;
   display: flex;
