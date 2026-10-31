@@ -8,14 +8,19 @@ const defaultItems = ['This is some default goals', 'Become a ninja', 'Eat lots 
 
 const storageKey = 'goals-saved'
 
-type State = { items: Item[]; title: string }
+type Snapshot = { items: Item[]; title: string }
+type State = Snapshot & { undoStack: Snapshot[] }
 
-function hasGoals({ items, title }: Pick<State, 'items' | 'title'>) {
+const undoLimit = 10
+
+type SetState = (state: State | ((previous: State) => State)) => void
+
+function hasGoals({ items, title }: Snapshot) {
   return items.length > 0 || title.length > 0
 }
 
-function toState({ items, title }: Pick<State, 'items' | 'title'>): State {
-  return { items, title: title.length > 0 ? title : defaultTitle }
+function toState({ items, title }: Snapshot): State {
+  return { items, title: title.length > 0 ? title : defaultTitle, undoStack: [] }
 }
 
 function readInitialState(): State {
@@ -24,7 +29,7 @@ function readInitialState(): State {
   const fromStorage = hashToData(localStorage.getItem(storageKey) ?? '')
   const found = [fromHash, fromStorage].find(data => hasGoals(data))
   // the defaults are for a first visit only : an emptied list, stored or shared, stays empty
-  const state = found ? toState(found) : { items: defaultItems, title: defaultTitle }
+  const state = found ? toState(found) : { items: defaultItems, title: defaultTitle, undoStack: [] }
   logger.info('detected', state.items.length, 'items :', state.items)
   return state
 }
@@ -34,7 +39,7 @@ function changeItemAt(state: State, index: number, change: (item: Item) => Item)
 }
 
 // keeps the url & the browser memory in line with the state, in both ways
-function useSync(state: State, setState: (state: State | ((previous: State) => State)) => void) {
+function useSync(state: State, setState: SetState) {
   // only a change made here is saved : opening a shared link must not replace what this browser remembers
   const isChanged = useRef(false)
   const markChanged = useCallback(() => {
@@ -61,6 +66,20 @@ function useSync(state: State, setState: (state: State | ((previous: State) => S
   }, [setState])
 
   return markChanged
+}
+
+// a destructive action remembers the list as it was, undo gives back the most recent one exactly
+function useUndo(setState: SetState, markChanged: () => void) {
+  const remember = useCallback(() => setState(previous => ({ ...previous, undoStack: [...previous.undoStack, { items: previous.items, title: previous.title }].slice(-undoLimit) })), [setState])
+  const forget = useCallback(() => setState(previous => (previous.undoStack.length > 0 ? { ...previous, undoStack: [] } : previous)), [setState])
+  const undo = useCallback(() => {
+    markChanged()
+    setState(previous => {
+      const last = previous.undoStack.at(-1)
+      return last ? { items: last.items, title: last.title, undoStack: previous.undoStack.slice(0, -1) } : previous
+    })
+  }, [markChanged, setState])
+  return { forget, remember, undo }
 }
 
 export function useGoals() {
@@ -102,5 +121,7 @@ export function useGoals() {
   )
   const removeItem = useCallback((index: number) => update(previous => ({ ...previous, items: previous.items.filter((_item, itemIndex) => itemIndex !== index) })), [update])
 
-  return { addItem, items: state.items, moveItem, removeItem, renameItem, renameTitle, title: state.title, toggleItem }
+  const { forget, remember, undo } = useUndo(setState, markChanged)
+
+  return { addItem, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, title: state.title, toggleItem, undo }
 }

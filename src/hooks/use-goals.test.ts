@@ -248,4 +248,64 @@ describe('useGoals', () => {
     })
     expect(result.current.items).toBe(before)
   })
+
+  it('useGoals U undo gives back the list as it was before the last remembered action', () => {
+    document.location.hash = '#t=a,!b,c'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.remember()
+      result.current.removeItem(1)
+    })
+    expect(result.current.items.map(item => item.title)).toStrictEqual(['a', 'c'])
+    act(() => {
+      result.current.undo()
+    })
+    expect(result.current.items.map(item => [item.title, item.isDone])).toStrictEqual([
+      ['a', false],
+      ['b', true],
+      ['c', false],
+    ])
+    expect(document.location.hash).toBe('#t=a,!b,c')
+    expect(localStorage.getItem('goals-saved')).toBe('#t=a,!b,c')
+  })
+
+  it('useGoals V undo does nothing without a remembered list', () => {
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.undo()
+    })
+    expect(result.current.items).toHaveLength(1)
+  })
+
+  it('useGoals W undo goes back one action at a time, keeping the last 10', () => {
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useGoals())
+    for (let index = 0; index < 12; index += 1)
+      act(() => {
+        result.current.remember()
+        result.current.addItem(`n${index}`)
+      })
+    expect(result.current.items).toHaveLength(13)
+    for (let index = 0; index < 12; index += 1)
+      act(() => {
+        result.current.undo()
+      })
+    expect(result.current.items).toHaveLength(3)
+  })
+
+  it('useGoals X forget drops what can be undone', () => {
+    document.location.hash = '#t=a,b'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.forget()
+      result.current.remember()
+      result.current.removeItem(0)
+      result.current.forget()
+    })
+    act(() => {
+      result.current.undo()
+    })
+    expect(result.current.items).toHaveLength(1)
+  })
 })

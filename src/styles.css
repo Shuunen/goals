@@ -800,7 +800,57 @@ button.swatch[aria-pressed='true'] {
   color: var(--accent);
 }
 
+/* centered between the two 3.4rem corner buttons, above the list & under the settings */
+.toast-area {
+  bottom: calc(1.2rem + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+  left: 5.6rem;
+  pointer-events: none;
+  position: fixed;
+  right: 5.6rem;
+  z-index: 25;
+}
+
+.toast {
+  align-items: center;
+  animation: toast-in 0.25s ease-out;
+  background: var(--fg);
+  border-radius: 0.8rem;
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.25);
+  color: var(--surface);
+  display: flex;
+  font-size: 1.6rem;
+  gap: 1.2rem;
+  max-width: 100%;
+  padding: 0.8rem 1.2rem;
+  pointer-events: auto;
+}
+
+.toast-action {
+  background: transparent;
+  border: 0;
+  border-radius: 0.4rem;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  text-decoration: underline;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+}
+
 @media print {
+  .toast-area {
+    display: none;
+  }
+
   ul.list::before {
     display: none;
   }
@@ -865,6 +915,10 @@ ul.list > li.dragging > .item.editing > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+
   ul.list > li {
     animation: none;
   }

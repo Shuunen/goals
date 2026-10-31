@@ -4,16 +4,19 @@ import { GearIcon } from '../components/gear-icon'
 import { GoalList } from '../components/goal-list'
 import { PencilIcon } from '../components/pencil-icon'
 import { SettingsModal } from '../components/settings-modal'
+import { Toast } from '../components/toast'
 import { useFont } from '../hooks/use-font'
 import { useGoals } from '../hooks/use-goals'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
+import { useToast } from '../hooks/use-toast'
 
 export function App() {
   const { addItem, items, moveItem, removeItem, renameItem, renameTitle, title, toggleItem } = useGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const { canGrow, canShrink, larger, size, smaller } = useSize()
+  const { dismissToast, toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   return (
@@ -38,6 +41,7 @@ export function App() {
         theme={theme}
         titleFont={titleFont}
       />
+      <Toast onDismiss={dismissToast} toast={toast} />
       <button aria-pressed={isEditing} className="edit-button" onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
         <PencilIcon />
       </button>
