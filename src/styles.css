@@ -747,6 +747,13 @@ li:not(.new-row) .item.editing .editable,
   width: max-content;
 }
 
+.clear-done {
+  font-size: 1.6rem;
+  margin-top: 0.4rem;
+  padding: 0.4rem 1.2rem;
+  z-index: 10;
+}
+
 .icon-button.add {
   flex-shrink: 0;
 }
@@ -1054,6 +1061,7 @@ button.swatch[aria-pressed='true'] {
   .settings-button,
   .edit-button,
   .progress-wrap,
+  .clear-done,
   .empty-hint,
   .toast-area {
     display: none;
