@@ -489,4 +489,35 @@ describe('App', () => {
     render(<App />)
     expect(screen.queryByText(/getting long/u)).not.toBeInTheDocument()
   })
+
+  it('App AJ importing replaces the list and its title, and the toast gives the old list back', () => {
+    document.location.hash = '#Old=x,y'
+    render(<App />)
+    fireEvent.change(screen.getByLabelText('Paste a list to import'), { target: { value: '# New\n- a\n- [x] b' } })
+    fireEvent.click(screen.getByText('Replace my list'))
+    expect(screen.getByText('List replaced by 2 goals')).toBeInTheDocument()
+    expect(document.location.hash).toBe('#New=a,!b')
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#Old=x,y')
+  })
+
+  it('App AK importing plain lines keeps the current title', () => {
+    document.location.hash = '#Old=x'
+    render(<App />)
+    fireEvent.change(screen.getByLabelText('Paste a list to import'), { target: { value: 'one\ntwo' } })
+    fireEvent.click(screen.getByText('Replace my list'))
+    expect(document.location.hash).toBe('#Old=one,two')
+  })
+
+  it('App AL clear everything wipes the storage and reloads', () => {
+    localStorage.setItem('goals-saved', '#t=a')
+    document.location.hash = '#t=a'
+    const reload = vi.spyOn(globalThis.location, 'reload').mockReturnValue(undefined)
+    render(<App />)
+    fireEvent.click(screen.getByText('Clear everything'))
+    fireEvent.click(screen.getByText('Yes, clear'))
+    expect(localStorage.getItem('goals-saved')).toBeNull()
+    expect(reload).toHaveBeenCalledOnce()
+    reload.mockRestore()
+  })
 })
