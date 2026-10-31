@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react'
+import { act, renderHook, waitFor } from '@testing-library/react'
 import { useTheme } from './use-theme'
 
 describe('useTheme', () => {
@@ -70,5 +70,24 @@ describe('useTheme', () => {
     document.querySelector('meta[name="theme-color"]')?.remove()
     document.documentElement.style.removeProperty('--bg')
     expect(() => renderHook(() => useTheme())).not.toThrow()
+  })
+
+  it('useTheme H follows a hash changed from outside, ignoring unknown themes', async () => {
+    localStorage.clear()
+    document.location.hash = '#t=a'
+    const { result } = renderHook(() => useTheme())
+    act(() => {
+      document.location.hash = '#t=a&theme=nope'
+    })
+    await waitFor(() => {
+      expect(document.location.hash).toBe('#t=a&theme=nope')
+    })
+    expect(result.current.theme).toBe('paper')
+    act(() => {
+      document.location.hash = '#t=a&theme=dark'
+    })
+    await waitFor(() => {
+      expect(result.current.theme).toBe('dark')
+    })
   })
 })

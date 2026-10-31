@@ -19,6 +19,17 @@ export function usePreference<Option extends string>(name: string, options: read
     if (inUrl !== value && (inUrl !== undefined || value !== fallback)) writeHashSetting(name, value)
   }, [fallback, name, value])
 
+  // the hash can change from outside, like a pasted url or a back button
+  useEffect(() => {
+    const onHashChange = () => {
+      const wanted = hashToData(document.location.hash).settings[name]
+      const option = options.find(candidate => candidate === wanted)
+      if (option !== undefined) setValue(option)
+    }
+    globalThis.addEventListener('hashchange', onHashChange)
+    return () => globalThis.removeEventListener('hashchange', onHashChange)
+  }, [name, options])
+
   const change = useCallback(
     (next: Option) => {
       localStorage.setItem(storageKey, next)
