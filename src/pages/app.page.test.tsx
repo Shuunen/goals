@@ -38,6 +38,7 @@ function scrollDown(position: number) {
   })
 }
 
+const editButton = () => screen.getByRole('button', { name: /edit goals|done editing/iu })
 const pasteOneLine = (field: HTMLElement) => fireEvent.paste(field, { clipboardData: { getData: () => 'one line' } })
 
 describe('App', () => {
@@ -61,7 +62,7 @@ describe('App', () => {
   it('App C edits title, renames, adds and removes goals', () => {
     document.location.hash = '#My%20goals=a,a,b'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Mine' } })
     fireEvent.blur(screen.getByLabelText('Title'))
     fireEvent.change(screen.getByLabelText('Goal 3'), { target: { value: 'c' } })
@@ -72,7 +73,7 @@ describe('App', () => {
     fireEvent.blur(screen.getByLabelText('New goal'))
     fireEvent.click(screen.getAllByLabelText('Remove a')[0])
     expect(document.location.hash).toBe('#Mine=a,c,d')
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     expect(screen.queryByLabelText('Title')).toBeNull()
   })
 
@@ -124,7 +125,7 @@ describe('App', () => {
     document.location.hash = '#t=a,b,c'
     const restore = mockLayout()
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     const handle = screen.getByLabelText('Move goal 1')
     handle.focus()
     fireEvent.keyDown(handle, { code: 'Space', key: ' ' })
@@ -145,7 +146,7 @@ describe('App', () => {
     document.location.hash = '#t=a,b,c'
     const restore = mockLayout()
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     const handle = screen.getByLabelText('Move goal 1')
     handle.focus()
     fireEvent.keyDown(handle, { code: 'Space', key: ' ' })
@@ -162,7 +163,7 @@ describe('App', () => {
   it('App H removes at once, the toast gives back the most recent removal where it was', () => {
     document.location.hash = '#t=a,!b,c'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     fireEvent.click(screen.getByLabelText('Remove b'))
     expect(screen.getByText('Removed “b”')).toBeInTheDocument()
     fireEvent.click(screen.getByLabelText('Remove a'))
@@ -216,7 +217,7 @@ describe('App', () => {
     document.location.hash = '#Mine='
     render(<App />)
     expect(screen.getByText('Tap the pencil to add a goal')).toBeInTheDocument()
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     expect(screen.queryByText('Tap the pencil to add a goal')).not.toBeInTheDocument()
   })
 
@@ -234,7 +235,7 @@ describe('App', () => {
     document.location.hash = '#t=a'
     render(<App />)
     const gear = screen.getByTitle('Settings')
-    const pencil = screen.getByTitle('Edit')
+    const pencil = editButton()
     scrollDown(300)
     expect(gear).toHaveClass('is-away')
     expect(pencil).toHaveClass('is-away')
@@ -302,7 +303,7 @@ describe('App', () => {
   it('App T Escape leaves the edit mode when no field is focused', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
     fireEvent.keyDown(document.body, { key: 'a' })
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
@@ -313,7 +314,7 @@ describe('App', () => {
   it('App U Escape in a field only gives the text back, the edit mode stays', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     const field = screen.getByLabelText('Goal 1')
     field.focus()
     fireEvent.keyDown(field, { key: 'Escape' })
@@ -326,7 +327,7 @@ describe('App', () => {
   it('App V Escape keeps the edit mode during a drag, with the settings open or on a toast button', () => {
     document.location.hash = '#t=!a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     document.querySelector('ul.list')?.classList.add('is-dragging')
     fireEvent.keyDown(document.body, { key: 'Escape' })
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
@@ -342,7 +343,7 @@ describe('App', () => {
   it('App W the add button adds what was typed, empties the field and keeps the focus', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     const field = screen.getByLabelText('New goal')
     field.focus()
     fireEvent.change(field, { target: { value: 'b' } })
@@ -356,7 +357,7 @@ describe('App', () => {
   it('App X the add button on an empty field only focuses it', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     fireEvent.click(screen.getByLabelText('Add goal'))
     expect(screen.getByLabelText('New goal')).toHaveFocus()
     expect(document.location.hash).toBe('#t=a')
@@ -365,7 +366,7 @@ describe('App', () => {
   it('App Y pasting several lines adds several goals at once, with one undo', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     const field = screen.getByLabelText('New goal')
     fireEvent.paste(field, { clipboardData: { getData: () => '- [x] b\n* c\n\n1. d' } })
     expect(document.location.hash).toBe('#t=a,!b,c,d')
@@ -377,9 +378,19 @@ describe('App', () => {
   it('App Z pasting a single line is a normal paste, in the add row and in a goal', () => {
     document.location.hash = '#t=a'
     render(<App />)
-    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(editButton())
     expect(pasteOneLine(screen.getByLabelText('New goal'))).toBe(true)
     expect(pasteOneLine(screen.getByLabelText('Goal 1'))).toBe(true)
     expect(document.location.hash).toBe('#t=a')
+  })
+
+  it('App AA the edit button says what it does, without a pressed state, and the gear is named', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    expect(screen.getByRole('button', { name: 'Edit goals' })).not.toHaveAttribute('aria-pressed')
+    expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument()
+    fireEvent.click(editButton())
+    expect(screen.getByRole('button', { name: 'Done editing' })).toHaveAttribute('title', 'Done editing')
+    expect(screen.getByRole('button', { name: 'Done editing' })).toHaveAttribute('data-editing', 'true')
   })
 })
