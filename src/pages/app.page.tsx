@@ -7,12 +7,14 @@ import { PencilIcon } from '../components/pencil-icon'
 import { ProgressBar } from '../components/progress-bar'
 import { SettingsModal } from '../components/settings-modal'
 import { Toast } from '../components/toast'
+import { UrlWarning } from '../components/url-warning'
 import { useEscapeToLeave } from '../hooks/use-escape-to-leave'
 import { useFont } from '../hooks/use-font'
 import { useScrollHide } from '../hooks/use-scroll-hide'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
 import { useUndoableGoals } from '../hooks/use-undoable-goals'
+import { buildShareUrl } from '../utils/url.utils'
 
 export function App() {
   const { addItem, addItems, clearDone, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
@@ -28,6 +30,7 @@ export function App() {
   useEscapeToLeave(isEditing && !isSettingsOpen, () => setIsEditing(false))
   // the name says what a press does, so there is no pressed state to announce twice
   const editLabel = isEditing ? 'Done editing' : 'Edit goals'
+  const shareUrl = buildShareUrl(title, items)
   const doneCount = items.filter(item => item.isDone).length
   return (
     <main>
@@ -39,6 +42,7 @@ export function App() {
       <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
+      <UrlWarning isEditing={isEditing} length={shareUrl.length} />
       <ClearDone count={doneCount} isEditing={isEditing} onClear={clearDone} />
       <SettingsModal
         canReset={doneCount > 0}
@@ -48,8 +52,10 @@ export function App() {
         onFontPick={pickFont}
         onReset={resetAll}
         onThemeChange={changeTheme}
+        shareUrl={shareUrl}
         sizing={sizing}
         theme={theme}
+        title={title}
         titleFont={titleFont}
       />
       <Toast onDismiss={dismissToast} toast={toast} />

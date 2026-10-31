@@ -5,6 +5,7 @@ import { fontLabels, fonts, type Font } from '../hooks/use-font'
 import { themes, type Theme } from '../hooks/use-theme'
 import { ChoiceGrid } from './choice-grid'
 import { CloseIcon } from './close-icon'
+import { ShareSection } from './share-section'
 import { SizeStepper, type SizeStepperProps } from './size-stepper'
 
 type SettingsModalProps = {
@@ -15,8 +16,10 @@ type SettingsModalProps = {
   onFontPick: (font: Font) => void
   onReset: () => void
   onThemeChange: (theme: Theme) => void
+  shareUrl: string
   sizing: SizeStepperProps
   theme: Theme
+  title: string
   titleFont: Font
 }
 
@@ -46,7 +49,7 @@ function trapTab(event: ReactKeyboardEvent<HTMLDivElement>) {
   ;(isLeavingStart ? last : first)?.focus()
 }
 
-export function SettingsModal({ canReset, isOpen, labelFont, onClose, onFontPick, onReset, onThemeChange, sizing, theme, titleFont }: SettingsModalProps) {
+export function SettingsModal({ canReset, isOpen, labelFont, onClose, onFontPick, onReset, onThemeChange, shareUrl, sizing, theme, title, titleFont }: SettingsModalProps) {
   const dialog = useDialogFocus(isOpen, onClose)
   return (
     // always mounted so it can animate in and out, inert & hidden from assistive tech while closed
@@ -61,6 +64,7 @@ export function SettingsModal({ canReset, isOpen, labelFont, onClose, onFontPick
         <ChoiceGrid attribute="data-theme" legend="Theme" onChange={onThemeChange} options={themes} value={theme} />
         <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Fonts" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
         <SizeStepper {...sizing} />
+        <ShareSection title={title} url={shareUrl} />
         <fieldset className="list-actions">
           <legend>Your list</legend>
           <button disabled={!canReset} onClick={onReset} type="button">

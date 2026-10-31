@@ -747,6 +747,15 @@ li:not(.new-row) .item.editing .editable,
   width: max-content;
 }
 
+.url-warning {
+  color: var(--danger);
+  font-size: 1.4rem;
+  margin: 0.4rem 0 0;
+  max-width: 30rem;
+  text-align: center;
+  z-index: 10;
+}
+
 .clear-done {
   font-size: 1.6rem;
   margin-top: 0.4rem;
@@ -870,6 +879,33 @@ li:not(.new-row) .item.editing .editable,
 .list-actions button:disabled {
   cursor: default;
   opacity: 0.4;
+}
+
+.share-status {
+  align-self: center;
+  color: var(--accent);
+  min-width: 5ch;
+}
+
+.share-link {
+  background: var(--surface);
+  border: 1px solid var(--fg);
+  border-radius: 0.4rem;
+  box-sizing: border-box;
+  color: var(--fg);
+  font: inherit;
+  font-size: 1.3rem;
+  width: 100%;
+}
+
+.share-length {
+  flex-basis: 100%;
+  opacity: 0.7;
+}
+
+.share-length.long {
+  color: var(--danger);
+  opacity: 1;
 }
 
 .size-stepper {
@@ -1069,6 +1105,7 @@ button.swatch[aria-pressed='true'] {
   .edit-button,
   .progress-wrap,
   .clear-done,
+  .url-warning,
   .empty-hint,
   .toast-area {
     display: none;

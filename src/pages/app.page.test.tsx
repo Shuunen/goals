@@ -472,4 +472,21 @@ describe('App', () => {
     fireEvent.click(screen.getByText('Reset'))
     expect(screen.getByLabelText('Current size')).toHaveTextContent('100%')
   })
+
+  it('App AH a long list warns in edit mode only, and the settings tell the link length', () => {
+    const long = Array.from({ length: 150 }, (_unused, index) => `goal number ${index}`).join(',')
+    document.location.hash = `#t=${long}`
+    render(<App />)
+    const warning = screen.getByText(/getting long/u)
+    expect(warning).toHaveAttribute('aria-hidden', 'true')
+    fireEvent.click(editButton())
+    expect(warning).toHaveAttribute('aria-hidden', 'false')
+    expect(screen.getByText(/some apps may cut such a long link/u)).toBeInTheDocument()
+  })
+
+  it('App AI a short list shows no warning', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    expect(screen.queryByText(/getting long/u)).not.toBeInTheDocument()
+  })
 })
