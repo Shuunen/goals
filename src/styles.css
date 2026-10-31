@@ -42,8 +42,8 @@
   --font: 'Caveat', cursive;
 }
 
-[data-font='inter'] {
-  --font: 'Inter', sans-serif;
+[data-font='dancing-script'] {
+  --font: 'Dancing Script', cursive;
 }
 
 [data-font='lora'] {
@@ -54,8 +54,8 @@
   --font: 'JetBrains Mono', monospace;
 }
 
-[data-font='space-grotesk'] {
-  --font: 'Space Grotesk', sans-serif;
+[data-font='inter'] {
+  --font: 'Inter', sans-serif;
 }
 
 /* the title and the goal labels each pick their own font from the same grid (see the settings modal) */
@@ -68,8 +68,8 @@
   --font-title: 'Caveat', cursive;
 }
 
-[data-title-font='inter'] {
-  --font-title: 'Inter', sans-serif;
+[data-title-font='dancing-script'] {
+  --font-title: 'Dancing Script', cursive;
 }
 
 [data-title-font='lora'] {
@@ -80,8 +80,8 @@
   --font-title: 'JetBrains Mono', monospace;
 }
 
-[data-title-font='space-grotesk'] {
-  --font-title: 'Space Grotesk', sans-serif;
+[data-title-font='inter'] {
+  --font-title: 'Inter', sans-serif;
 }
 
 :root,
@@ -93,8 +93,8 @@
   --font-label: 'Caveat', cursive;
 }
 
-[data-label-font='inter'] {
-  --font-label: 'Inter', sans-serif;
+[data-label-font='dancing-script'] {
+  --font-label: 'Dancing Script', cursive;
 }
 
 [data-label-font='lora'] {
@@ -105,15 +105,15 @@
   --font-label: 'JetBrains Mono', monospace;
 }
 
-[data-label-font='space-grotesk'] {
-  --font-label: 'Space Grotesk', sans-serif;
+[data-label-font='inter'] {
+  --font-label: 'Inter', sans-serif;
 }
 
 [data-theme='dark'] {
-  --bg: #1b1d23;
-  --fg: #e6e6e6;
-  --surface: #1b1d23;
-  --accent: #3ddc84;
+  --bg: #282a36;
+  --fg: #f8f8f2;
+  --surface: #282a36;
+  --accent: #bd93f9;
 }
 
 /* dark theme trades the graph paper for a quiet star field, and lets the accent glow a little */
@@ -378,14 +378,24 @@ ul.list::before {
   }
 }
 
-/* the same two corners at every width : settings stays a plain icon top right, edit becomes the one accent action bottom right */
+/* the same two corners at every width : settings is the muted twin of the edit button, same round shape and size, top right.
+   edit stays the one accent action bottom right */
 .icon-button.settings-button {
+  background: color-mix(in srgb, var(--fg) 12%, var(--surface));
+  box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 0.15);
+  color: var(--fg);
   height: 3.4rem;
+  opacity: 1;
   position: fixed;
-  right: 1rem;
-  top: 1rem;
+  right: 1.2rem;
+  top: calc(1.2rem + env(safe-area-inset-top));
   width: 3.4rem;
   z-index: 20;
+}
+
+.icon-button.settings-button:hover,
+.icon-button.settings-button:focus-visible {
+  background: color-mix(in srgb, var(--fg) 20%, var(--surface));
 }
 
 .settings-button svg {
