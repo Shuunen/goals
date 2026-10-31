@@ -503,7 +503,27 @@ ul.list::before {
   width: 1.6rem;
 }
 
-.edit-button[aria-pressed='true'] {
+.edit-/* scrolled down : the corner buttons slide out of the screen, unless one of them has the keyboard focus */
+.settings-button,
+.edit-button {
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+}
+
+main:not(:has(.settings-button:focus-visible, .edit-button:focus-visible)) .settings-button.is-away {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6rem);
+}
+
+main:not(:has(.settings-button:focus-visible, .edit-button:focus-visible)) .edit-button.is-away {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6rem);
+}
+
+button[aria-pressed='true'] {
   box-shadow:
     0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent),
     0 0.4rem 1rem rgb(0 0 0 / 0.25);
@@ -1067,7 +1087,9 @@ ul.list > li.dragging > .item.editing > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .progress-fill {
+  .progress-fill,
+  .settings-button,
+  .edit-button {
     transition: none;
   }
 

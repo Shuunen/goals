@@ -28,6 +28,16 @@ async function settle() {
   })
 }
 
+// the page is 3000px tall in a 500px window, scrolled to a position
+function scrollDown(position: number) {
+  Object.defineProperty(globalThis, 'scrollY', { configurable: true, value: position })
+  Object.defineProperty(globalThis, 'innerHeight', { configurable: true, value: 500 })
+  Object.defineProperty(document.documentElement, 'scrollHeight', { configurable: true, value: 3000 })
+  act(() => {
+    globalThis.dispatchEvent(new Event('scroll'))
+  })
+}
+
 describe('App', () => {
   it('App A renders title & items from the hash', () => {
     document.location.hash = '#My%20goals=have%20fun,!avoid%20shitty%20job'
@@ -210,5 +220,28 @@ describe('App', () => {
     document.location.hash = '#t=a'
     render(<App />)
     expect(screen.queryByText('Tap the pencil to add a goal')).not.toBeInTheDocument()
+  })
+
+  it('App N the corner buttons step aside while scrolling down, but not while editing or with the settings open', () => {
+    vi.stubGlobal('requestAnimationFrame', (task: () => void) => {
+      task()
+      return 0
+    })
+    document.location.hash = '#t=a'
+    render(<App />)
+    const gear = screen.getByTitle('Settings')
+    const pencil = screen.getByTitle('Edit')
+    scrollDown(300)
+    expect(gear).toHaveClass('is-away')
+    expect(pencil).toHaveClass('is-away')
+    fireEvent.click(pencil)
+    expect(pencil).not.toHaveClass('is-away')
+    fireEvent.click(pencil)
+    scrollDown(600)
+    expect(pencil).toHaveClass('is-away')
+    fireEvent.click(gear)
+    expect(gear).not.toHaveClass('is-away')
+    vi.unstubAllGlobals()
+    Object.defineProperty(globalThis, 'scrollY', { configurable: true, value: 0 })
   })
 })

@@ -8,6 +8,7 @@ import { SettingsModal } from '../components/settings-modal'
 import { Toast } from '../components/toast'
 import { useFont } from '../hooks/use-font'
 import { useGoals } from '../hooks/use-goals'
+import { useScrollHide } from '../hooks/use-scroll-hide'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
 import { useToast } from '../hooks/use-toast'
@@ -20,10 +21,13 @@ export function App() {
   const { dismissToast, toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  // the buttons only step aside while reading : never while editing or with the settings open
+  const isScrolledAway = useScrollHide() && !isEditing && !isSettingsOpen
+  const cornerClass = isScrolledAway ? 'is-away' : ''
   return (
     <main>
       {/* same two corners on every screen size : settings pinned top right, edit pinned bottom right */}
-      <button className="icon-button settings-button" onClick={() => setIsSettingsOpen(true)} title="Settings" type="button">
+      <button className={`icon-button settings-button ${cornerClass}`} onClick={() => setIsSettingsOpen(true)} title="Settings" type="button">
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
@@ -45,7 +49,7 @@ export function App() {
         titleFont={titleFont}
       />
       <Toast onDismiss={dismissToast} toast={toast} />
-      <button aria-pressed={isEditing} className="edit-button" onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
+      <button aria-pressed={isEditing} className={`edit-button ${cornerClass}`} onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
         <PencilIcon />
       </button>
     </main>
