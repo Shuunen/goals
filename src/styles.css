@@ -533,7 +533,9 @@ button[aria-pressed='true'] {
   min-width: 1ch;
   outline: none;
   overflow: hidden;
-  padding: 0;
+  /* the bottom padding gives the descenders (g, y, j) room inside the clipping box, the margin takes it back so nothing moves */
+  margin-bottom: -0.15em;
+  padding: 0 0 0.15em;
   resize: none;
 }
 
@@ -541,6 +543,8 @@ h1.title,
 .editable.title {
   font-family: var(--font-title);
   font-size: 6rem;
+  /* the same line box as the h1 it replaces, so switching to edit mode moves nothing */
+  line-height: normal;
   text-align: center;
   text-decoration-color: var(--accent);
   text-underline-offset: 0.2em;
