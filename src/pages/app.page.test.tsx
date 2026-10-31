@@ -294,4 +294,44 @@ describe('App', () => {
     fireEvent.click(screen.getByLabelText('a'))
     expect(document.location.hash).toBe('#t=!a')
   })
+
+  it('App T Escape leaves the edit mode when no field is focused', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    fireEvent.keyDown(document.body, { key: 'a' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    expect(screen.queryByLabelText('Goal 1')).not.toBeInTheDocument()
+  })
+
+  it('App U Escape in a field only gives the text back, the edit mode stays', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const field = screen.getByLabelText('Goal 1')
+    field.focus()
+    fireEvent.keyDown(field, { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    field.focus()
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }))
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+  })
+
+  it('App V Escape keeps the edit mode during a drag, with the settings open or on a toast button', () => {
+    document.location.hash = '#t=!a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    document.querySelector('ul.list')?.classList.add('is-dragging')
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+    document.querySelector('ul.list')?.classList.remove('is-dragging')
+    fireEvent.click(screen.getByTitle('Settings'))
+    fireEvent.keyDown(document.body, { key: 'Escape' })
+    fireEvent.click(screen.getByText('Reset all'))
+    screen.getByText('Undo').focus()
+    fireEvent.keyDown(screen.getByText('Undo'), { key: 'Escape' })
+    expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+  })
 })
