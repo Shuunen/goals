@@ -118,6 +118,8 @@ export function useGoals() {
   const renameTitle = useCallback((value: string) => updateText(value, (previous, title) => ({ ...previous, title })), [updateText])
   const renameItem = useCallback((index: number, value: string) => updateText(value, (previous, title) => changeItemAt(previous, index, item => ({ ...item, title }))), [updateText])
   const addItem = useCallback((value: string) => updateText(value, (previous, title) => ({ ...previous, items: [...previous.items, createItem(title)] })), [updateText])
+  // several goals in one update : one hash write, one undo snapshot
+  const addItems = useCallback((items: Item[]) => update(previous => ({ ...previous, items: [...previous.items, ...items] })), [update])
   const moveItem = useCallback(
     (from: number, to: number) => {
       update(previous => {
@@ -135,5 +137,5 @@ export function useGoals() {
 
   const { forget, remember, undo } = useUndo(setState, markChanged)
 
-  return { addItem, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, resetAll, title: state.title, toggleItem, undo }
+  return { addItem, addItems, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, resetAll, title: state.title, toggleItem, undo }
 }

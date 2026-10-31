@@ -12,6 +12,7 @@ type GoalListProps = {
   isEditing: boolean
   items: Item[]
   onAdd: (value: string) => void
+  onAddMany: (items: Item[]) => void
   onMove: (from: number, to: number) => void
   onRemove: (index: number) => void
   onRename: (index: number, value: string) => void
@@ -22,7 +23,7 @@ type GoalListProps = {
 const dragDistance = 4
 const modifiers = [restrictToVerticalAxis, restrictToWindowEdges]
 
-export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, onToggle }: GoalListProps) {
+export function GoalList({ isEditing, items, onAdd, onAddMany, onMove, onRemove, onRename, onToggle }: GoalListProps) {
   const [grabbed, setGrabbed] = useState<string>()
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: dragDistance } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }))
   const keys = useMemo(() => {
@@ -52,7 +53,7 @@ export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, 
           {items.map((item, index) => (
             <SortableGoal id={keys[index]} index={index} isEditing={isEditing} item={item} key={keys[index]} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
           ))}
-          <AddRow isEditing={isEditing} onAdd={onAdd} />
+          <AddRow isEditing={isEditing} onAdd={onAdd} onAddMany={onAddMany} />
         </ul>
       </SortableContext>
       {/* the card follows the pointer, while its slot in the list stays open as the place where it will land */}
