@@ -182,6 +182,7 @@ ul.list {
   list-style-type: none;
   margin: 1.6rem 0 2rem;
   padding-left: 1rem;
+  padding-right: 1rem;
   position: relative;
 }
 
@@ -198,7 +199,7 @@ ul.list::before {
 
 .item {
   cursor: pointer;
-  display: flex;
+  display: block;
   margin-bottom: 0.5rem;
   padding-left: 2.4rem;
   position: relative;
@@ -206,49 +207,40 @@ ul.list::before {
   user-select: none;
 }
 
-/* one strike-through line, shared by both states : hovering a not-done goal starts a 20px tease of it,
-   checking it off finishes the stroke to the end, and hovering a done goal starts erasing it back from the
-   right, as a preview of unchecking it. A plain CSS transition on background-size carries all of this,
-   whichever state it's moving from or to. */
+/* the title is an inline box that clones its decoration on every wrapped line, so each line gets its own strike-through
+   & color wipe, sized to its own text. Three background layers carry it, top to bottom :
+   the strike-through line, the accent colored text wipe, and the default colored text (the real text is transparent).
+   Hovering a not-done goal starts a 20px tease of the line, checking it off finishes the stroke to the end, and
+   hovering a done goal starts erasing both back from the right, as a preview of unchecking it. A plain CSS transition
+   on background-size carries all of this, whichever state it's moving from or to. */
 .item .title {
-  background: linear-gradient(var(--accent), var(--accent)) 0 60% / 0% 4px no-repeat;
-  display: inline-block;
+  --strike: 0%;
+  --wipe: 0%;
+  background-clip: border-box, text, text;
+  background-image: linear-gradient(transparent calc(60% - 2px), var(--accent) calc(60% - 2px) calc(60% + 2px), transparent calc(60% + 2px)), linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--fg), var(--fg));
+  background-repeat: no-repeat;
+  background-size:
+    var(--strike) 100%,
+    var(--wipe) 100%,
+    100% 100%;
+  box-decoration-break: clone;
+  color: transparent;
   line-height: 1.3;
-  position: relative;
   transition: background-size 0.25s ease-out;
 }
 
 .item:not(.done):hover .title {
-  background-size: 20px 4px;
+  --strike: 20px;
 }
 
 .item.done .title {
-  background-size: 100% 4px;
+  --strike: 100%;
+  --wipe: 100%;
 }
 
 .item.done:hover .title {
-  background-size: calc(100% - 20px) 4px;
-}
-
-/* a second, accent-colored copy of the label sits on top of the real (always default-colored) text, revealed
-   by an animated clip : fully shown once a goal is done, and on hover the same sliver that un-strikes on the
-   right also un-colors back to default, in step with the line */
-.item .title::after {
-  clip-path: inset(0 100% 0 0);
-  color: var(--accent);
-  content: attr(data-label);
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  transition: clip-path 0.25s ease-out;
-}
-
-.item.done .title::after {
-  clip-path: inset(0 0 0 0);
-}
-
-.item.done:hover .title::after {
-  clip-path: inset(0 20px 0 0);
+  --strike: calc(100% - 20px);
+  --wipe: calc(100% - 20px);
 }
 
 .item.done {
@@ -454,12 +446,9 @@ select {
   transform: translateY(-50%);
 }
 
+/* in the flow, after the text, so a long goal wraps instead of pushing it off screen */
 .icon-button.remove {
-  left: 100%;
-  margin-left: 0.4rem;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-shrink: 0;
 }
 
 .icon-button.remove:hover,
@@ -494,9 +483,12 @@ button[aria-pressed='true'] {
   color: inherit;
   field-sizing: content;
   font: inherit;
-  flex-shrink: 0;
+  line-height: 1.3;
   min-width: 1ch;
   outline: none;
+  overflow: hidden;
+  padding: 0;
+  resize: none;
 }
 
 h1.title,
@@ -516,6 +508,7 @@ input.editable.title {
 .item.editing {
   align-items: center;
   cursor: default;
+  display: flex;
   gap: 1rem;
 }
 
@@ -523,9 +516,14 @@ input.editable.title {
   visibility: hidden;
 }
 
-/* zero width so the add row never makes the list wider, its input just overflows */
+/* zero width so the add row never makes the list wider, its input just overflows, up to the screen edge */
 .new-row {
   width: 0;
+}
+
+.new-row .editable {
+  max-width: calc(100vw - 5rem);
+  width: max-content;
 }
 
 .modal-backdrop {
@@ -764,7 +762,6 @@ ul.list > li.dragging {
   }
 
   .item .title,
-  .item .title::after,
   .item input[type='checkbox']::after {
     transition: none;
   }
