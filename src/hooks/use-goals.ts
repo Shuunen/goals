@@ -6,10 +6,14 @@ import { logger } from '../utils/logger.utils'
 const defaultTitle = 'Goals'
 const defaultItems = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => createItem(title, index === 1))
 
+const storageKey = 'goals-saved'
+
 type State = { items: Item[]; title: string }
 
 function readInitialState(): State {
-  const { items, title } = hashToData(document.location.hash)
+  // a shared link wins, else what this browser remembers : a PWA relaunch opens the start url without any hash
+  const fromHash = hashToData(document.location.hash)
+  const { items, title } = fromHash.items.length > 0 ? fromHash : hashToData(localStorage.getItem(storageKey) ?? '')
   const state = {
     items: items.length > 0 ? items : defaultItems,
     title: title.length > 0 ? title : defaultTitle,
@@ -29,6 +33,7 @@ export function useGoals() {
     setState(previous => {
       const next = change(previous)
       document.location.hash = dataToHash(next.title, next.items, hashToData(document.location.hash).settings)
+      localStorage.setItem(storageKey, dataToHash(next.title, next.items))
       return next
     })
   }, [])

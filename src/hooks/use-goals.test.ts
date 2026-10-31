@@ -2,8 +2,30 @@ import { act, renderHook } from '@testing-library/react'
 import { useGoals } from './use-goals'
 
 describe('useGoals', () => {
+  it('useGoals restores the saved goals when the hash is empty, like a PWA relaunch', () => {
+    localStorage.clear()
+    document.location.hash = '#My%20great%20goals=have%20fun'
+    const first = renderHook(() => useGoals())
+    act(() => {
+      first.result.current.addItem('buy milk')
+    })
+    first.unmount()
+    document.location.hash = ''
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('My great goals')
+    expect(result.current.items.map(item => item.title)).toStrictEqual(['have fun', 'buy milk'])
+  })
+
+  it('useGoals prefers the hash over the saved goals', () => {
+    localStorage.setItem('goals-saved', '#Old=stale')
+    document.location.hash = '#New=fresh'
+    const { result } = renderHook(() => useGoals())
+    expect(result.current.title).toBe('New')
+  })
+
   it('useGoals A exposes default title & items when hash is empty', () => {
     document.location.hash = ''
+    localStorage.clear()
     const { result } = renderHook(() => useGoals())
     expect(result.current.title).toBe('Goals')
     expect(result.current.items).toHaveLength(3)
