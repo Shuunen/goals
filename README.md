@@ -25,7 +25,7 @@
 - [x] add goals in a row (Enter or the + button), paste a list to add them all at once (`- [x] done`, `1. numbered`, `* bullets`)
 - [x] keyboard friendly : visible focus everywhere, Escape gives back a field, then leaves the edit mode, drag a goal with Space and the arrow keys
 - [x] re-order goals by dragging the handle (mouse or touch) or with the up / down arrow keys, with smooth animations
-- [x] settings modal (gear icon, a bottom sheet on small screens) : 6 themes plus an auto one following your system (paper, dark, ocean, sunset, forest, rose), 6 fonts (indie, caveat, script, lora, mono, inter), the size, with live previews
+- [x] settings modal (gear icon, a bottom sheet on small screens) : 6 themes (paper, dracula, ocean, sunset, forest, rose), and until you pick one the page follows your system : paper when light, dracula when dark, 6 fonts (indie, caveat, script, lora, mono, inter), the size, with live previews
 - [x] theme, fonts & size are kept in the link too (`&theme=rose&titleFont=lora`), so a shared link looks the same for everyone
 - [x] your list : reset all the checks, export as JSON or a Markdown checklist, import from a file or a pasted text, clear everything
 - [x] works offline once opened (installable as an app), a toast offers the new version when there is one
