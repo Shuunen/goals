@@ -1,24 +1,14 @@
-import type { KeyboardEvent } from 'react'
+import type { ButtonHTMLAttributes } from 'react'
 import { GripIcon } from './grip-icon'
 
-type DragHandleProps = {
-  index: number
-  onGrab: (index: number) => void
-  onMove: (from: number, to: number) => void
-}
+export type DragHandleProps = ButtonHTMLAttributes<HTMLButtonElement>
 
-const keyOffsets: Record<string, number> = { ArrowDown: 1, ArrowUp: -1 }
+type DragHandleOwnProps = DragHandleProps & { index: number }
 
-// grab it with a pointer to drag the row, or focus it and use the up / down arrows
-export function DragHandle({ index, onGrab, onMove }: DragHandleProps) {
-  const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
-    const offset = keyOffsets[event.key]
-    if (offset === undefined) return
-    event.preventDefault()
-    onMove(index, index + offset)
-  }
+// press & drag it with a pointer, or focus it, press Space and use the up / down arrows
+export function DragHandle({ index, ...props }: DragHandleOwnProps) {
   return (
-    <button aria-label={`Move goal ${index + 1}`} className="icon-button handle" onKeyDown={onKeyDown} onPointerDown={() => onGrab(index)} type="button">
+    <button {...props} aria-label={`Move goal ${index + 1}`} className="icon-button handle" type="button">
       <GripIcon />
     </button>
   )

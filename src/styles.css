@@ -474,11 +474,19 @@ select {
 
 .icon-button.handle {
   cursor: grab;
-  left: -0.1rem;
-  position: absolute;
-  top: 50%;
   touch-action: none;
-  transform: translateY(-50%);
+}
+
+/* the editing icons follow the size of the goal text, so they stay easy to read & to hit */
+.item.editing .icon-button {
+  flex-shrink: 0;
+  height: 4rem;
+  width: 4rem;
+}
+
+.item.editing .icon-button svg {
+  height: 2.4rem;
+  width: 2.4rem;
 }
 
 /* in the flow, after the text, so a long goal wraps instead of pushing it off screen */
@@ -512,8 +520,10 @@ button[aria-pressed='true'] {
 }
 
 .editable {
-  /* dashed line drawn as a background so it sits on the baseline of the text, above the descenders */
-  background: repeating-linear-gradient(90deg, currentcolor 0 4px, transparent 4px 8px) 0 calc(100% - 0.29em) / 100% 1px no-repeat;
+  /* a real text decoration, so every wrapped line gets its own dashed underline, sitting right under the baseline */
+  text-decoration: underline dashed;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
   border: 0;
   color: inherit;
   field-sizing: content;
@@ -546,7 +556,35 @@ h1.title,
   align-items: center;
   cursor: default;
   display: flex;
-  gap: 1rem;
+  gap: 0.4rem;
+  padding-left: 0;
+}
+
+/* every goal is a card of its own, so a goal wrapping on several lines still reads as one block, apart from its neighbors */
+li:not(.new-row) > .item.editing,
+.goal-overlay > .item.editing {
+  background: color-mix(in srgb, var(--fg) 6%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent);
+  border-radius: 1rem;
+  margin-bottom: 0.9rem;
+  padding: 0.5rem 0.4rem 0.5rem 0.2rem;
+}
+
+/* the card already says it is editable, only the add row keeps its dashed underline */
+li:not(.new-row) .item.editing .editable,
+.goal-overlay .item.editing .editable {
+  text-decoration: none;
+}
+
+/* the text takes the room left between the handle & the trash, so every trash lines up in one column */
+.item.editing .editable {
+  flex: 1;
+  min-width: 0;
+}
+
+/* no handle on the add row, a gap of the same width keeps its text aligned with the goals above */
+.new-row .item.editing {
+  padding-left: 4.7rem;
 }
 
 .invisible {
@@ -558,8 +596,8 @@ h1.title,
   width: 0;
 }
 
-.new-row .editable {
-  flex-shrink: 0;
+.new-row .item.editing .editable {
+  flex: none;
   max-width: calc(100vw - 5rem);
   width: max-content;
 }
@@ -593,7 +631,7 @@ h1.title,
     opacity 0.2s ease-in,
     visibility 0s 0.25s;
   visibility: hidden;
-  width: min(31rem, 90vw);
+  width: min(30rem, 90vw);
 }
 
 .modal-backdrop.open .modal {
@@ -803,8 +841,27 @@ ul.list.is-dragging {
   user-select: none;
 }
 
-ul.list > li.dragging {
-  opacity: 0.4;
+/* the slot the dragged goal leaves in the list : an empty dashed frame showing where it will land */
+ul.list > li.dragging > .item.editing {
+  background: transparent;
+  border-color: var(--accent);
+  border-style: dashed;
+}
+
+ul.list > li.dragging > .item.editing > * {
+  visibility: hidden;
+}
+
+/* the dragged card, lifted above the list, with the font size of the list it comes from */
+.goal-overlay {
+  cursor: grabbing;
+  font-size: 3rem;
+}
+
+.goal-overlay > .item.editing {
+  background: var(--surface);
+  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 0.25);
+  margin: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

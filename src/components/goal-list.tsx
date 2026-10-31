@@ -1,8 +1,11 @@
-import { useDragReorder } from '../hooks/use-drag-reorder'
-import { useFlip } from '../hooks/use-flip'
+import { closestCenter, DndContext, DragOverlay, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core'
+import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers'
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { useMemo, useState } from 'react'
 import type { Item } from '../models/item.model'
 import { EditableText } from './editable-text'
 import { GoalRow } from './goal-row'
+import { SortableGoal } from './sortable-goal'
 
 type GoalListProps = {
   isEditing: boolean
@@ -14,29 +17,54 @@ type GoalListProps = {
   onToggle: (index: number) => void
 }
 
+// a few pixels of travel before a drag starts, so a plain tap on the handle never moves anything
+const dragDistance = 4
+const modifiers = [restrictToVerticalAxis, restrictToWindowEdges]
+
 export function GoalList({ isEditing, items, onAdd, onMove, onRemove, onRename, onToggle }: GoalListProps) {
-  const register = useFlip()
-  const { drag, grab, grabbed } = useDragReorder(onMove, items.length)
-  const seen = new Map<string, number>()
+  const [grabbed, setGrabbed] = useState<string>()
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: dragDistance } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }))
+  const keys = useMemo(() => {
+    const seen = new Map<string, number>()
+    // titles can be duplicated, so the key also counts previous occurrences
+    return items.map(item => {
+      const occurrence = seen.get(item.title) ?? 0
+      seen.set(item.title, occurrence + 1)
+      return `${item.title}-${occurrence}`
+    })
+  }, [items])
+  const grabbedIndex = grabbed === undefined ? -1 : keys.indexOf(grabbed)
+
+  const onDragStart = (event: DragStartEvent) => setGrabbed(String(event.active.id))
+  // moving to the same spot, or to nothing (-1), is ignored by onMove
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    setGrabbed(undefined)
+    onMove(keys.indexOf(String(active.id)), keys.indexOf(String(over?.id)))
+  }
+
   return (
-    <ul className={`list ${grabbed === undefined ? '' : 'is-dragging'}`} onPointerMove={drag}>
-      {items.map((item, index) => {
-        // titles can be duplicated, so the key also counts previous occurrences
-        const occurrence = seen.get(item.title) ?? 0
-        seen.set(item.title, occurrence + 1)
-        const key = `${item.title}-${occurrence}`
-        return (
-          <li className={grabbed === index ? 'dragging' : ''} key={key} ref={register(key)}>
-            <GoalRow index={index} isEditing={isEditing} item={item} onGrab={grab} onMove={onMove} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
+    <DndContext collisionDetection={closestCenter} modifiers={modifiers} onDragCancel={() => setGrabbed(undefined)} onDragEnd={onDragEnd} onDragStart={onDragStart} sensors={sensors}>
+      <SortableContext items={keys} strategy={verticalListSortingStrategy}>
+        <ul className={`list ${grabbed === undefined ? '' : 'is-dragging'}`}>
+          {items.map((item, index) => (
+            <SortableGoal id={keys[index]} index={index} isEditing={isEditing} item={item} key={keys[index]} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
+          ))}
+          {/* always there, to keep the list as tall in both modes and avoid shifting the goals when switching */}
+          <li aria-hidden={!isEditing} className={`new-row ${isEditing ? '' : 'invisible'}`} inert={!isEditing}>
+            <div className="item editing">
+              <EditableText key={items.length} label="New goal" onCommit={onAdd} placeholder="add something…" value="" />
+            </div>
           </li>
-        )
-      })}
-      {/* always there, to keep the list as tall in both modes and avoid shifting the goals when switching */}
-      <li aria-hidden={!isEditing} className={`new-row ${isEditing ? '' : 'invisible'}`} inert={!isEditing}>
-        <div className="item editing">
-          <EditableText key={items.length} label="New goal" onCommit={onAdd} placeholder="add something…" value="" />
-        </div>
-      </li>
-    </ul>
+        </ul>
+      </SortableContext>
+      {/* the card follows the pointer, while its slot in the list stays open as the place where it will land */}
+      <DragOverlay modifiers={modifiers}>
+        {grabbedIndex === -1 ? undefined : (
+          <div className="goal-overlay">
+            <GoalRow index={grabbedIndex} isEditing item={items[grabbedIndex]} onRemove={onRemove} onRename={onRename} onToggle={onToggle} />
+          </div>
+        )}
+      </DragOverlay>
+    </DndContext>
   )
 }

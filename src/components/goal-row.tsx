@@ -1,28 +1,27 @@
 import { useState } from 'react'
 import type { Item } from '../models/item.model'
-import { DragHandle } from './drag-handle'
+import { DragHandle, type DragHandleProps } from './drag-handle'
 import { EditableText } from './editable-text'
 import { RemoveButton } from './remove-button'
 
 const celebrationDuration = 500
 
 type GoalRowProps = {
+  handleProps?: DragHandleProps
   index: number
   isEditing: boolean
   item: Item
-  onGrab: (index: number) => void
-  onMove: (from: number, to: number) => void
   onRemove: (index: number) => void
   onRename: (index: number, value: string) => void
   onToggle: (index: number) => void
 }
 
-export function GoalRow({ index, isEditing, item, onGrab, onMove, onRemove, onRename, onToggle }: GoalRowProps) {
+export function GoalRow({ handleProps, index, isEditing, item, onRemove, onRename, onToggle }: GoalRowProps) {
   const [isCelebrating, setIsCelebrating] = useState(false)
   if (isEditing)
     return (
       <div className="item editing">
-        <DragHandle index={index} onGrab={onGrab} onMove={onMove} />
+        <DragHandle index={index} {...handleProps} />
         <EditableText label={`Goal ${index + 1}`} onCommit={value => onRename(index, value)} value={item.title} />
         <RemoveButton onRemove={() => onRemove(index)} title={item.title} />
       </div>
