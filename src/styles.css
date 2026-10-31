@@ -110,10 +110,10 @@
 }
 
 [data-theme='dark'] {
-  --bg: #1b1d23;
-  --fg: #e6e6e6;
-  --surface: #1b1d23;
-  --accent: #3ddc84;
+  --bg: #282a36;
+  --fg: #f8f8f2;
+  --surface: #282a36;
+  --accent: #bd93f9;
 }
 
 /* dark theme trades the graph paper for a quiet star field, and lets the accent glow a little */
