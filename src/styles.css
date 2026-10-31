@@ -238,6 +238,15 @@ h1.title {
   }
 }
 
+/* in edit mode the add row is the way in, no hint needed */
+.empty-hint {
+  color: color-mix(in srgb, var(--fg) 60%, transparent);
+  font-size: 2rem;
+  margin: 1.6rem 0 0;
+  text-align: center;
+  z-index: 10;
+}
+
 ul.list {
   font-size: 3rem;
   isolation: isolate;
@@ -990,6 +999,7 @@ button.swatch[aria-pressed='true'] {
   .settings-button,
   .edit-button,
   .progress-wrap,
+  .empty-hint,
   .toast-area {
     display: none;
   }

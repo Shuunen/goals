@@ -196,4 +196,19 @@ describe('App', () => {
     expect(screen.getByText('a').closest('label')).not.toHaveClass('celebrate')
     matchMedia.mockRestore()
   })
+
+  it('App L shows a hint for an empty list, except while editing', () => {
+    localStorage.clear()
+    document.location.hash = '#Mine='
+    render(<App />)
+    expect(screen.getByText('Tap the pencil to add a goal')).toBeInTheDocument()
+    fireEvent.click(screen.getByTitle('Edit'))
+    expect(screen.queryByText('Tap the pencil to add a goal')).not.toBeInTheDocument()
+  })
+
+  it('App M shows no hint when there are goals', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    expect(screen.queryByText('Tap the pencil to add a goal')).not.toBeInTheDocument()
+  })
 })

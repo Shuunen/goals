@@ -28,6 +28,7 @@ export function App() {
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
       <ProgressBar done={items.filter(item => item.isDone).length} isEditing={isEditing} total={items.length} />
+      {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <SettingsModal
         canGrow={canGrow}
