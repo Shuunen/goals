@@ -1,16 +1,23 @@
 import { useEffect } from 'react'
 import { version } from '../../package.json'
 import { fontLabels, fonts, type Font } from '../hooks/use-font'
+import type { Size } from '../hooks/use-size'
 import { themes, type Theme } from '../hooks/use-theme'
 import { ChoiceGrid } from './choice-grid'
 import { CloseIcon } from './close-icon'
+import { SizeStepper } from './size-stepper'
 
 type SettingsModalProps = {
+  canGrow: boolean
+  canShrink: boolean
   isOpen: boolean
   labelFont: Font
   onClose: () => void
   onFontPick: (font: Font) => void
+  onLarger: () => void
+  onSmaller: () => void
   onThemeChange: (theme: Theme) => void
+  size: Size
   theme: Theme
   titleFont: Font
 }
@@ -25,7 +32,7 @@ function fontMarkers(labelFont: Font, titleFont: Font) {
   return markers
 }
 
-export function SettingsModal({ isOpen, labelFont, onClose, onFontPick, onThemeChange, theme, titleFont }: SettingsModalProps) {
+export function SettingsModal({ canGrow, canShrink, isOpen, labelFont, onClose, onFontPick, onLarger, onSmaller, onThemeChange, size, theme, titleFont }: SettingsModalProps) {
   useEffect(() => {
     if (!isOpen) return undefined
     const onKeyDown = (event: KeyboardEvent) => {
@@ -46,6 +53,7 @@ export function SettingsModal({ isOpen, labelFont, onClose, onFontPick, onThemeC
         </header>
         <ChoiceGrid attribute="data-theme" legend="Theme" onChange={onThemeChange} options={themes} value={theme} />
         <ChoiceGrid attribute="data-font" labels={fontLabels} legend="Fonts" markers={fontMarkers(labelFont, titleFont)} onChange={onFontPick} options={fonts} />
+        <SizeStepper canGrow={canGrow} canShrink={canShrink} onLarger={onLarger} onSmaller={onSmaller} size={size} />
         <dl className="about">
           <dt>Repository</dt>
           <dd>
