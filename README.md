@@ -18,8 +18,8 @@
 - [x] dead simple todo list, goals can be any text : accents, punctuation, emoji, anything
 - [x] 100% privacy safe, no analytics, no cookie, no database, list is stored in the url of your tab (and remembered by your browser, only once you change something)
 - [x] shareable : give the link to someone [like this one](https://shuunen-goals.netlify.app#My%20goals=become%20a%20ninja,buy%20milk,!eat%20lots%20of%20pastas,find%20goals%20ideas,number%20five&something_else=12), or copy / share it from the settings (a warning tells when the link gets long enough for some apps to cut it)
-- [x] a thin progress bar under the title, with a small celebration when the last goal is done
-- [x] done goals sink to the bottom of the list, with a smooth slide
+- [x] a thin progress bar under the title, a small confetti burst on each checked goal, and once every goal is done the bar gives way to a random animated illustration
+- [x] done goals sink to the bottom of the list, with a smooth slide (a goal you check lands at the top of the done ones)
 - [x] WYSIWYG edit : toggle the pencil to rename the title, rename, add or remove goals in place
 - [x] undo : removing a goal, clearing the done ones, reset all, replacing the list or pasting many goals can be undone from the toast
 - [x] add goals in a row (Enter or the + button), paste a list to add them all at once (`- [x] done`, `1. numbered`, `* bullets`)
@@ -31,11 +31,6 @@
 - [x] works offline once opened (installable as an app), a toast offers the new version when there is one
 - [x] the floating buttons step aside while scrolling, a short haptic tick on a checked goal (where the device can)
 - [x] styled print
-
-## Roadmap
-
-- [ ] multiple lists stored locally : switch between lists, so opening a shared link never replaces your own list
-- [ ] due dates, notes, sub-goals
 
 ## Thanks
 
@@ -56,7 +51,3 @@
 - [V8](https://github.com/demurgos/v8-coverage) : simple & effective cli for code coverage
 - [Vite](https://vitejs.dev) : next generation frontend tooling
 - [Vitest](https://github.com/vitest-dev/vitest) : super fast vite-native testing framework
-
-## Stargazers over time
-
-[![Stargazers over time](https://api.star-history.com/svg?repos=Shuunen/goals&type=Date&theme=dark)](https://www.star-history.com/#Shuunen/goals&Date)
