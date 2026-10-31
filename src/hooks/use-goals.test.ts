@@ -333,4 +333,18 @@ describe('useGoals', () => {
     })
     expect(result.current.items.map(item => item.title)).toStrictEqual(['b', 'a'])
   })
+
+  it('useGoals resetAll unchecks every goal and keeps the order', () => {
+    document.location.hash = '#t=a,!b,c,!d'
+    const { result } = renderHook(() => useGoals())
+    act(() => {
+      result.current.resetAll()
+    })
+    expect(result.current.items.map(item => [item.title, item.isDone])).toStrictEqual([
+      ['a', false],
+      ['b', false],
+      ['c', false],
+      ['d', false],
+    ])
+  })
 })

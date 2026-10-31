@@ -130,9 +130,10 @@ export function useGoals() {
     },
     [update],
   )
+  const resetAll = useCallback(() => update(previous => ({ ...previous, items: previous.items.map(item => ({ ...item, isDone: false })) })), [update])
   const removeItem = useCallback((index: number) => update(previous => ({ ...previous, items: previous.items.filter((_item, itemIndex) => itemIndex !== index) })), [update])
 
   const { forget, remember, undo } = useUndo(setState, markChanged)
 
-  return { addItem, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, title: state.title, toggleItem, undo }
+  return { addItem, forget, items: state.items, moveItem, remember, removeItem, renameItem, renameTitle, resetAll, title: state.title, toggleItem, undo }
 }

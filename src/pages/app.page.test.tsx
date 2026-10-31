@@ -244,4 +244,34 @@ describe('App', () => {
     vi.unstubAllGlobals()
     Object.defineProperty(globalThis, 'scrollY', { configurable: true, value: 0 })
   })
+
+  it('App O reset all unchecks every goal, keeps the order and the toast gives them back', () => {
+    document.location.hash = '#t=a,!b,!c'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Settings'))
+    fireEvent.click(screen.getByText('Reset all'))
+    expect(document.location.hash).toBe('#t=a,b,c')
+    expect(screen.getByText('All goals unchecked')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,!b,!c')
+    expect(screen.queryByText('All goals unchecked')).not.toBeInTheDocument()
+  })
+
+  it('App Q reset all is disabled when nothing is done', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    expect(screen.getByText('Reset all')).toBeDisabled()
+  })
+
+  it('App P the undo is forgotten once the toast expires', () => {
+    vi.useFakeTimers()
+    document.location.hash = '#t=!a'
+    render(<App />)
+    fireEvent.click(screen.getByText('Reset all'))
+    act(() => {
+      vi.advanceTimersByTime(5000)
+    })
+    expect(screen.queryByText('All goals unchecked')).not.toBeInTheDocument()
+    vi.useRealTimers()
+  })
 })

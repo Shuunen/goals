@@ -7,23 +7,22 @@ import { ProgressBar } from '../components/progress-bar'
 import { SettingsModal } from '../components/settings-modal'
 import { Toast } from '../components/toast'
 import { useFont } from '../hooks/use-font'
-import { useGoals } from '../hooks/use-goals'
 import { useScrollHide } from '../hooks/use-scroll-hide'
 import { useSize } from '../hooks/use-size'
 import { useTheme } from '../hooks/use-theme'
-import { useToast } from '../hooks/use-toast'
+import { useUndoableGoals } from '../hooks/use-undoable-goals'
 
 export function App() {
-  const { addItem, items, moveItem, removeItem, renameItem, renameTitle, title, toggleItem } = useGoals()
+  const { addItem, dismissToast, items, moveItem, removeItem, renameItem, renameTitle, resetAll, title, toast, toggleItem } = useUndoableGoals()
   const { labelFont, pickFont, titleFont } = useFont()
   const { changeTheme, theme } = useTheme()
   const { canGrow, canShrink, larger, size, smaller } = useSize()
-  const { dismissToast, toast } = useToast()
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   // the buttons only step aside while reading : never while editing or with the settings open
   const isScrolledAway = useScrollHide() && !isEditing && !isSettingsOpen
   const cornerClass = isScrolledAway ? 'is-away' : ''
+  const doneCount = items.filter(item => item.isDone).length
   return (
     <main>
       {/* same two corners on every screen size : settings pinned top right, edit pinned bottom right */}
@@ -31,17 +30,19 @@ export function App() {
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
-      <ProgressBar done={items.filter(item => item.isDone).length} isEditing={isEditing} total={items.length} />
+      <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <SettingsModal
         canGrow={canGrow}
+        canReset={doneCount > 0}
         canShrink={canShrink}
         isOpen={isSettingsOpen}
         labelFont={labelFont}
         onClose={() => setIsSettingsOpen(false)}
         onFontPick={pickFont}
         onLarger={larger}
+        onReset={resetAll}
         onSmaller={smaller}
         onThemeChange={changeTheme}
         size={size}
