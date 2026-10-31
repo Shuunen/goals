@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { ClearDone } from '../components/clear-done'
+import { DoneIllustration } from '../components/done-illustration'
 import { EditableText } from '../components/editable-text'
 import { GearIcon } from '../components/gear-icon'
 import { GoalList } from '../components/goal-list'
+import { ListFooter } from '../components/list-footer'
 import { PencilIcon } from '../components/pencil-icon'
 import { ProgressBar } from '../components/progress-bar'
 import { SettingsModal } from '../components/settings-modal'
@@ -26,8 +27,7 @@ export function App() {
   const [isEditing, setIsEditing] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   // the buttons only step aside while reading : never while editing or with the settings open
-  const isScrolledAway = useScrollHide() && !isEditing && !isSettingsOpen
-  const cornerClass = isScrolledAway ? 'is-away' : ''
+  const cornerClass = useScrollHide() && !isEditing && !isSettingsOpen ? 'is-away' : ''
   // the offline worker of the built app : a new version waits for the user, who can read it in the toast
   useServiceWorker(apply => showToast({ actionLabel: 'Reload', duration: updateToastDuration, message: 'New version available', onAction: apply }))
   // with the settings open, the Escape key closes them first
@@ -43,11 +43,12 @@ export function App() {
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
-      <ProgressBar done={doneCount} isEditing={isEditing} total={items.length} />
+      <ProgressBar done={doneCount} total={items.length} />
+      {items.length > 0 && doneCount === items.length && !isEditing ? <DoneIllustration /> : undefined}
       {items.length === 0 && !isEditing ? <p className="empty-hint">Tap the pencil to add a goal</p> : undefined}
       <GoalList isEditing={isEditing} items={items} onAdd={addItem} onAddMany={addItems} onMove={moveItem} onRemove={removeItem} onRename={renameItem} onToggle={toggleItem} />
       <UrlWarning isEditing={isEditing} length={shareUrl.length} />
-      <ClearDone count={doneCount} isEditing={isEditing} onClear={clearDone} />
+      <ListFooter doneCount={doneCount} isEditing={isEditing} onClear={clearDone} onReset={resetAll} total={items.length} />
       <SettingsModal
         isOpen={isSettingsOpen}
         list={{ canReset: doneCount > 0, items, onClear: clearEverything, onReplace: replaceList, onReset: resetAll, title }}

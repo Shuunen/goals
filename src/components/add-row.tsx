@@ -5,11 +5,12 @@ import { EditableText } from './editable-text'
 
 type AddRowProps = { isEditing: boolean; onAdd: (value: string) => void; onAddMany: (items: Item[]) => void }
 
-// always there, to keep the list as tall in both modes and avoid shifting the goals when switching
+// only there while editing, so the list is exactly as tall as its goals the rest of the time
 export function AddRow({ isEditing, onAdd, onAddMany }: Readonly<AddRowProps>) {
   const field = useRef<HTMLTextAreaElement>(null)
+  if (!isEditing) return undefined
   return (
-    <li aria-hidden={!isEditing} className={`new-row ${isEditing ? '' : 'invisible'}`} inert={!isEditing}>
+    <li className="new-row">
       <div className="item editing">
         <EditableText label="New goal" onCommit={onAdd} onPasteItems={onAddMany} placeholder="add something…" ref={field} resetOnCommit value="" />
         <AddButton field={field} />
