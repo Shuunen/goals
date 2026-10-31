@@ -38,6 +38,8 @@ function scrollDown(position: number) {
   })
 }
 
+const pasteOneLine = (field: HTMLElement) => fireEvent.paste(field, { clipboardData: { getData: () => 'one line' } })
+
 describe('App', () => {
   it('App A renders title & items from the hash', () => {
     document.location.hash = '#My%20goals=have%20fun,!avoid%20shitty%20job'
@@ -335,5 +337,49 @@ describe('App', () => {
     screen.getByText('Undo').focus()
     fireEvent.keyDown(screen.getByText('Undo'), { key: 'Escape' })
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
+  })
+
+  it('App W the add button adds what was typed, empties the field and keeps the focus', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const field = screen.getByLabelText('New goal')
+    field.focus()
+    fireEvent.change(field, { target: { value: 'b' } })
+    fireEvent.pointerDown(screen.getByLabelText('Add goal'))
+    fireEvent.click(screen.getByLabelText('Add goal'))
+    expect(document.location.hash).toBe('#t=a,b')
+    expect(field).toHaveValue('')
+    expect(field).toHaveFocus()
+  })
+
+  it('App X the add button on an empty field only focuses it', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(screen.getByLabelText('Add goal'))
+    expect(screen.getByLabelText('New goal')).toHaveFocus()
+    expect(document.location.hash).toBe('#t=a')
+  })
+
+  it('App Y pasting several lines adds several goals at once, with one undo', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const field = screen.getByLabelText('New goal')
+    fireEvent.paste(field, { clipboardData: { getData: () => '- [x] b\n* c\n\n1. d' } })
+    expect(document.location.hash).toBe('#t=a,!b,c,d')
+    expect(screen.getByText('Added 3 goals')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a')
+  })
+
+  it('App Z pasting a single line is a normal paste, in the add row and in a goal', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    expect(pasteOneLine(screen.getByLabelText('New goal'))).toBe(true)
+    expect(pasteOneLine(screen.getByLabelText('Goal 1'))).toBe(true)
+    expect(document.location.hash).toBe('#t=a')
   })
 })
