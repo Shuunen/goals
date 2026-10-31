@@ -7,7 +7,7 @@ import { useToast } from './use-toast'
 export function useUndoableGoals() {
   const goals = useGoals()
   const { dismissToast, showToast, toast } = useToast()
-  const { addItems, forget, items, remember, removeItem, resetAll, undo } = goals
+  const { addItems, clearDone, forget, items, remember, removeItem, resetAll, undo } = goals
 
   const announce = useCallback((message: string) => showToast({ actionLabel: 'Undo', message, onAction: undo, onExpire: forget }), [forget, showToast, undo])
 
@@ -37,5 +37,13 @@ export function useUndoableGoals() {
     [addItems, announce, remember],
   )
 
-  return { ...goals, addItems: addItemsUndoable, dismissToast, removeItem: removeItemUndoable, resetAll: resetAllUndoable, toast }
+  const clearDoneUndoable = useCallback(() => {
+    const count = items.filter(item => item.isDone).length
+    if (count === 0) return
+    remember()
+    clearDone()
+    announce(`Cleared ${count} done ${count === 1 ? 'goal' : 'goals'}`)
+  }, [announce, clearDone, items, remember])
+
+  return { ...goals, addItems: addItemsUndoable, clearDone: clearDoneUndoable, dismissToast, removeItem: removeItemUndoable, resetAll: resetAllUndoable, toast }
 }

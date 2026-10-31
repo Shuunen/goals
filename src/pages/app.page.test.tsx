@@ -393,4 +393,26 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Done editing' })).toHaveAttribute('title', 'Done editing')
     expect(screen.getByRole('button', { name: 'Done editing' })).toHaveAttribute('data-editing', 'true')
   })
+
+  it('App AB clear done removes every done goal in edit mode, and the toast gives them back', () => {
+    document.location.hash = '#t=a,!b,c,!d'
+    render(<App />)
+    expect(screen.getByText('Clear done (2)').closest('button')).toHaveAttribute('inert')
+    fireEvent.click(editButton())
+    expect(screen.getByText('Clear done (2)').closest('button')).not.toHaveAttribute('inert')
+    fireEvent.click(screen.getByText('Clear done (2)'))
+    expect(document.location.hash).toBe('#t=a,c')
+    expect(screen.getByText('Cleared 2 done goals')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,!b,c,!d')
+  })
+
+  it('App AC clear done says goal for a single one and can empty the list', () => {
+    document.location.hash = '#t=!a'
+    render(<App />)
+    fireEvent.click(editButton())
+    fireEvent.click(screen.getByText('Clear done (1)'))
+    expect(screen.getByText('Cleared 1 done goal')).toBeInTheDocument()
+    expect(document.location.hash).toBe('#t=')
+  })
 })
