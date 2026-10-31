@@ -336,4 +336,27 @@ describe('App', () => {
     fireEvent.keyDown(screen.getByText('Undo'), { key: 'Escape' })
     expect(screen.getByLabelText('Goal 1')).toBeInTheDocument()
   })
+
+  it('App W the add button adds what was typed, empties the field and keeps the focus', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    const field = screen.getByLabelText('New goal')
+    field.focus()
+    fireEvent.change(field, { target: { value: 'b' } })
+    fireEvent.pointerDown(screen.getByLabelText('Add goal'))
+    fireEvent.click(screen.getByLabelText('Add goal'))
+    expect(document.location.hash).toBe('#t=a,b')
+    expect(field).toHaveValue('')
+    expect(field).toHaveFocus()
+  })
+
+  it('App X the add button on an empty field only focuses it', () => {
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByTitle('Edit'))
+    fireEvent.click(screen.getByLabelText('Add goal'))
+    expect(screen.getByLabelText('New goal')).toHaveFocus()
+    expect(document.location.hash).toBe('#t=a')
+  })
 })

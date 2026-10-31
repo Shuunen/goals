@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from 'react'
+import { useState, type KeyboardEvent, type Ref } from 'react'
 import { sanitizeText } from '../utils/hash.utils'
 
 type EditableTextProps = {
@@ -6,6 +6,7 @@ type EditableTextProps = {
   label: string
   onCommit: (value: string) => void
   placeholder?: string
+  ref?: Ref<HTMLTextAreaElement>
   // an input that adds things : committing empties it & keeps the focus, an empty one is normal
   resetOnCommit?: boolean
   value: string
@@ -25,6 +26,13 @@ function refocusIfInvalid(field: HTMLTextAreaElement) {
   })
 }
 
+// an empty text is refused : red outline, shake, and the focus stays
+function refuse(field: HTMLTextAreaElement, setIsInvalid: (isInvalid: boolean) => void) {
+  setIsInvalid(true)
+  shake(field)
+  refocusIfInvalid(field)
+}
+
 // typing several goals in a row, on mobile the keyboard stays open & the new row stays in sight
 function keepInSight(field: HTMLTextAreaElement) {
   globalThis.requestAnimationFrame(() => field.scrollIntoView({ block: 'nearest' }))
@@ -40,7 +48,7 @@ function leave(event: KeyboardEvent<HTMLTextAreaElement>, text: string) {
 
 // a text area that looks like the text it replaces & wraps long text, committed on blur or Enter
 // Escape gives back the last committed text, an empty text is refused : shake, red outline & the focus stays
-export function EditableText({ className, label, onCommit, placeholder, resetOnCommit = false, value }: Readonly<EditableTextProps>) {
+export function EditableText({ className, label, onCommit, placeholder, ref, resetOnCommit = false, value }: Readonly<EditableTextProps>) {
   const [isInvalid, setIsInvalid] = useState(false)
 
   const commit = (field: HTMLTextAreaElement) => {
@@ -48,11 +56,8 @@ export function EditableText({ className, label, onCommit, placeholder, resetOnC
     if (resetOnCommit) {
       field.value = ''
       if (text.length > 0) onCommit(text)
-    } else if (text.length === 0) {
-      setIsInvalid(true)
-      shake(field)
-      refocusIfInvalid(field)
-    } else {
+    } else if (text.length === 0) refuse(field, setIsInvalid)
+    else {
       field.value = text
       // an unchanged text is not a change : no hash write
       if (text !== value) onCommit(text)
@@ -86,6 +91,7 @@ export function EditableText({ className, label, onCommit, placeholder, resetOnC
       onInput={() => setIsInvalid(false)}
       onKeyDown={onKeyDown}
       placeholder={placeholder}
+      ref={ref}
       rows={1}
     />
   )
