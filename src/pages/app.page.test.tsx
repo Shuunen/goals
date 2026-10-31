@@ -274,4 +274,24 @@ describe('App', () => {
     expect(screen.queryByText('All goals unchecked')).not.toBeInTheDocument()
     vi.useRealTimers()
   })
+
+  it('App R a goal getting checked gives a short vibration, unchecking or editing does not', () => {
+    const vibrate = vi.fn<(pattern: number) => boolean>()
+    Object.defineProperty(globalThis.navigator, 'vibrate', { configurable: true, value: vibrate })
+    document.location.hash = '#t=a,!b'
+    render(<App />)
+    fireEvent.click(screen.getByLabelText('a'))
+    expect(vibrate).toHaveBeenCalledExactlyOnceWith(10)
+    fireEvent.click(screen.getByLabelText('a'))
+    expect(vibrate).toHaveBeenCalledOnce()
+    Object.defineProperty(globalThis.navigator, 'vibrate', { configurable: true, value: undefined })
+  })
+
+  it('App S checking a goal works where the device cannot vibrate', () => {
+    Object.defineProperty(globalThis.navigator, 'vibrate', { configurable: true, value: undefined })
+    document.location.hash = '#t=a'
+    render(<App />)
+    fireEvent.click(screen.getByLabelText('a'))
+    expect(document.location.hash).toBe('#t=!a')
+  })
 })
