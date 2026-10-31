@@ -25,11 +25,13 @@ export function App() {
   const cornerClass = isScrolledAway ? 'is-away' : ''
   // with the settings open, the Escape key closes them first
   useEscapeToLeave(isEditing && !isSettingsOpen, () => setIsEditing(false))
+  // the name says what a press does, so there is no pressed state to announce twice
+  const editLabel = isEditing ? 'Done editing' : 'Edit goals'
   const doneCount = items.filter(item => item.isDone).length
   return (
     <main>
       {/* same two corners on every screen size : settings pinned top right, edit pinned bottom right */}
-      <button className={`icon-button settings-button ${cornerClass}`} onClick={() => setIsSettingsOpen(true)} title="Settings" type="button">
+      <button aria-label="Settings" className={`icon-button settings-button ${cornerClass}`} onClick={() => setIsSettingsOpen(true)} title="Settings" type="button">
         <GearIcon />
       </button>
       {isEditing ? <EditableText className="title" key={title} label="Title" onCommit={renameTitle} value={title} /> : <h1 className="title">{title}</h1>}
@@ -53,7 +55,7 @@ export function App() {
         titleFont={titleFont}
       />
       <Toast onDismiss={dismissToast} toast={toast} />
-      <button aria-pressed={isEditing} className={`edit-button ${cornerClass}`} onClick={() => setIsEditing(!isEditing)} title="Edit" type="button">
+      <button aria-label={editLabel} className={`edit-button ${cornerClass}`} data-editing={isEditing} onClick={() => setIsEditing(!isEditing)} title={editLabel} type="button">
         <PencilIcon />
       </button>
     </main>
