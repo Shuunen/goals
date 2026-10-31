@@ -3,6 +3,7 @@ import { createItem, type Item } from '../models/item.model'
 import { defaultTitle, storagePrefix } from '../utils/defaults.utils'
 import { dataToHash, hashToData, replaceHash, sanitizeText } from '../utils/hash.utils'
 import { logger } from '../utils/logger.utils'
+import { readStored, writeStored } from '../utils/storage.utils'
 
 const defaultItems = ['This is some default goals', 'Become a ninja', 'Eat lots of pastas'].map((title, index) => createItem(title, index === 1))
 
@@ -26,7 +27,7 @@ function toState({ items, title }: Snapshot): State {
 function readInitialState(): State {
   // a shared link wins, else what this browser remembers : a PWA relaunch opens the start url without any hash
   const fromHash = hashToData(document.location.hash)
-  const fromStorage = hashToData(localStorage.getItem(storageKey) ?? '')
+  const fromStorage = hashToData(readStored(storageKey) ?? '')
   const found = [fromHash, fromStorage].find(data => hasGoals(data))
   // the defaults are for a first visit only : an emptied list, stored or shared, stays empty
   const state = found ? toState(found) : { items: defaultItems, title: defaultTitle, undoStack: [] }
@@ -49,8 +50,8 @@ function useSync(state: State, setState: SetState) {
   useEffect(() => {
     if (!isChanged.current) return
     isChanged.current = false
+    writeStored(storageKey, dataToHash(state.title, state.items))
     replaceHash(dataToHash(state.title, state.items, hashToData(document.location.hash).settings))
-    localStorage.setItem(storageKey, dataToHash(state.title, state.items))
   }, [state])
 
   // the hash can change from outside : a typed or pasted url, a link click, back & forward

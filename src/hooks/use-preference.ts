@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { storagePrefix } from '../utils/defaults.utils'
 import { hashToData, writeHashSetting } from '../utils/hash.utils'
+import { readStored, writeStored } from '../utils/storage.utils'
 
 type Extras<Option extends string> = {
   // old names of options, so links & browsers that kept one still work
@@ -12,7 +13,8 @@ type Extras<Option extends string> = {
 }
 
 function findOption<Option extends string>(options: readonly Option[], aliases: Record<string, Option> | undefined, wanted: string | null | undefined) {
-  return options.find(option => option === wanted) ?? (wanted ? aliases?.[wanted] : undefined)
+  // own keys only : a link saying "theme=constructor" must not pick up what every object inherits
+  return options.find(option => option === wanted) ?? (wanted && aliases && Object.hasOwn(aliases, wanted) ? aliases[wanted] : undefined)
 }
 
 // a choice among a fixed list of options, kept in the url & remembered in the browser, applied as a data attribute on the page
@@ -21,7 +23,7 @@ export function usePreference<Option extends string>(name: string, options: read
   const fallback = defaultOption ?? options[0]
   const storageKey = `${storagePrefix}${name}`
   // a shared link wins over what this browser remembers
-  const readChoice = () => findOption(options, aliases, hashToData(document.location.hash).settings[name] ?? localStorage.getItem(storageKey))
+  const readChoice = () => findOption(options, aliases, hashToData(document.location.hash).settings[name] ?? readStored(storageKey))
   const [value, setValue] = useState(() => readChoice() ?? fallback)
   const [isChosen, setIsChosen] = useState(() => readChoice() !== undefined)
 
@@ -46,7 +48,7 @@ export function usePreference<Option extends string>(name: string, options: read
 
   const change = useCallback(
     (next: Option) => {
-      localStorage.setItem(storageKey, next)
+      writeStored(storageKey, next)
       setValue(next)
       setIsChosen(true)
     },
