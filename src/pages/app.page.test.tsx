@@ -69,7 +69,6 @@ describe('App', () => {
     fireEvent.change(screen.getByLabelText('New goal'), { target: { value: 'd' } })
     fireEvent.blur(screen.getByLabelText('New goal'))
     fireEvent.click(screen.getAllByLabelText('Remove a')[0])
-    fireEvent.click(screen.getByLabelText('Confirm removing a'))
     expect(document.location.hash).toBe('#Mine=a,c,d')
     fireEvent.click(screen.getByTitle('Edit'))
     expect(screen.queryByLabelText('Title')).toBeNull()
@@ -158,17 +157,20 @@ describe('App', () => {
     vi.useRealTimers()
   })
 
-  it('App H asks for a confirmation before removing and cancels on blur or when the pointer leaves', () => {
-    document.location.hash = '#t=a,b'
+  it('App H removes at once, the toast gives back the most recent removal where it was', () => {
+    document.location.hash = '#t=a,!b,c'
     render(<App />)
     fireEvent.click(screen.getByTitle('Edit'))
-    fireEvent.click(screen.getByLabelText('Remove a'))
-    expect(document.location.hash).toBe('#t=a,b')
-    fireEvent.blur(screen.getByLabelText('Confirm removing a'))
-    expect(screen.queryByLabelText('Confirm removing a')).toBeNull()
     fireEvent.click(screen.getByLabelText('Remove b'))
-    fireEvent.pointerLeave(screen.getByLabelText('Confirm removing b'))
-    expect(screen.queryByLabelText('Confirm removing b')).toBeNull()
+    expect(screen.getByText('Removed “b”')).toBeInTheDocument()
+    fireEvent.click(screen.getByLabelText('Remove a'))
+    expect(document.location.hash).toBe('#t=c')
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,c')
+    fireEvent.click(screen.getByLabelText('Remove c'))
+    fireEvent.click(screen.getByText('Undo'))
+    expect(document.location.hash).toBe('#t=a,c')
+    expect(screen.queryByText('Undo')).not.toBeInTheDocument()
   })
 
   it('App I closes the settings with the escape key only', () => {
