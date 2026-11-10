@@ -41,6 +41,7 @@
 - [Netlify](https://netlify.com) : awesome company that offers hosting for OSS
 - [Oxc](https://oxc.rs) : oxlint & oxfmt, a fast linter & formatter suite
 - [React](https://react.dev) : the library for web and native user interfaces
+- [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
 - [RIOT Optimizer](https://riot-optimizer.com) : Radical Image Optimization Tool, the best software I found to compress images
 - [Shields.io](https://shields.io) : nice looking badges to be proud of
 - [Shuutils](https://github.com/Shuunen/shuutils) : collection of pure JS utils

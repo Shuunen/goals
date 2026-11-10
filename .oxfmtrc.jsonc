@@ -4,7 +4,7 @@
   "bracketSameLine": false,
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "ignorePatterns": ["**/.git", "**/coverage", "**/dist", "**/node_modules", "**/out-tsc", "**/test-output", "**/test-results", "src/assets"],
+  "ignorePatterns": ["src/assets"],
   "objectWrap": "preserve",
   "printWidth": 240,
   "quoteProps": "as-needed",
