@@ -1,26 +1,21 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
-  "globalDependencies": ["package.json", "pnpm-lock.yaml"],
   "tasks": {
     "build:tsc": {
-      "dependsOn": ["lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**", "tsconfig*.json"]
+      "dependsOn": ["lint:install"]
     },
     "build:vite": {
       "dependsOn": ["build:tsc", "lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**", "index.html", "public/**", "tsconfig*.json", "vite.config.ts"],
       "outputs": ["dist/**"]
     },
     "lint:format": {
-      "dependsOn": ["lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**", ".github/**", ".oxfmtrc.jsonc", "*.{ts,js,json,md,yaml,yml}"]
+      "dependsOn": ["lint:install"]
     },
     "lint:install": {
       "inputs": ["package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"]
     },
     "lint:issues": {
-      "dependsOn": ["lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**/*.{ts,tsx}", ".oxlintrc.json", "tsconfig*.json"]
+      "dependsOn": ["lint:install"]
     },
     "lint:knip": {
       "dependsOn": ["lint:install"]
@@ -30,12 +25,10 @@
       "inputs": ["$TURBO_DEFAULT$", "dist/**"]
     },
     "lint:types": {
-      "dependsOn": ["lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**/*.{ts,tsx}", "tsconfig*.json"]
+      "dependsOn": ["lint:install"]
     },
     "test:unit": {
       "dependsOn": ["lint:install"],
-      "inputs": ["$TURBO_DEFAULT$", "src/**/*.{ts,tsx}", "vite.config.ts"],
       "outputs": ["coverage/**"]
     }
   }
