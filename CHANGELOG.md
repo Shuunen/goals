@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- Add a VS Code colour scheme to tell this project window apart
+
 ## [0.2.0] - 2026-10-31
 
 ### Added in 0.2.0
