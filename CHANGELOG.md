@@ -6,6 +6,7 @@ All notable changes to this project are documented here.
 
 ### Changed
 
+- Drop the redundant `onlyBuiltDependencies` from the pnpm workspace
 - Add the repo-check schema to its config
 
 ## [0.2.1] - 2026-11-13

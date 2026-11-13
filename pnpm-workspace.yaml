@@ -2,5 +2,3 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - knip@6.45.0
-onlyBuiltDependencies:
-  - esbuild
