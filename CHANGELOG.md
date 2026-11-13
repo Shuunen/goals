@@ -12,6 +12,7 @@ All notable changes to this project are documented here.
 ### Added
 
 - Serve a `robots.txt` that lets crawlers index the site
+- App icons listed in the web app manifest, so the app can be installed
 
 ## [0.2.1] - 2026-11-13
 
