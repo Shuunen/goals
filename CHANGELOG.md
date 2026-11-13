@@ -9,6 +9,10 @@ All notable changes to this project are documented here.
 - Drop the redundant `onlyBuiltDependencies` from the pnpm workspace
 - Add the repo-check schema to its config
 
+### Added
+
+- Serve a `robots.txt` that lets crawlers index the site
+
 ## [0.2.1] - 2026-11-13
 
 ### Changed
