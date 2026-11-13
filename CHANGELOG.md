@@ -4,6 +4,10 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- Add the repo-check schema to its config
+
 ## [0.2.1] - 2026-11-13
 
 ### Changed
