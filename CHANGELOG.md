@@ -8,6 +8,7 @@ All notable changes to this project are documented here.
 
 - Drop the redundant `onlyBuiltDependencies` from the pnpm workspace
 - Add the repo-check schema to its config
+- Align the web manifest colors and the VS Code window colors on the theme color
 
 ### Added
 
